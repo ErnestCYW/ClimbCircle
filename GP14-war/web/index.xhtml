@@ -1,26 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head>
-        <title>Climb Circle</title>
-    </h:head>
-    <h:body>
-        <h1>By Elgin, Ernest, James, and Adelle </h1>
-
-        <ui:insert name ="header">
-            <ui:include src="/header.xhtml" />
-        </ui:insert>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./template/defaultTemplate.xhtml">
+    <ui:define name="content">
+        <h1>Climb Circle</h1>
         
-        <ul>
-            <li><h:link outcome="viewAllGyms">View All Gyms</h:link></li>
-            <li><h:link outcome="createNewGym">Create New Gym</h:link></li>
-        </ul>
-
-        <ui:insert name ="footer">
-            <ui:include src="/footer.xhtml" />
-        </ui:insert>
-    </h:body>
-</html>
+        <h2>By Elgin, Ernest, James, and Adelle </h2>
+    </ui:define>
+        
+</ui:composition>
 
