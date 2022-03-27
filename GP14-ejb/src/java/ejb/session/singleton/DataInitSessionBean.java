@@ -5,7 +5,9 @@
  */
 package ejb.session.singleton;
 
+import ejb.session.stateless.AdminSessionBeanLocal;
 import ejb.session.stateless.GymEntitySessionBeanLocal;
+import entity.Admin;
 import entity.GymEntity;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -24,6 +26,9 @@ import javax.persistence.PersistenceContext;
 @Startup
 public class DataInitSessionBean {
 
+    @EJB(name = "AdminSessionBeanLocal")
+    private AdminSessionBeanLocal adminSessionBeanLocal;
+
     @EJB(name = "GymEntitySessionBeanLocal")
     private GymEntitySessionBeanLocal gymEntitySessionBeanLocal;
 
@@ -40,7 +45,9 @@ public class DataInitSessionBean {
         if(em.find(GymEntity.class, 1L) == null) {
             gymEntitySessionBeanLocal.createNewGym(new GymEntity("Climb Central"));
         }
-        
+        if(em.find(Admin.class, 1L) == null) {
+            adminSessionBeanLocal.createNewAdmin(new Admin("admin","password"));
+        }
     }
     
     

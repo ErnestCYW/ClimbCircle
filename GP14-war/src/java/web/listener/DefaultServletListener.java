@@ -7,21 +7,40 @@ package web.listener;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 /**
  * Web application lifecycle listener.
  *
- * @author ernestcyw
+ * @author elgin
  */
-public class DefaultServletListener implements ServletContextListener {
+public class DefaultServletListener implements ServletContextListener, HttpSessionListener {
 
     @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("****** DefaultServletListener.contextInitialised() ******");
+    public void contextInitialized(ServletContextEvent sce) 
+    {
     }
 
+    
+    
     @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        System.out.println("****** DefaultServletListener.contextDestroyed() ******");
+    public void contextDestroyed(ServletContextEvent sce) 
+    {
+    }
+
+    
+    
+    @Override
+    public void sessionCreated(HttpSessionEvent se) 
+    {
+        se.getSession().setAttribute("isLogin", false);
+    }
+
+    
+    
+    @Override
+    public void sessionDestroyed(HttpSessionEvent se)
+    {
     }
 }
