@@ -19,5 +19,7 @@ public interface GymEntitySessionBeanLocal {
     public List<GymEntity> retrieveAllGyms();
 
     public Long createNewGym(GymEntity newGymEntity);
+
+    public GymEntity retrieveGymByUsername(String username);
     
 }
