@@ -9,6 +9,9 @@ import ejb.session.stateless.AdminSessionBeanLocal;
 import ejb.session.stateless.GymEntitySessionBeanLocal;
 import entity.Admin;
 import entity.GymEntity;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -16,6 +19,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.enumeration.FacilitiesEnum;
 
 /**
  *
@@ -43,7 +47,8 @@ public class DataInitSessionBean {
     public void postConstruct() {
 
         if(em.find(GymEntity.class, 1L) == null) {
-            gymEntitySessionBeanLocal.createNewGym(new GymEntity("Climb Central"));
+            List<Enum> facilities = 
+            gymEntitySessionBeanLocal.createNewGym(new GymEntity("Climb Central Funan","Climb Central", "password", "107 North Bridge Rd, #B2-19/21 Funan, Singapore 179105", ));
         }
         if(em.find(Admin.class, 1L) == null) {
             adminSessionBeanLocal.createNewAdmin(new Admin("admin","password"));
