@@ -23,18 +23,20 @@ public class GymEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gymId;
+    private String username;
     private String gymName;
     private String franchise;
     private String password;
     private String address;
-    private List<String> facilities;
+    private List<Enum> facilities;
     
 
     public GymEntity() {
     }
     
-    public GymEntity(String gymName, String franchise, String password, String address, List<String> facilities) {
+    public GymEntity(String userName, String gymName, String franchise, String password, String address, List<Enum> facilities) {
         this();
+        this.username = userName;
         this.gymName = gymName;
         this.franchise = franchise;
         this.password = password;
@@ -135,15 +137,29 @@ public class GymEntity implements Serializable {
     /**
      * @return the facilities
      */
-    public List<String> getFacilities() {
+    public List<Enum> getFacilities() {
         return facilities;
     }
 
     /**
      * @param facilities the facilities to set
      */
-    public void setFacilities(List<String> facilities) {
+    public void setFacilities(List<Enum> facilities) {
         this.facilities = facilities;
+    }
+
+    /**
+     * @return the userName
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the userName to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

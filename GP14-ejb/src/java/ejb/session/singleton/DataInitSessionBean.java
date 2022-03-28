@@ -46,10 +46,10 @@ public class DataInitSessionBean {
     @PostConstruct
     public void postConstruct() {
 
-//        if(em.find(GymEntity.class, 1L) == null) {
-//            List<Enum> facilities = 
-//            gymEntitySessionBeanLocal.createNewGym(new GymEntity("Climb Central Funan","Climb Central", "password", "107 North Bridge Rd, #B2-19/21 Funan, Singapore 179105", ));
-//        }
+        if(em.find(GymEntity.class, 1L) == null) {
+            List<Enum> allFacilities = new ArrayList<Enum>(EnumSet.allOf(FacilitiesEnum.class));
+            gymEntitySessionBeanLocal.createNewGym(new GymEntity("CCFUNAN","Climb Central Funan","Climb Central", "password", "107 North Bridge Rd, #B2-19/21 Funan, Singapore 179105", allFacilities));
+        }
         if(em.find(Admin.class, 1L) == null) {
             adminSessionBeanLocal.createNewAdmin(new Admin("admin","password"));
         }

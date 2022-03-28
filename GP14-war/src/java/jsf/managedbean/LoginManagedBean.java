@@ -1,7 +1,9 @@
 package jsf.managedbean;
 
 import ejb.session.stateless.AdminSessionBeanLocal;
+import ejb.session.stateless.GymEntitySessionBeanLocal;
 import entity.Admin;
+import entity.GymEntity;
 import java.io.IOException;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -20,12 +22,17 @@ import util.exception.InvalidLoginCredentialException;
 public class LoginManagedBean 
 {
 
+    @EJB(name = "GymEntitySessionBeanLocal")
+    private GymEntitySessionBeanLocal gymEntitySessionBeanLocal;
+
     @EJB(name = "AdminSessionBeanLocal")
     private AdminSessionBeanLocal adminSessionBeanLocal;
     
     
+    
     private String username;
     private String password;
+    private String usertype;
     
     
     
@@ -39,10 +46,18 @@ public class LoginManagedBean
     {
         try
         {
-            Admin admin = adminSessionBeanLocal.login(username, password);
+           
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentAdmin", admin);
+            
+            if (usertype.equals("Admin")) {
+                Admin admin = adminSessionBeanLocal.login(username, password);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentUser", admin);
+            } else {
+                GymEntity gym = gymEntitySessionBeanLocal.login(username, password);
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentUser", gym);
+            }
+
             FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
         }
         catch(InvalidLoginCredentialException ex)
@@ -75,5 +90,19 @@ public class LoginManagedBean
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the usertype
+     */
+    public String getUsertype() {
+        return usertype;
+    }
+
+    /**
+     * @param usertype the usertype to set
+     */
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
     }
 }

@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.InvalidLoginCredentialException;
 
 /**
  *
@@ -39,11 +40,30 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
     }
     
     @Override
+    public GymEntity retrieveGymByUsername(String username) {
+        Query query = em.createQuery("SELECT g from GymEntity g WHERE g.username = :username");
+        query.setParameter("username", username);
+        
+        return (GymEntity)query.getSingleResult();
+    }
+    
+    @Override
     public Long createNewGym(GymEntity newGymEntity) {
         em.persist(newGymEntity);
         em.flush();
         
         return newGymEntity.getGymId();
+    }
+    
+    @Override
+    public GymEntity login(String username, String password) throws InvalidLoginCredentialException {
+        GymEntity gym = retrieveGymByUsername(username);
+        
+        if (gym.getPassword().equals(password)) {
+            return gym;
+        } else {
+            throw new InvalidLoginCredentialException("Rip");
+        }
     }
     
 }
