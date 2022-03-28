@@ -54,12 +54,14 @@ public class LoginManagedBean
             if (usertype.equals("Admin")) {
                 Admin admin = adminSessionBeanLocal.login(username, password);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentUser", admin);
-                FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/mainmenuAdmin.xhtml");
+                //FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/mainmenuAdmin.xhtml");
             } else {
                 GymEntity gym = gymEntitySessionBeanLocal.login(username, password);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentUser", gym);
-                FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/mainmenuGym.xhtml");
+                //FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/mainmenuGym.xhtml");
             }
+            
+            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
 
             
         }
