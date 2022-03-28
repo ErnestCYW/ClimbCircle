@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.GymEntity;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.InvalidLoginCredentialException;
 
 /**
  *
@@ -19,5 +20,9 @@ public interface GymEntitySessionBeanLocal {
     public List<GymEntity> retrieveAllGyms();
 
     public Long createNewGym(GymEntity newGymEntity);
+
+    public GymEntity retrieveGymByUsername(String username);
+
+    public GymEntity login(String username, String password) throws InvalidLoginCredentialException;
     
 }

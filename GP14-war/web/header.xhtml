@@ -12,6 +12,14 @@
 
             <h:form id="loginForm">
 
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:outputLabel for="usertype" value="Sign in as:" />
+                    <p:selectOneRadio id="usertype" value="#{loginManagedBean.usertype}" unselectable="true">
+                        <f:selectItem itemLabel="Admin" itemValue="Admin" />
+                        <f:selectItem itemLabel="Partner Gym" itemValue="Partner Gym" />
+                    </p:selectOneRadio>
+                </h:panelGrid>
+
                 <p:outputLabel for="username" value="Username" />&nbsp;
                 <p:inputText id="username" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32">
                     <f:validateLength minimum="4" />
@@ -32,10 +40,10 @@
             </h:form>
 
         </h:panelGroup>
-        
+
         <h:panelGroup rendered="#{sessionScope.isLogin == true}">
             <h:form id="logoutForm">
-                <h:outputText value="You are login as #{sessionScope.currentAdmin.username}" />&nbsp;
+                <h:outputText value="You are login as #{sessionScope.currentUser.username}" />&nbsp;
                 <p:commandButton value="Logout" actionListener="#{loginManagedBean.logout}" icon="pi pi-sign-out" />
             </h:form>
         </h:panelGroup>
