@@ -36,10 +36,8 @@ public class SubscriptionPlanEntity implements Serializable {
         this.fee = fee;
         this.costPerGymAccess = costPerGymAccess;
     }
-    
    
-    
-    
+  
     public Long getId() {
         return id;
     }

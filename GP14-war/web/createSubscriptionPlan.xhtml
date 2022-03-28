@@ -16,9 +16,8 @@
 
         <h:body>
             <h1>hello</h1>
-            <h:form id="formCreateNewProduct">
-                <!--<p:dialog id="dialogCreateNewProduct" widgetVar="dialogCreateNewProduct" header="Create New Product" closable="true">
-                    <p:messages id="messagesCreateNewProduct" redisplay="false"/>-->
+            <h:form id="formCreateNewPlan">
+                
 
                 <p:row>
                     <p:column>
@@ -76,9 +75,7 @@
                         <p:commandButton value="Create New Subscription Plan" actionListener="#{createNewSubscriptionPlanManagedBean.doCreateNewPlan}" oncomplete="PF('dialogCreateNewProduct').show();"/>
                     </p:column>
                 </p:row>
-                <!--update="@form formAllProducts:dataTableAllProducts"
-                </p:panelGrid>
-            </p:dialog>-->
+
             </h:form>
 
         </h:body>
