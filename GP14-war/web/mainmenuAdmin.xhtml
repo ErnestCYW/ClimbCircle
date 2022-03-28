@@ -2,37 +2,46 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                template="./template/defaultTemplate.xhtml">
+    
+    <ui:define name="left">
 
-    <nav>
-        <h3>Main Menu</h3>
-        <h:form>
+        <nav>
+            <h3>Main Menu</h3>
+            <h:form>
 
-            <p:menu style="width:200px;">				
+                <p:menu style="width:200px;">				
 
-                <p:submenu label="Demonstration">
-                    <p:menuitem value="Create New Gym" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
-                    <p:menuitem value="View All Gyms" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
-                </p:submenu>
-                
-                <!--admin-->
-                <p:submenu label="ADMIN">
-                    <p:menuitem value="Create New Gym Account" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
-                    <p:menuitem value="Create New Subscription Plan" outcome="/createSubscriptionPlan.xhtml" icon="pi pi-arrow-circle-right" />
-                    <p:menuitem value="View All Customers" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
+                    <p:submenu label="Demonstration">
+                        <p:menuitem value="Create New Gym" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="View All Gyms" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
+                    </p:submenu>
 
-                    <p:menuitem value="View All Gyms" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
-                </p:submenu>
+                    <!--admin-->
+                    <p:submenu label="ADMIN">
+                        <p:menuitem value="Create New Gym account" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="Create New Subscription plan" outcome="/createSubscriptionPlan.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="View all Customers" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
 
-                <!--gym-->
-               
-                <p:submenu label="GYM">
-                    <p:menuitem value="Edit Profile" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
-                    <p:menuitem value="Add slot vacancies" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
-                </p:submenu>
+                        <p:menuitem value="View All Gyms" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
+                    </p:submenu>
 
-            </p:menu>
-        </h:form>
-    </nav>
+                    <!--gym-->
+
+                    <p:submenu label="GYM">
+                        <p:menuitem value="Edit Profile" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="Add slot vacancies" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
+                    </p:submenu>
+
+                </p:menu>
+            </h:form>
+        </nav>
+        
+    </ui:define>
+
+    <ui:define name="content">
+        <h2>Welcome Admin</h2>
+    </ui:define>
 
 </ui:composition>
