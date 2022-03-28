@@ -49,16 +49,19 @@ public class LoginManagedBean
            
             FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("isLogin", true);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usertype", usertype);
             
             if (usertype.equals("Admin")) {
                 Admin admin = adminSessionBeanLocal.login(username, password);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentUser", admin);
+                FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/mainmenuAdmin.xhtml");
             } else {
                 GymEntity gym = gymEntitySessionBeanLocal.login(username, password);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("currentUser", gym);
+                FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/mainmenuGym.xhtml");
             }
 
-            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + "/index.xhtml");
+            
         }
         catch(InvalidLoginCredentialException ex)
         {

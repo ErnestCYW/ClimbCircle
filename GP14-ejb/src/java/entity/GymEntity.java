@@ -28,19 +28,26 @@ public class GymEntity implements Serializable {
     private String franchise;
     private String password;
     private String address;
+    private String profilePictureURL;
+    private String operatingHours;
+    private String contactNumber;
     private List<Enum> facilities;
     
 
     public GymEntity() {
     }
     
-    public GymEntity(String userName, String gymName, String franchise, String password, String address, List<Enum> facilities) {
+    public GymEntity(String userName, String gymName, String franchise, String password, String address,
+            String profilePictureURL, String operatingHours, String contactNumber, List<Enum> facilities) {
         this();
         this.username = userName;
         this.gymName = gymName;
         this.franchise = franchise;
         this.password = password;
         this.address = address;
+        this.profilePictureURL = profilePictureURL;
+        this.operatingHours = operatingHours;
+        this.contactNumber = contactNumber;
         this.facilities = facilities;
     }
     
@@ -161,5 +168,48 @@ public class GymEntity implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+    
+        /**
+     * @return the profilePictureURL
+     */
+    public String getProfilePictureURL() {
+        return profilePictureURL;
+    }
+
+    /**
+     * @param profilePictureURL the profilePictureURL to set
+     */
+    public void setProfilePictureURL(String profilePictureURL) {
+        this.profilePictureURL = profilePictureURL;
+    }
+
+    /**
+     * @return the operatingHours
+     */
+    public String getOperatingHours() {
+        return operatingHours;
+    }
+
+    /**
+     * @param operatingHours the operatingHours to set
+     */
+    public void setOperatingHours(String operatingHours) {
+        this.operatingHours = operatingHours;
+    }
+
+    /**
+     * @return the contactNumber
+     */
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    /**
+     * @param contactNumber the contactNumber to set
+     */
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
 
 }

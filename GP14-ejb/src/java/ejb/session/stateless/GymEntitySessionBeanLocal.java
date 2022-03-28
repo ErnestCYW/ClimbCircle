@@ -24,5 +24,7 @@ public interface GymEntitySessionBeanLocal {
     public GymEntity retrieveGymByUsername(String username);
 
     public GymEntity login(String username, String password) throws InvalidLoginCredentialException;
+
+    public List<Enum> retrieveAllFacilities();
     
 }
