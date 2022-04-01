@@ -36,12 +36,14 @@ public class ViewAllSubscriptionPlansManagedBean {
     @PostConstruct
     public void postConstruct() {
         setSubscriptionPlans(subscriptionPlanSessionBeanLocal.retrieveAllPlans());
+        System.out.println("POST CONSTRUCT RUNNING");
     }
 
     /**
      * @return the subscriptionPlans
      */
-    public List<SubscriptionPlanEntity> getGymEntities() {
+    public List<SubscriptionPlanEntity> getSubscriptionPlans() {
+        System.out.println("GET SUB PLANS RUNNING");
         return subscriptionPlans;
     }
 

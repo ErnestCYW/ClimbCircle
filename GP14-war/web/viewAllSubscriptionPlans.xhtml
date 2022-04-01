@@ -1,9 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./template/defaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>View All Subscription Plans</title>
     </h:head>
@@ -12,22 +14,22 @@
         <h:body>
             <h1>View All Subscription Plans</h1>
             
-            <h:dataTable value="#{viewAllGymsManagedBean.gymEntities}" var="gymEntity" style="width: 100%;">
+            <p:dataTable value="#{viewAllSubscriptionPlansManagedBean.getSubscriptionPlans}" var="subscriptionPlanEntity" style="width: 100%;">
 
-                <h:column>
-                    <f:facet name ="header"> Record ID </f:facet>
-                    <h:outputText value ="#{gymEntity.gymId}"/>
-                </h:column>
+                <p:column>
+                    <f:facet name ="header"> Subscription Plan ID </f:facet>
+                    <p:outputLabel value="#{subscriptionPlanEntity.id}"/>
+                </p:column>
 
-                <h:column>
-                    <f:facet name ="header"> Record Name </f:facet>
-                    <h:outputText value ="#{gymEntity.gymName}"/>
-                </h:column>
+                <p:column>
+                    <f:facet name ="header"> Subscription Plan Name </f:facet>
+                    <p:outputLabel value ="#{subscriptionPlanEntity.name}"/>
+                </p:column>
 
-            </h:dataTable>
+            </p:dataTable>
 
         </h:body>
     </ui:define>
-</html>
 
 
+</ui:composition>

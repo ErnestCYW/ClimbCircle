@@ -7,10 +7,10 @@ package jsf.managedbean;
 
 import ejb.session.stateless.SubscriptionPlanSessionBeanLocal;
 import entity.SubscriptionPlanEntity;
-import java.awt.event.ActionEvent;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.event.ActionEvent;
 
 /**
  *
@@ -25,7 +25,14 @@ public class CreateNewSubscriptionPlanManagedBean {
 
     private SubscriptionPlanEntity newSubscriptionPlanEntity;
 
+    public CreateNewSubscriptionPlanManagedBean() {
+        newSubscriptionPlanEntity = new SubscriptionPlanEntity();
+    }
+    
+    
+
     public CreateNewSubscriptionPlanManagedBean(SubscriptionPlanEntity newSubscriptionPlanEntity) {
+        this();
         this.newSubscriptionPlanEntity = newSubscriptionPlanEntity;
     }
 

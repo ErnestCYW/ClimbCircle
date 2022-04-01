@@ -70,7 +70,7 @@
                 <p:row>
                     <p:column colspan="8">
                         <p:commandButton type="reset" value="Clear"/>
-                        <p:commandButton value="Create New Subscription Plan" actionListener="#{createNewSubscriptionPlanManagedBean.doCreateNewPlan}" oncomplete="PF('dialogCreateNewProduct').show();"/>
+                        <p:commandButton value="Create New Subscription Plan" process="@form" update="@form" actionListener="#{createNewSubscriptionPlanManagedBean.doCreateNewPlan}" oncomplete="PF('dialogCreateNewProduct').show();"/>
                     </p:column>
                 </p:row>
 
