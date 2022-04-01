@@ -31,6 +31,8 @@ public class GymSlot implements Serializable {
     private Date date;
 
     public GymSlot() {
+        this.startTime = LocalTime.parse("09:00");
+        this.endTime = LocalTime.parse("10:00");
     }
 
     public GymSlot(Integer vacancies, LocalTime startTime, LocalTime endTime) {
@@ -134,5 +136,5 @@ public class GymSlot implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
-    
+
 }
