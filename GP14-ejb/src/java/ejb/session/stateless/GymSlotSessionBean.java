@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.GymSlot;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -40,6 +41,14 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
     @Override
     public GymSlot retrieveGymSlotById(Long gymSlotId) {
         return em.find(GymSlot.class, gymSlotId);
+    }
+    
+    @Override
+    public List<GymSlot> retrieveGymSlotsByDate(Date date) {
+        Query query = em.createQuery("SELECT g FROM GymSlot g WHERE g.date = :inDate");
+        query.setParameter("inDate", date);
+        
+        return query.getResultList();
     }
 
     

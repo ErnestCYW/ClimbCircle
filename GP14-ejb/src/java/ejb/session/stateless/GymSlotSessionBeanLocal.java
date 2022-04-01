@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.GymSlot;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -21,5 +22,7 @@ public interface GymSlotSessionBeanLocal {
     public List<GymSlot> retrieveAllGymSlots();
 
     public GymSlot retrieveGymSlotById(Long gymSlotId);
+
+    public List<GymSlot> retrieveGymSlotsByDate(Date date);
     
 }

@@ -7,36 +7,69 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
-        <h3>Add Slots for the Day!</h3>
+        <h3>View Slots</h3>
         
+        <h:form id="viewSlots">
 
-
-        <h:form>
-            <p:dataTable value="#{gymSlotsManagementManagedBean.gymSlots}" var="gymSlot">
-<!--                <p:column>
-                    <h:outputText value="Slot #{gymSlotsManagementManagedBean.gymSlots.size()}"/>
-                </p:column>-->
-                <p:column>
-                    <p:outputLabel for="startTime" value="Start Time" />
-                    <p:datePicker id="startTime" value="#{gymSlot.startTime}" timeOnly="true" pattern="HH:mm"/>
-                    
+            <p:calendar id="event" value="#{gymSlotsManagementManagedBean.currDate}" mode="inline">
+                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.dateChanged}" update="existingSlotsTable"/>
+            </p:calendar>
+            
+            <p:dataTable id="existingSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.existingGymSlots}" var="existingSlot">
+                <p:column headerText="Slot" style="width:5%">
+                    <h:outputText value="#{row+1}"/>
                 </p:column>
-                <p:column>
-                    <p:outputLabel for="endTime" value="End Time" />
+                
+                <p:column headerText="Start Time">
+                    <h:outputText value="#{existingSlot.startTime}" />
+                </p:column>
+
+                <p:column headerText="End Time">
+                    <h:outputText value="#{existingSlot.endTime}" />
+                </p:column>
+
+                <p:column headerText="Vacancies">
+                    <h:outputText value="#{existingSlot.vacancies}" />
+                </p:column>
+
+            </p:dataTable>
+            
+        </h:form>
+
+
+        <h3>Add Slots</h3>
+        <h:form id="addSlots">
+            <p:dataTable id="newSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.gymSlots}" var="gymSlot">
+
+                <p:column headerText="Slot" style="width:5%">
+                    <h:outputText value="#{row+1}"/>
+                </p:column>
+                <p:column headerText="Start Time">
+                    
+                    <p:datePicker id="startTime" value="#{gymSlot.startTime}" timeOnly="true" pattern="HH:mm"/>
+
+                </p:column>
+                <p:column headerText="End Time">
+                    
                     <p:datePicker id="endTime" value="#{gymSlot.endTime}" timeOnly="true" pattern="HH:mm" />
                 </p:column>
-                <p:column>
-                    <p:outputLabel for="vacancy" value="Vacancy" />
-                    <p:inputText id="vacancy" value="#{gymSlot.vacancies}" />
+                <p:column headerText="Vacancies">
+                    
+                    <p:inputText id="vacancies" value="#{gymSlot.vacancies}" />
                 </p:column>
-
+                <p:column style="width:5%">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{gymSlotsManagementManagedBean.delete}" update="@form addSlots:newSlotsTable">
+                        <f:attribute name="gymSlotToDelete" value="#{gymSlot}" />
+                    </p:commandButton>    
+                </p:column>
             </p:dataTable>
             <h:commandButton value="add" action="#{gymSlotsManagementManagedBean.add}" />
             <br/>
             <p:outputLabel for="multiselect" value="Select Dates" />
             <p:datePicker id="multiselect" selectionMode="multiple" value="#{gymSlotsManagementManagedBean.dates}" readonlyInput="true" />
-        
-            <h:commandButton value="Submit" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}" />
+
+            <p:commandButton value="Submit" update="@form viewSlots:existingSlotsTable" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}"/>
+                
         </h:form>
 
 
