@@ -60,15 +60,15 @@ public class DefaultFilter implements Filter {
 
     private Boolean checkAccessRight(String path, String usertype) {
         if (usertype.equals("Admin")) {
-            if (path.equals("/mainmenuAdmin.xhtml")
-                    || path.equals("/createNewGym.xhtml")
-                    || path.equals("/createSubscriptionPlan.xhtml")) {
+            if (path.equals("/createNewGym.xhtml")
+                    || path.equals("/createSubscriptionPlan.xhtml")
+                    || path.equals("/viewAllGyms.xhtml")) {
                 return true;
             } else {
                 return false;
             }
         } else if (usertype.equals("Partner Gym")) {
-            if (path.equals("/mainmenuGym.xhtml")) {
+            if (path.equals("/addSlotVacancies.xhtml")) {
                 return true;
             } else {
                 return false;

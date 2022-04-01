@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="./template/defaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+        <h3>Add Slots for the Day!</h3>
+        
+
+
+        <h:form>
+            <p:dataTable value="#{gymSlotsManagementManagedBean.gymSlots}" var="gymSlot">
+<!--                <p:column>
+                    <h:outputText value="Slot #{gymSlotsManagementManagedBean.gymSlots.size()}"/>
+                </p:column>-->
+                <p:column>
+                    <p:outputLabel for="startTime" value="Start Time" />
+                    <p:datePicker id="startTime" value="#{gymSlot.startTime}" timeOnly="true" pattern="HH:mm"/>
+                    
+                </p:column>
+                <p:column>
+                    <p:outputLabel for="endTime" value="End Time" />
+                    <p:datePicker id="endTime" value="#{gymSlot.endTime}" timeOnly="true" pattern="HH:mm" />
+                </p:column>
+                <p:column>
+                    <p:outputLabel for="vacancy" value="Vacancy" />
+                    <p:inputText id="vacancy" value="#{gymSlot.vacancies}" />
+                </p:column>
+
+            </p:dataTable>
+            <h:commandButton value="add" action="#{gymSlotsManagementManagedBean.add}" />
+            <br/>
+            <p:outputLabel for="multiselect" value="Select Dates" />
+            <p:datePicker id="multiselect" selectionMode="multiple" value="#{gymSlotsManagementManagedBean.dates}" readonlyInput="true" />
+        
+            <h:commandButton value="Submit" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}" />
+        </h:form>
+
+
+
+    </ui:define>
+
+</ui:composition>
+
+<!--<p:outputLabel for="endTime" value="End Time" />&nbsp;
+            <p:inputText id="endTime" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32"/>
+            &nbsp;
+            <p:outputLabel for="capacity" value="Capacity" />&nbsp;
+            <p:inputText id="capacity" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32"/>
+            <br/>
+            <p:commandButton value="Add Slot" id="addSlot" style="margin-top:20px;"/>-->
+

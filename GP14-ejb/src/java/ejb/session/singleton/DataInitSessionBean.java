@@ -7,10 +7,14 @@ package ejb.session.singleton;
 
 import ejb.session.stateless.AdminSessionBeanLocal;
 import ejb.session.stateless.GymEntitySessionBeanLocal;
+import ejb.session.stateless.GymSlotSessionBeanLocal;
 import ejb.session.stateless.SubscriptionPlanSessionBeanLocal;
 import entity.Admin;
 import entity.GymEntity;
+import entity.GymSlot;
 import entity.SubscriptionPlanEntity;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -31,6 +35,9 @@ import util.enumeration.FacilitiesEnum;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB(name = "GymSlotSessionBeanLocal")
+    private GymSlotSessionBeanLocal gymSlotSessionBeanLocal;
 
     @EJB(name = "SubscriptionPlanSessionBeanLocal")
     private SubscriptionPlanSessionBeanLocal subscriptionPlanSessionBeanLocal;
@@ -63,6 +70,10 @@ public class DataInitSessionBean {
         if (em.find(SubscriptionPlanEntity.class, 1L) == null) {
             subscriptionPlanSessionBeanLocal.createNewPlan(new SubscriptionPlanEntity("Premium", 3, 20.0, 90.0));
         }
+        
+//        if (em.find(GymSlot.class, 1L) == null) {
+//            gymSlotSessionBeanLocal.createNewGymSlot(new GymSlot(10, LocalTime.parse("10:00"), LocalTime.parse("12:00"), LocalDate.parse("2022-01-01")));
+//        }
     }
 
     // Add business logic below. (Right-click in editor and choose
