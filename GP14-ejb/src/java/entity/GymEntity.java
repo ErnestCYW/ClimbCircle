@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,12 +36,13 @@ public class GymEntity implements Serializable {
     
 
     public GymEntity() {
+        facilities = new ArrayList<>();
     }
     
-    public GymEntity(String userName, String gymName, String franchise, String password, String address,
+    public GymEntity(String username, String gymName, String franchise, String password, String address,
             String profilePictureURL, String operatingHours, String contactNumber, List<Enum> facilities) {
         this();
-        this.username = userName;
+        this.username = username;
         this.gymName = gymName;
         this.franchise = franchise;
         this.password = password;

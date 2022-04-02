@@ -18,8 +18,8 @@
                     <!--admin-->
                     <p:submenu label="System Administration" rendered="#{sessionScope.usertype.equals('Admin')}">
                         <!--<p:menuitem value="Customer Management" outcome="/customerManagement.xhtml" icon="pi pi-users" />-->
-                        <p:menuitem value="View Subscription Plans" outcome="/subscriptionPlan.xhtml" icon="pi pi-tags" />
-                        <p:menuitem value="View Gyms" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="Subscription Plan Management" outcome="/adminFunctionality/subscriptionPlan.xhtml" icon="pi pi-tags" />
+                        <p:menuitem value="Gym Management" outcome="/adminFunctionality/gymManagement.xhtml" icon="pi pi-arrow-circle-right" />
                     </p:submenu>
 
                     <!--I commented the bottom code for reference-->
@@ -30,6 +30,8 @@
                                             <p:menuitem value="View All Gyms" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
                                             <p:menuitem value="View All Subscription Plans" outcome="/viewAllSubscriptionPlans.xhtml" icon="pi pi-arrow-circle-right" />
                                         </p:submenu>-->
+                    <!--admin-->
+
 
                     <p:submenu label="Partner Gym" rendered="#{sessionScope.usertype.equals('Partner Gym')}">
                         <p:menuitem value="Edit Profile" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
