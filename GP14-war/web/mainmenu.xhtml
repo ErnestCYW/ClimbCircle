@@ -4,31 +4,40 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
-    <nav>
+    <section id="mainmenu" class="mainmenu">
         <h3>Main Menu</h3>
-        <h:form>
+        <nav>
+            <h:form>
+                <p:menu style="width:200px;">
+                    <!--system-->
+                    <p:submenu label="System">
+                        <p:menuitem value="Home" outcome="/index" icon="pi pi-home" />
+                        <p:menuitem value="Logout" actionListener="#{loginManagedBean.logout}" icon="pi pi-sign-out" rendered="#{sessionScope.isLogin == true}" />
+                    </p:submenu>
 
-            <p:menu style="width:200px;" rendered="#{sessionScope.isLogin == true}">				
+                    <!--admin-->
+                    <p:submenu label="System Administration" rendered="#{sessionScope.usertype.equals('Admin')}">
+                        <!--<p:menuitem value="Customer Management" outcome="/customerManagement.xhtml" icon="pi pi-users" />-->
+                        <p:menuitem value="Subscription Plan Management" outcome="/subscriptionPlan.xhtml" icon="pi pi-tags" />
+                        <p:menuitem value="Gym Management" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
+                    </p:submenu>
 
-                <!--admin-->
-                <p:submenu label="ADMIN" rendered="#{sessionScope.usertype.equals('Admin')}">
-                    <p:menuitem value="Create New Gym account" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
-                    <p:menuitem value="Create New Subscription plan" outcome="/subscriptionPlan.xhtml" icon="pi pi-arrow-circle-right" />
-                    <p:menuitem value="View all Customers" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
-                    <p:menuitem value="View All Gyms" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
-                    <p:menuitem value="View All Subscription Plans" outcome="/viewAllSubscriptionPlans.xhtml" icon="pi pi-arrow-circle-right" />
+                    <!--I commented the bottom code for reference-->
+                    <!--<p:submenu label="System Administration">
+                                            <p:menuitem value="Create New Gym account" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
+                                            <p:menuitem value="Create New Subscription plan" outcome="/subscriptionPlan.xhtml" icon="pi pi-arrow-circle-right" />
+                                            <p:menuitem value="View all Customers" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
+                                            <p:menuitem value="View All Gyms" outcome="/viewAllGyms.xhtml" icon="pi pi-arrow-circle-right" />
+                                            <p:menuitem value="View All Subscription Plans" outcome="/viewAllSubscriptionPlans.xhtml" icon="pi pi-arrow-circle-right" />
+                                        </p:submenu>-->
 
-                </p:submenu>
+                    <p:submenu label="Partner Gym" rendered="#{sessionScope.usertype.equals('Partner Gym')}">
+                        <p:menuitem value="Edit Profile" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="Add slot vacancies" outcome="/addSlotVacancies.xhtml" icon="pi pi-arrow-circle-right" />
+                    </p:submenu>
 
-                <p:submenu label="GYM" rendered="#{sessionScope.usertype.equals('Partner Gym')}">
-                    <p:menuitem value="Edit Profile" outcome="/createNewGym.xhtml" icon="pi pi-arrow-circle-right" />
-                    <p:menuitem value="Add slot vacancies" outcome="/addSlotVacancies.xhtml" icon="pi pi-arrow-circle-right" />
-                </p:submenu>
-
-            </p:menu>
-        </h:form>
-    </nav>
-
-
-
+                </p:menu>
+            </h:form>
+        </nav>
+    </section>
 </ui:composition>
