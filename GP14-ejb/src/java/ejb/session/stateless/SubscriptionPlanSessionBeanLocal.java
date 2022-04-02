@@ -22,5 +22,9 @@ public interface SubscriptionPlanSessionBeanLocal {
     public SubscriptionPlanEntity retrievePlanByName(String name);
 
     public List<SubscriptionPlanEntity> retrieveAllPlans();
+
+    public SubscriptionPlanEntity retrievePlanById(Long id);
+
+    public void deletePlan(Long id);
     
 }
