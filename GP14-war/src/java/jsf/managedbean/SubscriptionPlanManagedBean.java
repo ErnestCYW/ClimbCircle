@@ -50,7 +50,6 @@ public class SubscriptionPlanManagedBean implements Serializable {
     @PostConstruct
     public void postConstruct() {
         subscriptionPlans = subscriptionPlanSessionBeanLocal.retrieveAllPlans();
-        System.out.println("POST CONSTRUCT RUNNING");
     }
 
     public void doCreateNewPlan(ActionEvent event) {
