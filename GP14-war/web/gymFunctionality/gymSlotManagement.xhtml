@@ -3,41 +3,75 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                template="./template/defaultTemplate.xhtml"
+                template="/template/defaultTemplate.xhtml"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
         <h3>View Slots</h3>
         
         <h:form id="viewSlots">
+            
+            <p:growl>
+                <p:autoUpdate/>
+            </p:growl>
 
             <p:calendar id="event" value="#{gymSlotsManagementManagedBean.currDate}" mode="inline">
                 <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.dateChanged}" update="existingSlotsTable"/>
             </p:calendar>
             
-            <p:dataTable id="existingSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.existingGymSlots}" var="existingSlot">
+            <p:dataTable id="existingSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.existingGymSlots}" var="existingSlot" editable="true">
                 <p:column headerText="Slot" style="width:5%">
                     <h:outputText value="#{row+1}"/>
                 </p:column>
                 
                 <p:column headerText="Start Time">
-                    <h:outputText value="#{existingSlot.startTime}" />
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{existingSlot.startTime}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:datePicker id="startTime" value="#{existingSlot.startTime}" timeOnly="true" pattern="HH:mm">
+                                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.validateStartTime}" />
+                            </p:datePicker>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="End Time">
-                    <h:outputText value="#{existingSlot.endTime}" />
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{existingSlot.endTime}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:datePicker id="endTime" value="#{existingSlot.endTime}" timeOnly="true" pattern="HH:mm"/>          
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="Vacancies">
-                    <h:outputText value="#{existingSlot.vacancies}" />
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{existingSlot.vacancies}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="vacancies" value="#{existingSlot.vacancies}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                
+                <p:column>
+                    <p:rowEditor/>
                 </p:column>
 
             </p:dataTable>
             
+            <p:commandButton value="Add Slots" actionListener="#{gymSlotsManagementManagedBean.add}" update="existingSlotsTable"/>
+            <br/>
+            <p:commandButton value="Save Slots" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}" update="existingSlotsTable" />
         </h:form>
 
 
-        <h3>Add Slots</h3>
+<!--        <h3>Add Slots</h3>
         <h:form id="addSlots">
             <p:dataTable id="newSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.gymSlots}" var="gymSlot">
 
@@ -63,26 +97,18 @@
                     </p:commandButton>    
                 </p:column>
             </p:dataTable>
-            <h:commandButton value="add" action="#{gymSlotsManagementManagedBean.add}" />
+            <p:commandButton value="add" action="#{gymSlotsManagementManagedBean.add}" />
             <br/>
             <p:outputLabel for="multiselect" value="Select Dates" />
             <p:datePicker id="multiselect" selectionMode="multiple" value="#{gymSlotsManagementManagedBean.dates}" readonlyInput="true" />
 
             <p:commandButton value="Submit" update="@form viewSlots:existingSlotsTable" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}"/>
                 
-        </h:form>
+        </h:form>-->
 
 
 
     </ui:define>
 
 </ui:composition>
-
-<!--<p:outputLabel for="endTime" value="End Time" />&nbsp;
-            <p:inputText id="endTime" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32"/>
-            &nbsp;
-            <p:outputLabel for="capacity" value="Capacity" />&nbsp;
-            <p:inputText id="capacity" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32"/>
-            <br/>
-            <p:commandButton value="Add Slot" id="addSlot" style="margin-top:20px;"/>-->
 

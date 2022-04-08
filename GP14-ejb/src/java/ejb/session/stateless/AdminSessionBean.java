@@ -8,8 +8,10 @@ package ejb.session.stateless;
 import entity.Admin;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.AdminNotFoundException;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -31,21 +33,32 @@ public class AdminSessionBean implements AdminSessionBeanLocal {
     }
     
     @Override
-    public Admin retrieveAdminByUsername(String username) {
+    public Admin retrieveAdminByUsername(String username) throws AdminNotFoundException {
         Query query = em.createQuery("SELECT a from Admin a WHERE a.username = :username");
         query.setParameter("username", username);
         
-        return (Admin)query.getSingleResult();
+        try {
+            return (Admin)query.getSingleResult();
+        } catch (NoResultException ex) {
+            throw new AdminNotFoundException("Admin does not exist");
+        }
+        
     }
     
     @Override
     public Admin login(String username, String password) throws InvalidLoginCredentialException {
-        Admin admin = retrieveAdminByUsername(username);
         
-        if (admin.getPassword().equals(password)) {
-            return admin;
-        } else {
-            throw new InvalidLoginCredentialException("Rip");
+        
+        try {
+            Admin admin = retrieveAdminByUsername(username);
+            if (admin.getPassword().equals(password)) {
+                return admin;
+            } else {
+                throw new InvalidLoginCredentialException("Username does not exist or invalid password");
+            }
+        
+        } catch (AdminNotFoundException ex) {
+            throw new InvalidLoginCredentialException("Username does not exist or invalid password");
         }
         
         

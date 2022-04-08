@@ -13,12 +13,14 @@ import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -36,16 +38,18 @@ public class GymSlotsManagementManagedBean implements Serializable {
     private List<GymSlot> existingGymSlots;
     private List<Date> dates;
     private Date currDate;
+    private LocalTime prevEndTime;
 
     public GymSlotsManagementManagedBean() {
+        
     }
 
     @PostConstruct
     public void init() {
-        this.setGymSlots(new ArrayList<>());
-        getGymSlots().add(new GymSlot());
-        this.setDates(new ArrayList<>());
-        this.setExistingGymSlots(new ArrayList<>());
+//        this.setGymSlots(new ArrayList<>());
+//        getGymSlots().add(new GymSlot());
+//        this.setDates(new ArrayList<>());
+        //this.setExistingGymSlots(new ArrayList<>());
 
         //get gym slots for today on render
         Date date = new Date();
@@ -56,8 +60,10 @@ public class GymSlotsManagementManagedBean implements Serializable {
         existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
     }
 
-    public void add() {
-        getGymSlots().add(new GymSlot());
+    public void add(ActionEvent event) {
+        GymSlot newGymSlot = new GymSlot();
+        //newGymSlot.setStartTime(getPrevEndTime());
+        existingGymSlots.add(newGymSlot);
     }
 
     public void delete(ActionEvent event) {
@@ -69,18 +75,32 @@ public class GymSlotsManagementManagedBean implements Serializable {
         currDate = (Date) event.getObject();
         existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
     }
+    
+    public void validateStartTime(SelectEvent event) {
+        LocalTime startTime = (LocalTime) event.getObject();
+        GymSlot prevGymSlot = existingGymSlots.get(existingGymSlots.size() - 2);
+        if (startTime.compareTo(prevGymSlot.getEndTime()) < 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Start Time must be later than previous End Time", null));
+        }
+    }
 
     public void createNewGymSlot(ActionEvent event) {
 
-        for (GymSlot gymSlot : gymSlots) {
-            for (Date date : dates) {
-                GymSlot newGymSlot = new GymSlot(gymSlot.getVacancies(), gymSlot.getStartTime(), gymSlot.getEndTime());
-                newGymSlot.setDate(date);
-                Long gymSlotId = gymSlotSessionBeanLocal.createNewGymSlot(newGymSlot);
-                existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
-            }
+        for (GymSlot gymSlot : existingGymSlots) {
+
+            gymSlot.setDate(currDate);
+            Long gymSlotId = gymSlotSessionBeanLocal.createNewGymSlot(gymSlot);
+
         }
 
+//        for (GymSlot gymSlot : gymSlots) {
+//            for (Date date : dates) {
+//                GymSlot newGymSlot = new GymSlot(gymSlot.getVacancies(), gymSlot.getStartTime(), gymSlot.getEndTime());
+//                newGymSlot.setDate(date);
+//                Long gymSlotId = gymSlotSessionBeanLocal.createNewGymSlot(newGymSlot);
+//                existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
+//            }
+//        }
     }
 
     /**
@@ -138,6 +158,20 @@ public class GymSlotsManagementManagedBean implements Serializable {
      */
     public void setExistingGymSlots(List<GymSlot> existingGymSlots) {
         this.existingGymSlots = existingGymSlots;
+    }
+
+    /**
+     * @return the prevEndTime
+     */
+    public LocalTime getPrevEndTime() {
+        return prevEndTime;
+    }
+
+    /**
+     * @param prevEndTime the prevEndTime to set
+     */
+    public void setPrevEndTime(LocalTime prevEndTime) {
+        this.prevEndTime = prevEndTime;
     }
 
 }

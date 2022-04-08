@@ -25,6 +25,7 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
 
     @Override
     public Long createNewGymSlot(GymSlot newGymSlot) {
+        
         em.persist(newGymSlot);
         em.flush();
         

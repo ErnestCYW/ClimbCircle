@@ -14,7 +14,7 @@
 
                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                     <p:outputLabel for="usertype" value="Sign in as:" />
-                    <p:selectOneRadio id="usertype" value="#{loginManagedBean.usertype}" unselectable="true">
+                    <p:selectOneRadio id="usertype" value="#{loginManagedBean.usertype}" unselectable="true" required="true" requiredMessage="User Type is required">
                         <f:selectItem itemLabel="Admin" itemValue="Admin" />
                         <f:selectItem itemLabel="Partner Gym" itemValue="Partner Gym" />
                     </p:selectOneRadio>
