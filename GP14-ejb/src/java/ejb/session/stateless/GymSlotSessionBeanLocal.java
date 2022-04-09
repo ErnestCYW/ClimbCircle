@@ -24,5 +24,7 @@ public interface GymSlotSessionBeanLocal {
     public GymSlot retrieveGymSlotById(Long gymSlotId);
 
     public List<GymSlot> retrieveGymSlotsByDate(Date date);
+
+    public void updateGymSlot(GymSlot gymSlot);
     
 }

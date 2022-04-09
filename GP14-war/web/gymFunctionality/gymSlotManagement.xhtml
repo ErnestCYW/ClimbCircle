@@ -11,15 +11,18 @@
         
         <h:form id="viewSlots">
             
-            <p:growl>
+            <p:messages>
                 <p:autoUpdate/>
-            </p:growl>
+            </p:messages>
 
             <p:calendar id="event" value="#{gymSlotsManagementManagedBean.currDate}" mode="inline">
                 <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.dateChanged}" update="existingSlotsTable"/>
             </p:calendar>
             
             <p:dataTable id="existingSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.existingGymSlots}" var="existingSlot" editable="true">
+                <p:ajax event="rowEdit" listener="#{gymSlotsManagementManagedBean.validateStartAndEndTime}" update="viewSlots:addButton viewSlots:saveButton"/>
+                <p:ajax event="rowEditCancel" listener="#{gymSlotsManagementManagedBean.validateStartAndEndTime}" update="viewSlots:addButton viewSlots:saveButton"/>
+                
                 <p:column headerText="Slot" style="width:5%">
                     <h:outputText value="#{row+1}"/>
                 </p:column>
@@ -31,7 +34,7 @@
                         </f:facet>
                         <f:facet name="input">
                             <p:datePicker id="startTime" value="#{existingSlot.startTime}" timeOnly="true" pattern="HH:mm">
-                                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.validateStartTime}" />
+<!--                                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.validateStartTime}" />-->
                             </p:datePicker>
                         </f:facet>
                     </p:cellEditor>
@@ -43,7 +46,9 @@
                             <h:outputText value="#{existingSlot.endTime}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:datePicker id="endTime" value="#{existingSlot.endTime}" timeOnly="true" pattern="HH:mm"/>          
+                            <p:datePicker id="endTime" value="#{existingSlot.endTime}" timeOnly="true" pattern="HH:mm">
+<!--                                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.validateEndTime}" />-->
+                            </p:datePicker>    
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
@@ -65,9 +70,9 @@
 
             </p:dataTable>
             
-            <p:commandButton value="Add Slots" actionListener="#{gymSlotsManagementManagedBean.add}" update="existingSlotsTable"/>
+            <p:commandButton id="addButton" value="Add Slots" disabled="#{!gymSlotsManagementManagedBean.validated}" actionListener="#{gymSlotsManagementManagedBean.add}" update="existingSlotsTable"/>
             <br/>
-            <p:commandButton value="Save Slots" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}" update="existingSlotsTable" />
+            <p:commandButton id="saveButton" value="Save Slots" disabled="#{!gymSlotsManagementManagedBean.validated}" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}" update="existingSlotsTable" />
         </h:form>
 
 

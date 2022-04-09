@@ -51,6 +51,16 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
         
         return query.getResultList();
     }
+    
+    @Override
+    public void updateGymSlot(GymSlot gymSlot) {
+        
+        GymSlot gymSlotToUpdate = retrieveGymSlotById(gymSlot.getGymSlotId());
+        
+        gymSlotToUpdate.setStartTime(gymSlot.getStartTime());
+        gymSlotToUpdate.setEndTime(gymSlot.getEndTime());
+        gymSlotToUpdate.setVacancies(gymSlot.getVacancies());
+    }
 
     
 }
