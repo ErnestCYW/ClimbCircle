@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.RouteEntity;
 import java.util.List;
 import javax.ejb.Local;
+import util.enumeration.RouteRatingEnum;
 
 /**
  *
@@ -25,5 +26,7 @@ public interface RouteEntitySessionBeanLocal {
     public List<RouteEntity> retrieveAllRoutes();
     
     public void deleteRoute(Long routeId);
+    
+    public List<Enum> retrieveAllRouteRatings();
     
 }

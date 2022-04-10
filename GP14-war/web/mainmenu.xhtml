@@ -20,7 +20,6 @@
                         <!--<p:menuitem value="Customer Management" outcome="/customerManagement.xhtml" icon="pi pi-users" />-->
                         <p:menuitem value="Subscription Management" outcome="/adminFunctionality/subscriptionPlan.xhtml" icon="pi pi-arrow-circle-right" />
                         <p:menuitem value="Gym Management" outcome="/adminFunctionality/gymManagement.xhtml" icon="pi pi-arrow-circle-right" />
-                        <p:menuitem value="Route Management" outcome="/adminFunctionality/routeManagement.xhtml" icon="pi pi-arrow-circle-right" />
                     </p:submenu>
                     
                     <!--I commented the bottom code for reference-->
@@ -37,6 +36,7 @@
                     <p:submenu label="Partner Gym" rendered="#{sessionScope.usertype.equals('Partner Gym')}">
                         <p:menuitem value="Edit Profile" outcome="/index" icon="pi pi-arrow-circle-right" />
                         <p:menuitem value="Gym Slot Management" outcome="/gymFunctionality/gymSlotManagement.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="Route Management" outcome="/gymFunctionality/routeManagement.xhtml" icon="pi pi-arrow-circle-right" />
                     </p:submenu>
 
                 </p:menu>

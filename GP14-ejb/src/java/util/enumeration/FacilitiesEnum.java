@@ -9,7 +9,7 @@ package util.enumeration;
  *
  * @author ernestcyw
  */
-public enum FacilitiesEnum{
+public enum FacilitiesEnum {
     SHOWER,
     AIRCONDITIONING,
     WATER_DISPENSER,
