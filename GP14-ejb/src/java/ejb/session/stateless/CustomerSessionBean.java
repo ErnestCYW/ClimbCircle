@@ -6,12 +6,14 @@
 package ejb.session.stateless;
 
 import entity.Admin;
+import entity.Customer;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.AdminNotFoundException;
+import util.exception.CustomerNotFoundException;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -19,52 +21,50 @@ import util.exception.InvalidLoginCredentialException;
  * @author elgin
  */
 @Stateless
-public class AdminSessionBean implements AdminSessionBeanLocal {
+public class CustomerSessionBean implements CustomerSessionBeanLocal {
 
     @PersistenceContext(unitName = "GP14-ejbPU")
     private EntityManager em;
 
     @Override
-    public Long createNewAdmin(Admin newAdmin) {
-        em.persist(newAdmin);
+    public Long createNewCustomer(Customer newCustomer) {
+        em.persist(newCustomer);
         em.flush();
         
-        return newAdmin.getAdminId();
+        return newCustomer.getCustomerId();
     }
     
+    
     @Override
-    public Admin retrieveAdminByUsername(String username) throws AdminNotFoundException {
-        Query query = em.createQuery("SELECT a from Admin a WHERE a.username = :username");
+    public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException {
+        Query query = em.createQuery("SELECT c from Customer c WHERE c.username = :username");
         query.setParameter("username", username);
         
         try {
-            return (Admin)query.getSingleResult();
+            return (Customer)query.getSingleResult();
         } catch (NoResultException ex) {
-            throw new AdminNotFoundException("Admin does not exist");
+            throw new CustomerNotFoundException("Customer does not exist");
         }
         
     }
     
     @Override
-    public Admin login(String username, String password) throws InvalidLoginCredentialException {
-        
-        
+    public Customer login(String username, String password) throws InvalidLoginCredentialException {
+
         try {
-            Admin admin = retrieveAdminByUsername(username);
-            if (admin.getPassword().equals(password)) {
-                return admin;
+            Customer customer = retrieveCustomerByUsername(username);
+            if (customer.getPassword().equals(password)) {
+                return customer;
             } else {
                 throw new InvalidLoginCredentialException("Username does not exist or invalid password");
             }
         
-        } catch (AdminNotFoundException ex) {
+        } catch (CustomerNotFoundException ex) {
             throw new InvalidLoginCredentialException("Username does not exist or invalid password");
         }
         
         
     }
 
-    public void persist(Object object) {
-        em.persist(object);
-    }
+    
 }

@@ -13,12 +13,15 @@ import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -36,16 +39,20 @@ public class GymSlotsManagementManagedBean implements Serializable {
     private List<GymSlot> existingGymSlots;
     private List<Date> dates;
     private Date currDate;
+    private Boolean validated;
+    private LocalTime prevEndTime;
 
     public GymSlotsManagementManagedBean() {
+        prevEndTime = LocalTime.parse("09:00");
+        validated = true;
     }
 
     @PostConstruct
     public void init() {
-        this.setGymSlots(new ArrayList<>());
-        getGymSlots().add(new GymSlot());
-        this.setDates(new ArrayList<>());
-        this.setExistingGymSlots(new ArrayList<>());
+//        this.setGymSlots(new ArrayList<>());
+//        getGymSlots().add(new GymSlot());
+//        this.setDates(new ArrayList<>());
+        //this.setExistingGymSlots(new ArrayList<>());
 
         //get gym slots for today on render
         Date date = new Date();
@@ -56,8 +63,16 @@ public class GymSlotsManagementManagedBean implements Serializable {
         existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
     }
 
-    public void add() {
-        getGymSlots().add(new GymSlot());
+    public void add(ActionEvent event) {
+        if (existingGymSlots.size() > 0) {
+            GymSlot prevGymSlot = existingGymSlots.get(existingGymSlots.size() - 1);
+            prevEndTime = prevGymSlot.getEndTime();
+        }
+
+        GymSlot newGymSlot = new GymSlot();
+        newGymSlot.setStartTime(prevEndTime);
+        newGymSlot.setEndTime(prevEndTime.plusHours(1));
+        existingGymSlots.add(newGymSlot);
     }
 
     public void delete(ActionEvent event) {
@@ -70,17 +85,65 @@ public class GymSlotsManagementManagedBean implements Serializable {
         existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
     }
 
-    public void createNewGymSlot(ActionEvent event) {
-
-        for (GymSlot gymSlot : gymSlots) {
-            for (Date date : dates) {
-                GymSlot newGymSlot = new GymSlot(gymSlot.getVacancies(), gymSlot.getStartTime(), gymSlot.getEndTime());
-                newGymSlot.setDate(date);
-                Long gymSlotId = gymSlotSessionBeanLocal.createNewGymSlot(newGymSlot);
-                existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
+    public void validateStartAndEndTime(RowEditEvent event) {
+        validated = true;
+        GymSlot currGymSlot = (GymSlot) event.getObject();
+        int index = existingGymSlots.indexOf(currGymSlot);
+        if (currGymSlot.getVacancies() == null) {
+            validated = false;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vacancies must be filled in", null));
+            FacesContext.getCurrentInstance().validationFailed();
+        }
+        
+        if (index > 0) {
+            GymSlot prevGymSlot = existingGymSlots.get(index - 1);
+            if (currGymSlot.getStartTime().compareTo(prevGymSlot.getEndTime()) < 0) {
+                validated = false;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Start Time must be later than previous End Time", null));
+                FacesContext.getCurrentInstance().validationFailed();
             }
         }
+        
+        if (index < existingGymSlots.size() - 1) {
+            GymSlot nextGymSlot = existingGymSlots.get(index + 1);
+            if (currGymSlot.getEndTime().compareTo(nextGymSlot.getStartTime()) > 0) {
+                validated = false;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "End Time must not be later than next Start Time", null));
+                FacesContext.getCurrentInstance().validationFailed();
+            }
+        }
+        
+        if (currGymSlot.getEndTime().compareTo(currGymSlot.getStartTime()) <= 0) {
+            validated = false;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "End Time must be later than Start Time", null));
+            FacesContext.getCurrentInstance().validationFailed();
+        }
 
+    }
+
+    public void createNewGymSlot(ActionEvent event) {
+
+        for (GymSlot gymSlot : existingGymSlots) {
+            
+            if (gymSlot.getGymSlotId() == null) {
+                gymSlot.setDate(currDate);
+                Long gymSlotId = gymSlotSessionBeanLocal.createNewGymSlot(gymSlot);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Gym Slot successfully created: " + gymSlotId, null));
+            } else {
+                gymSlotSessionBeanLocal.updateGymSlot(gymSlot);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Gym Slot successfully updated: " + gymSlot.getGymSlotId(), null));
+            }
+
+        }
+
+//        for (GymSlot gymSlot : gymSlots) {
+//            for (Date date : dates) {
+//                GymSlot newGymSlot = new GymSlot(gymSlot.getVacancies(), gymSlot.getStartTime(), gymSlot.getEndTime());
+//                newGymSlot.setDate(date);
+//                Long gymSlotId = gymSlotSessionBeanLocal.createNewGymSlot(newGymSlot);
+//                existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
+//            }
+//        }
     }
 
     /**
@@ -138,6 +201,34 @@ public class GymSlotsManagementManagedBean implements Serializable {
      */
     public void setExistingGymSlots(List<GymSlot> existingGymSlots) {
         this.existingGymSlots = existingGymSlots;
+    }
+
+    /**
+     * @return the prevEndTime
+     */
+    public LocalTime getPrevEndTime() {
+        return prevEndTime;
+    }
+
+    /**
+     * @param prevEndTime the prevEndTime to set
+     */
+    public void setPrevEndTime(LocalTime prevEndTime) {
+        this.prevEndTime = prevEndTime;
+    }
+
+    /**
+     * @return the validated
+     */
+    public Boolean getValidated() {
+        return validated;
+    }
+
+    /**
+     * @param validated the validated to set
+     */
+    public void setValidated(Boolean validated) {
+        this.validated = validated;
     }
 
 }

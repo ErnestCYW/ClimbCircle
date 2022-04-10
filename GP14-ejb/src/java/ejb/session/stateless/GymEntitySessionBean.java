@@ -9,11 +9,15 @@ import entity.GymEntity;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.FacilitiesEnum;
+import util.exception.GymEntityNotFoundException;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -42,11 +46,15 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
     }
 
     @Override
-    public GymEntity retrieveGymByUsername(String username) {
+    public GymEntity retrieveGymByUsername(String username) throws GymEntityNotFoundException {
         Query query = em.createQuery("SELECT g from GymEntity g WHERE g.username = :username");
         query.setParameter("username", username);
-
-        return (GymEntity) query.getSingleResult();
+        
+        try {
+            return (GymEntity) query.getSingleResult();
+        } catch (NoResultException ex) {
+            throw new GymEntityNotFoundException("Gym does not exist");
+        }
     }
 
     @Override
@@ -59,12 +67,16 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
 
     @Override
     public GymEntity login(String username, String password) throws InvalidLoginCredentialException {
-        GymEntity gym = retrieveGymByUsername(username);
-
-        if (gym.getPassword().equals(password)) {
-            return gym;
-        } else {
-            throw new InvalidLoginCredentialException("Rip");
+        try {
+            GymEntity gym = retrieveGymByUsername(username);
+            
+            if (gym.getPassword().equals(password)) {
+                return gym;
+            } else {
+                throw new InvalidLoginCredentialException("Username does not exist or invalid password");
+            }
+        } catch (GymEntityNotFoundException ex) {
+            throw new InvalidLoginCredentialException("Username does not exist or invalid password");
         }
     }
 

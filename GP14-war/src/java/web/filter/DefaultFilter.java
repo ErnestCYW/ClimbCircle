@@ -68,7 +68,7 @@ public class DefaultFilter implements Filter {
                 return false;
             }
         } else if (usertype.equals("Partner Gym")) {
-            if (path.equals("/addSlotVacancies.xhtml")) {
+            if (path.equals("/gymFunctionality/gymSlotManagement.xhtml")) {
                 return true;
             } else {
                 return false;

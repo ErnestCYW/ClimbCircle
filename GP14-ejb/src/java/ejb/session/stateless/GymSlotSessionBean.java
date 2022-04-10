@@ -25,6 +25,7 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
 
     @Override
     public Long createNewGymSlot(GymSlot newGymSlot) {
+        
         em.persist(newGymSlot);
         em.flush();
         
@@ -49,6 +50,16 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
         query.setParameter("inDate", date);
         
         return query.getResultList();
+    }
+    
+    @Override
+    public void updateGymSlot(GymSlot gymSlot) {
+        
+        GymSlot gymSlotToUpdate = retrieveGymSlotById(gymSlot.getGymSlotId());
+        
+        gymSlotToUpdate.setStartTime(gymSlot.getStartTime());
+        gymSlotToUpdate.setEndTime(gymSlot.getEndTime());
+        gymSlotToUpdate.setVacancies(gymSlot.getVacancies());
     }
 
     
