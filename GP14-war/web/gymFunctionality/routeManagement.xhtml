@@ -41,10 +41,6 @@
                         <h:outputText value="#{routeEntity.description}"/>
                     </p:column>
 
-                    <p:column headerText="Popularity" sortBy="#{routeEntity.popularity}" filterBy="#{routeEntity.popularity}" filterMatchMode="contains">
-                        <h:outputText value="#{routeEntity.popularity}"/>
-                    </p:column>
-
                     <p:column headerText="Route Rating" sortBy="#{routeEntity.routeRating}" filterBy="#{routeEntity.routeRating}" filterMatchMode="contains">
                         <h:outputText value="#{routeEntity.routeRating}"/>
                     </p:column>
@@ -111,18 +107,6 @@
                             </p:column>
                             <p:column>
                                 <p:message for="description" />
-                            </p:column>
-                        </p:row>
-
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="popularity" value="Popularity" style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="popularity" value="#{routeManagementManagedBean.newRouteEntity.popularity}" placeholder="Popularity" required="true" requiredMessage="Popularity is required" />
-                            </p:column>
-                            <p:column>
-                                <p:message for="popularity" />
                             </p:column>
                         </p:row>
 

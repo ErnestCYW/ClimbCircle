@@ -16,5 +16,5 @@ public enum RouteRatingEnum {
     V2to4,
     V4to6,
     V6to8,
-    V8
+    aboveV8
 }
