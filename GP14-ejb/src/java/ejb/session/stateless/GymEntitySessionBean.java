@@ -17,6 +17,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.FacilitiesEnum;
+import util.exception.DeleteGymException;
 import util.exception.GymEntityNotFoundException;
 import util.exception.InvalidLoginCredentialException;
 
@@ -49,12 +50,31 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
     public GymEntity retrieveGymByUsername(String username) throws GymEntityNotFoundException {
         Query query = em.createQuery("SELECT g from GymEntity g WHERE g.username = :username");
         query.setParameter("username", username);
-        
+
         try {
             return (GymEntity) query.getSingleResult();
         } catch (NoResultException ex) {
             throw new GymEntityNotFoundException("Gym does not exist");
         }
+    }
+
+    @Override
+    public GymEntity retrieveGymByGymId(Long gymId) throws GymEntityNotFoundException {
+
+        GymEntity gymEntity = em.find(GymEntity.class, gymId);
+
+        if (gymEntity != null) {
+
+//            gymEntity.getGymSlots();
+//            gymEntity.getRouteReviews();
+            return gymEntity;
+
+        } else {
+
+            throw new GymEntityNotFoundException("Gym ID " + gymId + " does not exist!");
+
+        }
+
     }
 
     @Override
@@ -69,7 +89,7 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
     public GymEntity login(String username, String password) throws InvalidLoginCredentialException {
         try {
             GymEntity gym = retrieveGymByUsername(username);
-            
+
             if (gym.getPassword().equals(password)) {
                 return gym;
             } else {
@@ -85,6 +105,44 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
 
         List<Enum> allFacilities = new ArrayList<Enum>(EnumSet.allOf(FacilitiesEnum.class));
         return allFacilities;
+
+    }
+
+    @Override
+    public void deleteGym(Long gymId) throws GymEntityNotFoundException, DeleteGymException {
+
+        GymEntity gymEntityToRemove = retrieveGymByGymId(gymId);
+
+//        if (gymEntityToRemove.getGymSlots().isEmpty() && gymEntityToRemove.getRouteReview().isEmpty()) {
+        em.remove(gymEntityToRemove);
+
+//        } else {
+//            
+//            throw new DeleteGymException("Gym ID " + gymId + " is associated with gymSlot(s) and or routeReview(s) and cannot be deleted!");
+//            
+//        }
+    }
+
+    @Override
+    public void updateGym(GymEntity gymEntity) throws GymEntityNotFoundException {
+
+        if (gymEntity != null && gymEntity.getGymId() != null) {
+
+            GymEntity gymEntityToUpdate = retrieveGymByGymId(gymEntity.getGymId());
+
+            gymEntityToUpdate.setUsername(gymEntity.getUsername());
+            gymEntityToUpdate.setGymName(gymEntity.getGymName());
+            gymEntityToUpdate.setFranchise(gymEntity.getFranchise());
+            gymEntityToUpdate.setAddress(gymEntity.getAddress());
+            gymEntityToUpdate.setOperatingHours(gymEntity.getOperatingHours());
+            gymEntityToUpdate.setContactNumber(gymEntity.getContactNumber());
+            gymEntityToUpdate.setFacilities(gymEntity.getFacilities());
+
+        } else {
+            
+            throw new GymEntityNotFoundException("Gym ID not provided for product to be updated");
+        }
+        
 
     }
 
