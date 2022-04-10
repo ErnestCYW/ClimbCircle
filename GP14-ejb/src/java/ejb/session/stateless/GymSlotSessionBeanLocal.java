@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.GymEntity;
 import entity.GymSlot;
 import java.util.Date;
 import java.util.List;
@@ -17,13 +18,13 @@ import javax.ejb.Local;
 @Local
 public interface GymSlotSessionBeanLocal {
 
-    public Long createNewGymSlot(GymSlot newGymSlot);
+    public Long createNewGymSlot(String username, GymSlot newGymSlot);
 
     public List<GymSlot> retrieveAllGymSlots();
 
     public GymSlot retrieveGymSlotById(Long gymSlotId);
 
-    public List<GymSlot> retrieveGymSlotsByDate(Date date);
+    public List<GymSlot> retrieveGymSlotsByDate(Date date, GymEntity gym);
 
     public void updateGymSlot(GymSlot gymSlot);
     

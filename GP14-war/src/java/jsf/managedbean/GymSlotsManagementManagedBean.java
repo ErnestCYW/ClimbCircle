@@ -6,6 +6,7 @@
 package jsf.managedbean;
 
 import ejb.session.stateless.GymSlotSessionBeanLocal;
+import entity.GymEntity;
 import entity.GymSlot;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
@@ -35,9 +36,8 @@ public class GymSlotsManagementManagedBean implements Serializable {
     @EJB(name = "GymSlotSessionBeanLocal")
     private GymSlotSessionBeanLocal gymSlotSessionBeanLocal;
 
-    private List<GymSlot> gymSlots;
+    private GymEntity currGym;
     private List<GymSlot> existingGymSlots;
-    private List<Date> dates;
     private Date currDate;
     private Boolean validated;
     private LocalTime prevEndTime;
@@ -60,7 +60,10 @@ public class GymSlotsManagementManagedBean implements Serializable {
         LocalDate localDate = inst.atZone(ZoneId.systemDefault()).toLocalDate();
         Instant dayInst = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         currDate = Date.from(dayInst);
-        existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
+        
+        currGym = (GymEntity)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentUser");
+        
+        existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate,currGym);
     }
 
     public void add(ActionEvent event) {
@@ -75,14 +78,14 @@ public class GymSlotsManagementManagedBean implements Serializable {
         existingGymSlots.add(newGymSlot);
     }
 
-    public void delete(ActionEvent event) {
-        GymSlot gymSlotToDelete = (GymSlot) event.getComponent().getAttributes().get("gymSlotToDelete");
-        gymSlots.remove(gymSlotToDelete);
-    }
+//    public void delete(ActionEvent event) {
+//        GymSlot gymSlotToDelete = (GymSlot) event.getComponent().getAttributes().get("gymSlotToDelete");
+//        gymSlots.remove(gymSlotToDelete);
+//    }
 
     public void dateChanged(SelectEvent event) {
         currDate = (Date) event.getObject();
-        existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
+        existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate,currGym);
     }
 
     public void validateStartAndEndTime(RowEditEvent event) {
@@ -127,7 +130,7 @@ public class GymSlotsManagementManagedBean implements Serializable {
             
             if (gymSlot.getGymSlotId() == null) {
                 gymSlot.setDate(currDate);
-                Long gymSlotId = gymSlotSessionBeanLocal.createNewGymSlot(gymSlot);
+                Long gymSlotId = gymSlotSessionBeanLocal.createNewGymSlot(currGym.getUsername(), gymSlot);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New Gym Slot successfully created: " + gymSlotId, null));
             } else {
                 gymSlotSessionBeanLocal.updateGymSlot(gymSlot);
@@ -144,34 +147,6 @@ public class GymSlotsManagementManagedBean implements Serializable {
 //                existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate);
 //            }
 //        }
-    }
-
-    /**
-     * @return the gymSlots
-     */
-    public List<GymSlot> getGymSlots() {
-        return gymSlots;
-    }
-
-    /**
-     * @param gymSlots the gymSlots to set
-     */
-    public void setGymSlots(List<GymSlot> gymSlots) {
-        this.gymSlots = gymSlots;
-    }
-
-    /**
-     * @return the dates
-     */
-    public List<Date> getDates() {
-        return dates;
-    }
-
-    /**
-     * @param dates the dates to set
-     */
-    public void setDates(List<Date> dates) {
-        this.dates = dates;
     }
 
     /**
