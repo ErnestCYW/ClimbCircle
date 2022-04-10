@@ -5,13 +5,18 @@
  */
 package ejb.session.stateless;
 
+import entity.GymEntity;
 import entity.GymSlot;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.GymEntityNotFoundException;
 
 /**
  *
@@ -20,16 +25,28 @@ import javax.persistence.Query;
 @Stateless
 public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
 
+    @EJB(name = "GymEntitySessionBeanLocal")
+    private GymEntitySessionBeanLocal gymEntitySessionBeanLocal;
+    
     @PersistenceContext(unitName = "GP14-ejbPU")
     private EntityManager em;
 
     @Override
-    public Long createNewGymSlot(GymSlot newGymSlot) {
+    public Long createNewGymSlot(String username, GymSlot newGymSlot) {
         
-        em.persist(newGymSlot);
-        em.flush();
-        
-        return newGymSlot.getGymSlotId();
+        try {
+            GymEntity gym = gymEntitySessionBeanLocal.retrieveGymByUsername(username);
+            
+            em.persist(newGymSlot);
+            gym.getGymSlots().add(newGymSlot);
+            newGymSlot.setGymEntity(gym);
+            
+            em.flush();
+            
+            return newGymSlot.getGymSlotId();
+        } catch (GymEntityNotFoundException ex) {
+            return null;
+        }
     }
     
     @Override
@@ -45,11 +62,16 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
     }
     
     @Override
-    public List<GymSlot> retrieveGymSlotsByDate(Date date) {
-        Query query = em.createQuery("SELECT g FROM GymSlot g WHERE g.date = :inDate");
-        query.setParameter("inDate", date);
+    public List<GymSlot> retrieveGymSlotsByDate(Date date, GymEntity gym) {
+        Query query = em.createQuery("SELECT g FROM GymSlot g WHERE g.gymEntity = :gym AND g.date = :inDate");
+        query.setParameter("inDate", date).setParameter("gym", gym);
+        List<GymSlot> gymSlots = query.getResultList();
         
-        return query.getResultList();
+        for (GymSlot gymSlot : gymSlots) {
+            gymSlot.getGymEntity();
+        }
+        
+        return gymSlots;
     }
     
     @Override

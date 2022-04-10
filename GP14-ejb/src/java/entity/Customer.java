@@ -6,11 +6,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -28,11 +31,16 @@ public class Customer implements Serializable {
     private String email;
     private Integer numOfPassesLeft;
     private Date expiryDate;
+    
+    @OneToMany(mappedBy="customer")
+    private List<Booking> bookings;
 
     public Customer() {
+        bookings = new ArrayList<>();
     }
 
     public Customer(String username, String password, String email, Integer numOfPassesLeft, Date expiryDate) {
+        this();
         this.username = username;
         this.password = password;
         this.email = email;

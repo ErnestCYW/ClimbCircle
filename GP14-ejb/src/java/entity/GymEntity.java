@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -34,9 +35,12 @@ public class GymEntity implements Serializable {
     private String contactNumber;
     private List<Enum> facilities;
     
+    @OneToMany(mappedBy="gymEntity")
+    private List<GymSlot> gymSlots;
 
     public GymEntity() {
         facilities = new ArrayList<>();
+        gymSlots = new ArrayList<>();
     }
     
     public GymEntity(String username, String gymName, String franchise, String password, String address,
@@ -211,6 +215,20 @@ public class GymEntity implements Serializable {
      */
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
+    }
+
+    /**
+     * @return the gymSlots
+     */
+    public List<GymSlot> getGymSlots() {
+        return gymSlots;
+    }
+
+    /**
+     * @param gymSlots the gymSlots to set
+     */
+    public void setGymSlots(List<GymSlot> gymSlots) {
+        this.gymSlots = gymSlots;
     }
 
 
