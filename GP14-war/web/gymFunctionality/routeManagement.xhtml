@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <div>
+            <h3>Route Management</h3>
+
+            <h:form>
+
+                <p:menubar>
+
+                    <p:submenu label="File" icon="ui-icon-document">
+                        <p:menuitem value="Create New Route" onclick="PF('dialogCreateNewRoute').show()" icon="pi pi-plus" />
+                    </p:submenu>                                        
+
+                </p:menubar>
+                <br/>
+
+            </h:form>
+
+            <h:form id="formAllRoutes">
+                <p:messages id="messages" redisplay="false" closable="true"/>
+
+                <p:dataTable id="dataTableAllRoutes" widgetVar="dataTableAllRoutes" value="#{routeManagementManagedBean.routeEntities}" var="routeEntity" rowKey="#{routeEntity.routeId}" rowIndexVar="row" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                    <p:column headerText="Route ID" sortBy="#{routeEntity.routeId}" filterBy="#{routeEntity.routeId}" filterMatchMode="contains">
+                        <h:outputText value="#{routeEntity.routeId}"/>
+                    </p:column>
+
+                    <p:column headerText="Route Name" sortBy="#{routeEntity.routeName}" filterBy="#{routeEntity.routeName}" filterMatchMode="contains">
+                        <h:outputText value="#{routeEntity.routeName}"/>
+                    </p:column>
+
+                    <p:column headerText="Description" sortBy="#{routeEntity.description}" filterBy="#{routeEntity.description}" filterMatchMode="contains">
+                        <h:outputText value="#{routeEntity.description}"/>
+                    </p:column>
+
+                    <p:column headerText="Popularity" sortBy="#{routeEntity.popularity}" filterBy="#{routeEntity.popularity}" filterMatchMode="contains">
+                        <h:outputText value="#{routeEntity.popularity}"/>
+                    </p:column>
+
+                    <p:column headerText="Route Rating" sortBy="#{routeEntity.routeRating}" filterBy="#{routeEntity.routeRating}" filterMatchMode="contains">
+                        <h:outputText value="#{routeEntity.routeRating}"/>
+                    </p:column>
+
+                    <p:column headerText="Route Image URL" sortBy="#{routeEntity.routeImageURL}" filterBy="#{routeEntity.routeImageURL}" filterMatchMode="contains">
+                        <h:outputText value="#{routeEntity.routeImageURL}"/>
+                    </p:column>
+
+                    <p:column headerText="Location" sortBy="#{routeEntity.location}" filterBy="#{routeEntity.location}" filterMatchMode="contains">
+                        <h:outputText value="#{routeEntity.location}"/>
+                    </p:column>
+
+                    <p:column headerText="Color" sortBy="#{routeEntity.color}" filterBy="#{routeEntity.color}" filterMatchMode="contains">
+                        <h:outputText value="#{routeEntity.color}"/>
+                    </p:column>
+
+                    <p:column headerText="Action">
+                        <!--<p:commandButton update="ccViewSubscriptionPlan:formViewSubscriptionPlan" oncomplete="PF('dialogViewProduct').show()" icon="ui-icon-document" title="View">
+                            <f:setPropertyActionListener value="#{subscriptionPlanEntity}" target="#{subscriptionPlanManagedBean.viewSubscriptionPlanManagedBean.subscriptionPlanEntityToView}"/>
+                        </p:commandButton>
+                        <p:commandButton actionListener="#{subscriptionPlanManagedBean.doUpdateSubscriptionPlan}" update="formUpdateSubscriptionPlan" oncomplete="PF('dialogUpdateProduct').show()" icon="ui-icon-pencil" title="Update">
+                            <f:attribute name="subscriptionPlanEntityToUpdate" value="#{subscriptionPlanEntity}"/>
+                        </p:commandButton>-->
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{routeManagementManagedBean.deleteRoute}" update="formAllRoutes:dataTableAllRoutes formAllRoutes:messages">
+                            <f:attribute name="routeEntityToDelete" value="#{routeEntity}"/>
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{routeEntity.routeName} (id: #{routeEntity.routeId})?" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+
+            </h:form>
+
+            <h:form id="formCreateNewRoute">
+
+                <p:dialog id="dialogCreateNewRoute" widgetVar="dialogCreateNewRoute" header="Create New Route" closable="true">
+
+                    <p:messages id="messagesCreateNewRoute" redisplay="false"/>
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="routeName" value="Route Name" style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="routeName" value="#{routeManagementManagedBean.newRouteEntity.routeName}" placeholder="Route Name" required="true" requiredMessage="Route name is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="routeName" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="description" value="Description" style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="description" value="#{routeManagementManagedBean.newRouteEntity.description}" placeholder="Description" required="true" requiredMessage="Description is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="description" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="popularity" value="Popularity" style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="popularity" value="#{routeManagementManagedBean.newRouteEntity.popularity}" placeholder="Popularity" required="true" requiredMessage="Popularity is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="popularity" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="routeRating" value="Route Rating" style="font-weight: bold;" />
+                            </p:column>
+
+                            <p:column>
+                                <p:selectOneMenu id="routeRating" value="#{routeManagementManagedBean.newRouteRatingCreate}">
+                                    <f:selectItems value="#{routeManagementManagedBean.availableRouteRatings}" itemValue="#{routeRating}" itemLabel="#{routeRating}" />
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <p:message for="routeRating" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="routeImageURL" value="Route Image URL" style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="routeImageURL" value="#{routeManagementManagedBean.newRouteEntity.routeImageURL}" placeholder="Route Image URL" required="true" requiredMessage="Route Image URL is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="routeImageURL" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="color" value="Color" style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="color" value="#{routeManagementManagedBean.newRouteEntity.color}" placeholder="Color" required="true" requiredMessage="Color is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="color" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="location" value="Location" style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="location" value="#{routeManagementManagedBean.newRouteEntity.location}" placeholder="Location" required="true" requiredMessage="Location is required" />
+                            </p:column>
+                            <p:column>
+                                <p:message for="location" />
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton type="reset" value="Clear" />&nbsp;
+                                <p:commandButton  value="Create New Route" update="@form formAllRoutes:dataTableAllRoutes" actionListener="#{routeManagementManagedBean.createNewRoute}" oncomplete="PF('dialogCreateNewRoute').show();" />
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+
+                </p:dialog>
+
+
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>
+

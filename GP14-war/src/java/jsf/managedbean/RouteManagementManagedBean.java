@@ -31,16 +31,33 @@ public class RouteManagementManagedBean implements Serializable {
     private RouteEntitySessionBeanLocal routeEntitySessionBeanLocal;
 
     private List<RouteEntity> routeEntities;
+    private List<Enum> availableRouteRatings;
+    
     private RouteEntity newRouteEntity;
-    private List<RouteRatingEnum> selectedRouteRating;
+    private Enum newRouteRatingCreate;
+    
    
+    /**
+     * Creates a new instance of RouteManagementManagedBean
+     */
+    public RouteManagementManagedBean() {
+        routeEntities = new ArrayList<>();
+        newRouteEntity = new RouteEntity();
+        newRouteRatingCreate = null;
+    }
+    
     @PostConstruct
     public void postConstruct() {
         setRouteEntities(routeEntitySessionBeanLocal.retrieveAllRoutes());
+        setAvailableRouteRatings(routeEntitySessionBeanLocal.retrieveAllRouteRatings());
     }
     
     public void createNewRoute(ActionEvent event) {
         try {
+            
+            System.out.println("********** " + (RouteRatingEnum) newRouteRatingCreate);
+            newRouteEntity.setRouteRating((RouteRatingEnum) newRouteRatingCreate);
+            
             Long newRouteId = routeEntitySessionBeanLocal.createNewRoute(newRouteEntity);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New route created successfully (Route ID: " + newRouteId + ")", null));
         } catch (Exception ex) {
@@ -75,20 +92,22 @@ public class RouteManagementManagedBean implements Serializable {
         this.newRouteEntity = newRouteEntity;
     }
 
-    public List<RouteRatingEnum> getSelectedRouteRating() {
-        return selectedRouteRating;
+    public List<Enum> getAvailableRouteRatings() {
+        return availableRouteRatings;
     }
 
-    public void setSelectedRouteRating(List<RouteRatingEnum> selectedRouteRating) {
-        this.selectedRouteRating = selectedRouteRating;
+    public void setAvailableRouteRatings(List<Enum> availableRouteRatings) {
+        this.availableRouteRatings = availableRouteRatings;
     }
     
-    /**
-     * Creates a new instance of RouteManagementManagedBean
-     */
-    public RouteManagementManagedBean() {
-        routeEntities = new ArrayList<>();
-        newRouteEntity = new RouteEntity();
+    
+
+    public Enum getNewRouteRatingCreate() {
+        return newRouteRatingCreate;
+    }
+
+    public void setNewRouteRatingCreate(RouteRatingEnum newRouteRatingCreate) {
+        this.newRouteRatingCreate = newRouteRatingCreate;
     }
 
    

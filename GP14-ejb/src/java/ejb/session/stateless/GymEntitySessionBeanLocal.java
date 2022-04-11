@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.GymEntity;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.DeleteGymException;
 import util.exception.GymEntityNotFoundException;
 import util.exception.InvalidLoginCredentialException;
 
@@ -27,5 +28,11 @@ public interface GymEntitySessionBeanLocal {
     public GymEntity login(String username, String password) throws InvalidLoginCredentialException;
 
     public List<Enum> retrieveAllFacilities();
+
+    public GymEntity retrieveGymByGymId(Long gymId) throws GymEntityNotFoundException;
+
+    public void deleteGym(Long gymId) throws GymEntityNotFoundException, DeleteGymException;
+
+    public void updateGym(GymEntity gymEntity) throws GymEntityNotFoundException;
     
 }

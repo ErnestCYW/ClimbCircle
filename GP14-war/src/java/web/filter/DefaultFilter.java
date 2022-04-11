@@ -61,14 +61,14 @@ public class DefaultFilter implements Filter {
     private Boolean checkAccessRight(String path, String usertype) {
         if (usertype.equals("Admin")) {
             if (path.equals("/adminFunctionality/subscriptionPlan.xhtml")
-                    || path.equals("/adminFunctionality/gymManagement.xhtml")
-                    || path.equals("/adminFunctionality/routeManagement.xhtml")) {
+                    || path.equals("/adminFunctionality/gymManagement.xhtml")) {
                 return true;
             } else {
                 return false;
             }
         } else if (usertype.equals("Partner Gym")) {
-            if (path.equals("/gymFunctionality/gymSlotManagement.xhtml")) {
+            if (path.equals("/gymFunctionality/gymSlotManagement.xhtml") 
+                    || path.equals("/gymFunctionality/routeManagement.xhtml")) {
                 return true;
             } else {
                 return false;

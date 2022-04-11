@@ -6,11 +6,14 @@
 package ejb.session.stateless;
 
 import entity.RouteEntity;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.RouteRatingEnum;
 
 /**
  *
@@ -59,5 +62,11 @@ public class RouteEntitySessionBean implements RouteEntitySessionBeanLocal {
     public void deleteRoute(Long routeId) {
         RouteEntity routeEntityToRemove = retrieveRouteByRouteId(routeId);
         em.remove(routeEntityToRemove);
+    }
+    
+    @Override
+    public List<Enum> retrieveAllRouteRatings() {
+        List<Enum> allRouteRatings = new ArrayList<>(EnumSet.allOf(RouteRatingEnum.class));
+        return allRouteRatings;
     }
 }

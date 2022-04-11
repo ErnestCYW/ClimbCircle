@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package util.enumeration;
+package util.exception;
 
 /**
  *
  * @author ernestcyw
  */
-public enum FacilitiesEnum {
-    SHOWER,
-    AIRCONDITIONING,
-    WATER_DISPENSER,
-    BOULDERING_WALL,
-    TOP_ROPE_LANES,
-    AUTO_BELAY,
-    GEAR_AVAILABLE_FOR_RENT
+public class DeleteGymException extends Exception {
+    public DeleteGymException() {
+    }
+
+    public DeleteGymException(String msg) {
+        super(msg);
+    }
 }

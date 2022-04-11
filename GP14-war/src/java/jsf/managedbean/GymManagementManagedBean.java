@@ -18,6 +18,8 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import util.exception.DeleteGymException;
+import util.exception.GymEntityNotFoundException;
 
 /**
  *
@@ -36,18 +38,27 @@ public class GymManagementManagedBean implements Serializable {
     private GymEntity newGymEntity;
     private List<Enum> allFacilities;
     private List<Enum> selectedFacilitiesCreate;
+    
+    private GymEntity gymEntityToView;
 
-//    private GymEntity selectedGymEntityToUpdate;
-//    private List<Enum> selectedFacilitiesUpdate;
+    private GymEntity gymEntityToUpdate;
+    private List<Enum> selectedFacilitiesUpdate;
+    
+    
+    
     /**
      * Creates a new instance of GymManagementManagedBean
      */
     public GymManagementManagedBean() {
         gymEntities = new ArrayList<>();
+        
         newGymEntity = new GymEntity();
         selectedFacilitiesCreate = new ArrayList<>();
-//        selectedGymEntityToUpdate = new GymEntity();
-//        selectedFacilitiesUpdate = new ArrayList<>();
+        
+        gymEntityToView = new GymEntity();
+        
+//        gymEntityToUpdate = new GymEntity();
+        selectedFacilitiesUpdate = new ArrayList<>();
     }
 
     @PostConstruct
@@ -79,14 +90,60 @@ public class GymManagementManagedBean implements Serializable {
         }
 
     }
-//    
-//    public void updateGym(ActionEvent event) {
-//        
-//    }
-//    
-//    public void deleteGym(ActionEvent event) {
-//        
-//    }
+    
+    public void doUpdateGym(ActionEvent event) {
+        
+        gymEntityToUpdate = (GymEntity)event.getComponent().getAttributes().get("gymEntityToUpdate");
+        
+    }
+    
+    public void updateGym(ActionEvent event) {
+        
+        try
+        {
+            
+            getGymEntityToUpdate().setFacilities(getSelectedFacilitiesUpdate());
+            gymEntitySessionBeanLocal.updateGym(getGymEntityToUpdate());
+                        
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Gym updated successfully", null));
+        }
+        catch(GymEntityNotFoundException ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating gym: " + ex.getMessage(), null));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+        
+    }
+    
+    public void deleteGym(ActionEvent event) {
+        
+        try
+        {
+            GymEntity gymEntityToDelete = (GymEntity)event.getComponent().getAttributes().get("gymEntityToDelete");
+            gymEntitySessionBeanLocal.deleteGym(gymEntityToDelete.getGymId());
+            
+            gymEntities.remove(gymEntityToDelete);
+            
+//            if(filteredProductEntities != null)
+//            {
+//                filteredProductEntities.remove(productEntityToDelete);
+//            }
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Gym deleted successfully", null));
+        }
+        catch(GymEntityNotFoundException | DeleteGymException ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting gym: " + ex.getMessage(), null));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+        
+    }
 
     /**
      * @return the gymEntities
@@ -142,6 +199,48 @@ public class GymManagementManagedBean implements Serializable {
      */
     public void setSelectedFacilitiesCreate(List<Enum> selectedFacilitiesCreate) {
         this.selectedFacilitiesCreate = selectedFacilitiesCreate;
+    }
+
+    /**
+     * @return the gymEntityToView
+     */
+    public GymEntity getGymEntityToView() {
+        return gymEntityToView;
+    }
+
+    /**
+     * @param gymEntityToView the gymEntityToView to set
+     */
+    public void setGymEntityToView(GymEntity gymEntityToView) {
+        this.gymEntityToView = gymEntityToView;
+    }
+
+    /**
+     * @return the gymEntityToUpdate
+     */
+    public GymEntity getGymEntityToUpdate() {
+        return gymEntityToUpdate;
+    }
+
+    /**
+     * @param gymEntityToUpdate the gymEntityToUpdate to set
+     */
+    public void setGymEntityToUpdate(GymEntity gymEntityToUpdate) {
+        this.gymEntityToUpdate = gymEntityToUpdate;
+    }
+
+    /**
+     * @return the selectedFacilitiesUpdate
+     */
+    public List<Enum> getSelectedFacilitiesUpdate() {
+        return selectedFacilitiesUpdate;
+    }
+
+    /**
+     * @param selectedFacilitiesUpdate the selectedFacilitiesUpdate to set
+     */
+    public void setSelectedFacilitiesUpdate(List<Enum> selectedFacilitiesUpdate) {
+        this.selectedFacilitiesUpdate = selectedFacilitiesUpdate;
     }
 
 }

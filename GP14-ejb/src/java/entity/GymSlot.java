@@ -6,13 +6,13 @@
 package entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -29,6 +29,10 @@ public class GymSlot implements Serializable {
     private LocalTime startTime;
     private LocalTime endTime;
     private Date date;
+    
+    @ManyToOne
+    private GymEntity gymEntity;
+    
 
     public GymSlot() {
         this.startTime = LocalTime.parse("09:00");
@@ -137,5 +141,20 @@ public class GymSlot implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    /**
+     * @return the gymEntity
+     */
+    public GymEntity getGymEntity() {
+        return gymEntity;
+    }
+
+    /**
+     * @param gymEntity the gymEntity to set
+     */
+    public void setGymEntity(GymEntity gymEntity) {
+        this.gymEntity = gymEntity;
+    }
+
 
 }
