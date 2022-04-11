@@ -9,10 +9,12 @@ import ejb.session.stateless.AdminSessionBeanLocal;
 import ejb.session.stateless.CustomerSessionBeanLocal;
 import ejb.session.stateless.GymEntitySessionBeanLocal;
 import ejb.session.stateless.GymSlotSessionBeanLocal;
+import ejb.session.stateless.RouteEntitySessionBeanLocal;
 import ejb.session.stateless.SubscriptionPlanSessionBeanLocal;
 import entity.Admin;
 import entity.Customer;
 import entity.GymEntity;
+import entity.RouteEntity;
 import entity.SubscriptionPlanEntity;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +28,7 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.enumeration.FacilitiesEnum;
+import util.enumeration.RouteRatingEnum;
 
 /**
  *
@@ -35,6 +38,9 @@ import util.enumeration.FacilitiesEnum;
 @LocalBean
 @Startup
 public class DataInitSessionBean {
+
+    @EJB
+    private RouteEntitySessionBeanLocal routeEntitySessionBeanLocal;
 
     @EJB(name = "CustomerSessionBeanLocal")
     private CustomerSessionBeanLocal customerSessionBeanLocal;
@@ -76,6 +82,10 @@ public class DataInitSessionBean {
         
         if (em.find(Customer.class, 1L) == null) {
             customerSessionBeanLocal.createNewCustomer(new Customer("Bob","password","test@gmail.com",3,new Date()));
+        }
+        
+        if (em.find(RouteEntity.class, 1L) == null) {
+            routeEntitySessionBeanLocal.createNewRoute(new RouteEntity("Black", "Black Description", RouteRatingEnum.V0to1, "google.com", "White Wall", "Black"));
         }
     }
 

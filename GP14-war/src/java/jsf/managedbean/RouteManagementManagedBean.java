@@ -18,6 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import util.enumeration.RouteRatingEnum;
+import util.exception.RouteNotFoundException;
 
 /**
  *
@@ -31,40 +32,62 @@ public class RouteManagementManagedBean implements Serializable {
     private RouteEntitySessionBeanLocal routeEntitySessionBeanLocal;
 
     private List<RouteEntity> routeEntities;
-    private List<Enum> availableRouteRatings;
-    
+    private List<RouteRatingEnum> availableRouteRatings;
+
     private RouteEntity newRouteEntity;
-    private Enum newRouteRatingCreate;
+
+    private RouteEntity routeEntityToView;
     
-   
+    private RouteEntity routeEntityToUpdate;
+
     /**
      * Creates a new instance of RouteManagementManagedBean
      */
     public RouteManagementManagedBean() {
         routeEntities = new ArrayList<>();
         newRouteEntity = new RouteEntity();
-        newRouteRatingCreate = null;
+        routeEntityToView = new RouteEntity();
+        routeEntityToUpdate = new RouteEntity();
     }
-    
+
     @PostConstruct
     public void postConstruct() {
         setRouteEntities(routeEntitySessionBeanLocal.retrieveAllRoutes());
         setAvailableRouteRatings(routeEntitySessionBeanLocal.retrieveAllRouteRatings());
     }
-    
+
     public void createNewRoute(ActionEvent event) {
         try {
-            
-            System.out.println("********** " + (RouteRatingEnum) newRouteRatingCreate);
-            newRouteEntity.setRouteRating((RouteRatingEnum) newRouteRatingCreate);
-            
+
+            System.out.println("**********");
+
             Long newRouteId = routeEntitySessionBeanLocal.createNewRoute(newRouteEntity);
+
+            routeEntities.add(newRouteEntity);
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New route created successfully (Route ID: " + newRouteId + ")", null));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new route: " + ex.getMessage(), null));
         }
     }
     
+    public void doUpdateRoute(ActionEvent event) {
+        routeEntityToUpdate = (RouteEntity)event.getComponent().getAttributes().get("routeEntityToUpdate");
+    }
+    
+    public void updateRoute(ActionEvent event) {
+        try {
+            routeEntitySessionBeanLocal.updateRoute(getRouteEntityToUpdate());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Route updated successfully (Route ID: " + routeEntityToUpdate.getRouteId() + ")", null)); 
+        } catch (RouteNotFoundException ex) {
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while updating route: " + ex.getMessage(), null));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An unexpected error has occurred: " + ex.getMessage(), null));
+        }
+    }
+    
+    
+
     public void deleteRoute(ActionEvent event) {
         try {
             RouteEntity routeEntityToDelete = (RouteEntity) event.getComponent().getAttributes().get("routeEntityToDelete");
@@ -72,10 +95,10 @@ public class RouteManagementManagedBean implements Serializable {
             routeEntities.remove(routeEntityToDelete);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Route deleted successfully (Route ID: " + routeEntityToDelete.getRouteId() + ")", null));
         } catch (Exception ex) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting the route: " + ex.getMessage(), null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while deleting the route: " + ex.getMessage(), null));
         }
     }
-    
+
     public List<RouteEntity> getRouteEntities() {
         return routeEntities;
     }
@@ -92,23 +115,28 @@ public class RouteManagementManagedBean implements Serializable {
         this.newRouteEntity = newRouteEntity;
     }
 
-    public List<Enum> getAvailableRouteRatings() {
+    public List<RouteRatingEnum> getAvailableRouteRatings() {
         return availableRouteRatings;
     }
 
-    public void setAvailableRouteRatings(List<Enum> availableRouteRatings) {
+    public void setAvailableRouteRatings(List<RouteRatingEnum> availableRouteRatings) {
         this.availableRouteRatings = availableRouteRatings;
     }
-    
-    
 
-    public Enum getNewRouteRatingCreate() {
-        return newRouteRatingCreate;
+    public RouteEntity getRouteEntityToView() {
+        return routeEntityToView;
     }
 
-    public void setNewRouteRatingCreate(RouteRatingEnum newRouteRatingCreate) {
-        this.newRouteRatingCreate = newRouteRatingCreate;
+    public void setRouteEntityToView(RouteEntity routeEntityToView) {
+        this.routeEntityToView = routeEntityToView;
     }
 
-   
+    public RouteEntity getRouteEntityToUpdate() {
+        return routeEntityToUpdate;
+    }
+
+    public void setRouteEntityToUpdate(RouteEntity routeEntityToUpdate) {
+        this.routeEntityToUpdate = routeEntityToUpdate;
+    }
+
 }
