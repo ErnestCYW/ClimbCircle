@@ -5,8 +5,8 @@
         <param-value>Production</param-value>
     </context-param>
     <context-param>
-        <param-name> primefaces.THEME </param-name>
-        <param-value> blitzer </param-value>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>blitzer</param-value>
     </context-param>
     <listener>
         <description>ServletContextListener</description>

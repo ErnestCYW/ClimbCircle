@@ -7,11 +7,14 @@ package entity;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
@@ -30,20 +33,25 @@ public class GymSlot implements Serializable {
     private LocalTime endTime;
     private Date date;
     
-    @ManyToOne
+    @ManyToOne(optional = false)
     private GymEntity gymEntity;
+    
+    @ManyToMany(mappedBy="gymSlots")
+    private List<Customer> customers;
     
 
     public GymSlot() {
         this.startTime = LocalTime.parse("09:00");
         this.endTime = LocalTime.parse("10:00");
         this.vacancies = 10;
+        this.customers = new ArrayList<>();
     }
 
     public GymSlot(Integer vacancies, LocalTime startTime, LocalTime endTime) {
         this.vacancies = vacancies;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.customers = new ArrayList<>();
     }
 
     public GymSlot(Integer vacancies, LocalTime startTime, LocalTime endTime, Date date) {
@@ -51,6 +59,7 @@ public class GymSlot implements Serializable {
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;
+        this.customers = new ArrayList<>();
     }
 
     public Long getGymSlotId() {
@@ -154,6 +163,20 @@ public class GymSlot implements Serializable {
      */
     public void setGymEntity(GymEntity gymEntity) {
         this.gymEntity = gymEntity;
+    }
+
+    /**
+     * @return the customers
+     */
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    /**
+     * @param customers the customers to set
+     */
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 
 

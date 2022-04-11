@@ -20,7 +20,7 @@ public interface GymSlotSessionBeanLocal {
 
     public Long createNewGymSlot(String username, GymSlot newGymSlot);
 
-    public List<GymSlot> retrieveAllGymSlots();
+    public List<GymSlot> retrieveGymSlotsByGym(GymEntity gym);
 
     public GymSlot retrieveGymSlotById(Long gymSlotId);
 

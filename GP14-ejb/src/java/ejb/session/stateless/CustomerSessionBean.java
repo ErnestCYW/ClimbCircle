@@ -41,7 +41,9 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
         query.setParameter("username", username);
         
         try {
-            return (Customer)query.getSingleResult();
+            Customer customer = (Customer)query.getSingleResult();
+            customer.getGymSlots().size();
+            return customer;
         } catch (NoResultException ex) {
             throw new CustomerNotFoundException("Customer does not exist");
         }

@@ -41,8 +41,13 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
     public List<GymEntity> retrieveAllGyms() {
 
         Query query = em.createQuery("SELECT g FROM GymEntity g");
+        List<GymEntity> gymEntities = query.getResultList();
+        
+        for (GymEntity gymEntity : gymEntities) {
+            gymEntity.getGymSlots().size();
+        }
 
-        return query.getResultList();
+        return gymEntities;
 
     }
 
@@ -52,7 +57,9 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
         query.setParameter("username", username);
 
         try {
-            return (GymEntity) query.getSingleResult();
+            GymEntity gymEntity = (GymEntity) query.getSingleResult();
+            gymEntity.getGymSlots().size();
+            return gymEntity;
         } catch (NoResultException ex) {
             throw new GymEntityNotFoundException("Gym does not exist");
         }
@@ -65,7 +72,7 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
 
         if (gymEntity != null) {
 
-//            gymEntity.getGymSlots();
+            gymEntity.getGymSlots().size();
 //            gymEntity.getRouteReviews();
             return gymEntity;
 

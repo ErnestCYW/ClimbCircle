@@ -50,15 +50,24 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
     }
     
     @Override
-    public List<GymSlot> retrieveAllGymSlots() {
-        Query query = em.createQuery("SELECT g FROM GymSlot g");
+    public List<GymSlot> retrieveGymSlotsByGym(GymEntity gym) {
+        Query query = em.createQuery("SELECT g FROM GymSlot g WHERE g.gymEntity = :gym");
+        query.setParameter("gym", gym);
+        List<GymSlot> gymSlots = query.getResultList();
+        
+        for (GymSlot gymSlot : gymSlots) {
+            gymSlot.getCustomers().size();
+        }
         
         return query.getResultList();
     }
     
     @Override
     public GymSlot retrieveGymSlotById(Long gymSlotId) {
-        return em.find(GymSlot.class, gymSlotId);
+        GymSlot gymSlot = em.find(GymSlot.class, gymSlotId);
+        gymSlot.getCustomers().size();
+        
+        return gymSlot;
     }
     
     @Override
@@ -68,7 +77,7 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
         List<GymSlot> gymSlots = query.getResultList();
         
         for (GymSlot gymSlot : gymSlots) {
-            gymSlot.getGymEntity();
+            gymSlot.getCustomers().size();
         }
         
         return gymSlots;
