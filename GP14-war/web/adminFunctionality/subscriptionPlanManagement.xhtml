@@ -157,22 +157,10 @@
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="costPerGymAccess" value="Cost Per Gym Access: " style="font-weight: bold;" />
+                                <p:outputLabel for="price" value="Price: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="costPerGymAccess" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.costPerGymAccess}" placeholder="" required="true" requiredMessage="Cost per gym access is required" />
-                            </p:column>
-                            <p:column>
-                                &nbsp;
-                            </p:column>
-                        </p:row>
-
-                        <p:row>
-                            <p:column>
-                                <p:outputLabel for="fee" value="Suscription Plan Fee: " style="font-weight: bold;" />
-                            </p:column>
-                            <p:column>
-                                <p:inputText id="fee" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.fee}" placeholder="" required="true" requiredMessage="Suscription plan fee is required" />
+                                <p:inputText id="price" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.price}" placeholder="" required="true" requiredMessage="Price is required" />
                             </p:column>
                             <p:column>
                                 &nbsp;
@@ -181,10 +169,22 @@
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="numOfMonthlyAccess" value="Number of Monthly Access: " style="font-weight: bold;" />
+                                <p:outputLabel for="numOfPasses" value="Number of passes: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="numOfMonthlyAccess" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.numOfMonthlyAccess}" placeholder="" required="true" requiredMessage="Number of monthly access is required" />
+                                <p:inputText id="numOfPasses" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.numOfPasses}" placeholder="" required="true" requiredMessage="Number of passes is required" />
+                            </p:column>
+                            <p:column>
+                                &nbsp;
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="validity" value="Validity Duration (In months): " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="validity" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.validity}" placeholder="" required="true" requiredMessage="Validity period is required" />
                             </p:column>
                             <p:column>
                                 &nbsp;
