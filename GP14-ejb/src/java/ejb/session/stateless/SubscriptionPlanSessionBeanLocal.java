@@ -9,6 +9,7 @@ import entity.GymEntity;
 import entity.SubscriptionPlanEntity;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.SubscriptionPlanEntityNotFoundException;
 
 /**
  *
@@ -19,12 +20,14 @@ public interface SubscriptionPlanSessionBeanLocal {
 
     public Long createNewPlan(SubscriptionPlanEntity newSubscriptionPlanEntity);
 
-    public SubscriptionPlanEntity retrievePlanByName(String name);
+    public SubscriptionPlanEntity retrievePlanByName(String name) throws SubscriptionPlanEntityNotFoundException;
 
     public List<SubscriptionPlanEntity> retrieveAllPlans();
 
-    public SubscriptionPlanEntity retrievePlanById(Long id);
+    public SubscriptionPlanEntity retrievePlanById(Long id) throws SubscriptionPlanEntityNotFoundException;
 
-    public void deletePlan(Long id);
+    public void deletePlan(Long id) throws SubscriptionPlanEntityNotFoundException;
+
+    public void updatePlan(SubscriptionPlanEntity subscriptionPlanEntity) throws SubscriptionPlanEntityNotFoundException;
     
 }

@@ -23,7 +23,7 @@ public class SubscriptionPlanEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
+    private Long subscriptionPlanId; 
     private String name;
     private float price;
     private int numOfPasses;
@@ -43,29 +43,30 @@ public class SubscriptionPlanEntity implements Serializable {
         this.validity = validity;
     }
    
-    public Long getId() {
-        return id;
+  
+    public Long getSubscriptionPlanId() {
+        return subscriptionPlanId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSubscriptionPlanId(Long subscriptionPlanId) {
+        this.subscriptionPlanId = subscriptionPlanId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (subscriptionPlanId != null ? subscriptionPlanId.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
+        // TODO: Warning - this method won't work in the case the subscriptionPlanId fields are not set
         if (!(object instanceof SubscriptionPlanEntity)) {
             return false;
         }
         SubscriptionPlanEntity other = (SubscriptionPlanEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.subscriptionPlanId == null && other.subscriptionPlanId != null) || (this.subscriptionPlanId != null && !this.subscriptionPlanId.equals(other.subscriptionPlanId))) {
             return false;
         }
         return true;
@@ -73,7 +74,7 @@ public class SubscriptionPlanEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.SubscriptionPlanEntity[ id=" + id + " ]";
+        return "entity.SubscriptionPlanEntity[ id=" + subscriptionPlanId + " ]";
     }
 
     public String getName() {

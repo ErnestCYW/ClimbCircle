@@ -84,7 +84,7 @@ public class GymManagementManagedBean implements Serializable {
             newGymEntity = new GymEntity();
             selectedFacilitiesCreate = new ArrayList<>(); // can't use .clear() here
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New product created successfully (Product ID: " + gymIdCreated + ")", null));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New gym created successfully (Gym ID: " + gymIdCreated + ")", null));
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while creating the new product: " + ex.getMessage(), null));
         }

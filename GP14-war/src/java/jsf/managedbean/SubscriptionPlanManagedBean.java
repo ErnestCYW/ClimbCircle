@@ -15,6 +15,7 @@ import javax.inject.Named;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import util.exception.SubscriptionPlanEntityNotFoundException;
 
 /**
  *
@@ -27,9 +28,7 @@ public class SubscriptionPlanManagedBean implements Serializable {
     @EJB(name = "SubscriptionPlanSessionBeanLocal")
     private SubscriptionPlanSessionBeanLocal subscriptionPlanSessionBeanLocal;
 
-    @Inject
-    private ViewSubscriptionPlanManagedBean viewSubscriptionPlanManagedBean;
-
+    
     private SubscriptionPlanEntity newSubscriptionPlanEntity;
     private List<SubscriptionPlanEntity> subscriptionPlans;
 
@@ -57,9 +56,9 @@ public class SubscriptionPlanManagedBean implements Serializable {
 
     }
 
-    public void deletePlan(ActionEvent event) {
+    public void deletePlan(ActionEvent event) throws SubscriptionPlanEntityNotFoundException{
         SubscriptionPlanEntity subscriptionPlanEntityToDelete = (SubscriptionPlanEntity) event.getComponent().getAttributes().get("subscriptionPlanEntityToDelete");
-        subscriptionPlanSessionBeanLocal.deletePlan(subscriptionPlanEntityToDelete.getId());
+        subscriptionPlanSessionBeanLocal.deletePlan(subscriptionPlanEntityToDelete.getSubscriptionPlanId());
 
         subscriptionPlans.remove(subscriptionPlanEntityToDelete);
     }
@@ -80,12 +79,8 @@ public class SubscriptionPlanManagedBean implements Serializable {
         this.subscriptionPlans = subscriptionPlans;
     }
 
-    public ViewSubscriptionPlanManagedBean getViewSubscriptionPlanManagedBean() {
-        return viewSubscriptionPlanManagedBean;
-    }
 
-    public void setViewSubscriptionPlanManagedBean(ViewSubscriptionPlanManagedBean viewSubscriptionPlanManagedBean) {
-        this.viewSubscriptionPlanManagedBean = viewSubscriptionPlanManagedBean;
-    }
+
+   
 
 }
