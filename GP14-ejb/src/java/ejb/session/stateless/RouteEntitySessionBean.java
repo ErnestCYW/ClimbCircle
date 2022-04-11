@@ -5,8 +5,10 @@
  */
 package ejb.session.stateless;
 
+import com.sun.org.apache.bcel.internal.classfile.EnumElementValue;
 import entity.RouteEntity;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -14,6 +16,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.RouteRatingEnum;
+import util.exception.DeleteRouteException;
+import util.exception.RouteNotFoundException;
 
 /**
  *
@@ -38,11 +42,16 @@ public class RouteEntitySessionBean implements RouteEntitySessionBeanLocal {
     }
 
     @Override
-    public RouteEntity retrieveRouteByRouteId(Long routeId) {
-        Query query = em.createQuery("SELECT r FROM RouteEntity r WHERE r.routeID =: routeID");
-        query.setParameter("routeId", routeId);
+    public RouteEntity retrieveRouteByRouteId(Long routeId) throws RouteNotFoundException {
 
-        return (RouteEntity) query.getSingleResult();
+        RouteEntity routeEntity = em.find(RouteEntity.class, routeId);
+
+        if (routeEntity != null) {
+            return routeEntity;
+        } else {
+            throw new RouteNotFoundException("Route ID " + routeId + " does not exist!");
+        }
+
     }
 
     @Override
@@ -59,14 +68,35 @@ public class RouteEntitySessionBean implements RouteEntitySessionBeanLocal {
     }
 
     @Override
-    public void deleteRoute(Long routeId) {
+    public void deleteRoute(Long routeId) throws RouteNotFoundException {
         RouteEntity routeEntityToRemove = retrieveRouteByRouteId(routeId);
         em.remove(routeEntityToRemove);
     }
-    
+
     @Override
-    public List<Enum> retrieveAllRouteRatings() {
-        List<Enum> allRouteRatings = new ArrayList<>(EnumSet.allOf(RouteRatingEnum.class));
+    public List<RouteRatingEnum> retrieveAllRouteRatings() {
+        RouteRatingEnum[] allRouteRatingsArray = RouteRatingEnum.values();
+        List<RouteRatingEnum> allRouteRatings = Arrays.asList(allRouteRatingsArray);
         return allRouteRatings;
+    }
+
+    @Override
+    public void updateRoute(RouteEntity routeEntity) throws RouteNotFoundException {
+
+        if (routeEntity != null && routeEntity.getRouteId() != null) {
+
+            RouteEntity routeEntityToUpdate = retrieveRouteByRouteId(routeEntity.getRouteId());
+            
+            routeEntityToUpdate.setRouteName(routeEntity.getRouteName());
+            routeEntityToUpdate.setDescription(routeEntity.getDescription());
+            routeEntityToUpdate.setRouteRating(routeEntity.getRouteRating());
+            routeEntityToUpdate.setRouteImageURL(routeEntity.getRouteImageURL());
+            routeEntityToUpdate.setColor(routeEntity.getColor());
+            routeEntityToUpdate.setLocation(routeEntity.getLocation());
+        
+        } else {
+            throw new RouteNotFoundException("Route ID not provided for route to be updated");
+        }
+
     }
 }

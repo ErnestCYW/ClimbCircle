@@ -25,7 +25,6 @@ public class RouteEntity implements Serializable {
     private Long routeId;
     private String routeName;
     private String description;
-    private Double popularity;
     private RouteRatingEnum routeRating;
     private String routeImageURL;
     private String location;
@@ -34,11 +33,10 @@ public class RouteEntity implements Serializable {
     public RouteEntity() {
     }
 
-    public RouteEntity(String routeName, String description, Double popularity, RouteRatingEnum routeRating, String routeImageURL, String location, String color) {
+    public RouteEntity(String routeName, String description, RouteRatingEnum routeRating, String routeImageURL, String location, String color) {
         this();
         this.routeName = routeName;
         this.description = description;
-        this.popularity = popularity;
         this.routeRating = routeRating;
         this.routeImageURL = routeImageURL;
         this.location = location;
@@ -92,14 +90,6 @@ public class RouteEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Double getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(Double popularity) {
-        this.popularity = popularity;
     }
 
     public RouteRatingEnum getRouteRating() {

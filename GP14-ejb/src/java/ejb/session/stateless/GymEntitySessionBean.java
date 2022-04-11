@@ -147,7 +147,7 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
 
         } else {
             
-            throw new GymEntityNotFoundException("Gym ID not provided for product to be updated");
+            throw new GymEntityNotFoundException("Gym ID not provided for gym to be updated");
         }
         
 
