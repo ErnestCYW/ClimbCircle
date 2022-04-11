@@ -71,7 +71,7 @@ public class DataInitSessionBean {
         }
 
         if (em.find(SubscriptionPlanEntity.class, 1L) == null) {
-            subscriptionPlanSessionBeanLocal.createNewPlan(new SubscriptionPlanEntity("Premium", 3, 20.0, 90.0));
+            subscriptionPlanSessionBeanLocal.createNewPlan(new SubscriptionPlanEntity("Premium", 100, 20, 1));
         }
         
         if (em.find(Customer.class, 1L) == null) {

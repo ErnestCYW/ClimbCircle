@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -34,6 +35,9 @@ public class Customer implements Serializable {
     
     @OneToMany(mappedBy="customer")
     private List<Booking> bookings;
+    
+    @ManyToOne
+    private SubscriptionPlanEntity subscriptionPlan;
 
     public Customer() {
         bookings = new ArrayList<>();
@@ -149,6 +153,22 @@ public class Customer implements Serializable {
      */
     public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public SubscriptionPlanEntity getSubscriptionPlan() {
+        return subscriptionPlan;
+    }
+
+    public void setSubscriptionPlan(SubscriptionPlanEntity subscriptionPlan) {
+        this.subscriptionPlan = subscriptionPlan;
     }
     
 }

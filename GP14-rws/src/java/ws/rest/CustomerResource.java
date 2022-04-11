@@ -7,14 +7,18 @@ package ws.rest;
 
 import ejb.session.stateless.CustomerSessionBeanLocal;
 import entity.Customer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
@@ -30,7 +34,7 @@ import javax.ws.rs.core.Response.Status;
 @Path("Customer")
 public class CustomerResource {
 
-    CustomerSessionBeanLocal customerSessionBean = lookupCustomerSessionBeanLocal();
+    CustomerSessionBeanLocal customerSessionBeanLocal = lookupCustomerSessionBeanLocal();
 
     @Context
     private UriInfo context;
@@ -46,7 +50,7 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
         try {
-            Customer customer = customerSessionBean.login(username, password);
+            Customer customer = customerSessionBeanLocal.login(username, password);
 
             GenericEntity<Customer> genericEntity = new GenericEntity<Customer>(customer) {
             };
@@ -54,6 +58,19 @@ public class CustomerResource {
             return Response.status(Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
+        }
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createCustomer(Customer newCustomer) {
+        if (newCustomer != null) {
+            Long id = customerSessionBeanLocal.createNewCustomer(newCustomer);
+            return Response.status(Response.Status.OK).entity(id).build();
+
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Customer exists! Invalid customer creation request!").build();
         }
     }
 

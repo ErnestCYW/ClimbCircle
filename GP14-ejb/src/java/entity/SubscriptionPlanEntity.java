@@ -6,10 +6,12 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -23,21 +25,24 @@ public class SubscriptionPlanEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; 
     private String name;
-    private int numOfMonthlyAccess;
-    private double fee;
-    private double costPerGymAccess;
+    private float price;
+    private int numOfPasses;
+    private int validity;
+    
+    @OneToMany
+    private List<Customer> customers;
+    
 
     public SubscriptionPlanEntity() {
     }
 
-    public SubscriptionPlanEntity(String subscriptionPlanName, int numOfMonthlyAccess, double fee, double costPerGymAccess) {
-        this.name = subscriptionPlanName;
-        this.numOfMonthlyAccess = numOfMonthlyAccess;
-        this.fee = fee;
-        this.costPerGymAccess = costPerGymAccess;
+    public SubscriptionPlanEntity(String name, float price, int numOfPasses, int validity) {
+        this.name = name;
+        this.price = price;
+        this.numOfPasses = numOfPasses;
+        this.validity = validity;
     }
    
-  
     public Long getId() {
         return id;
     }
@@ -79,28 +84,36 @@ public class SubscriptionPlanEntity implements Serializable {
         this.name = name;
     }
 
-    public int getNumOfMonthlyAccess() {
-        return numOfMonthlyAccess;
+    public float getPrice() {
+        return price;
     }
 
-    public void setNumOfMonthlyAccess(int numOfMonthlyAccess) {
-        this.numOfMonthlyAccess = numOfMonthlyAccess;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
-    public double getFee() {
-        return fee;
+    public int getNumOfPasses() {
+        return numOfPasses;
     }
 
-    public void setFee(double fee) {
-        this.fee = fee;
+    public void setNumOfPasses(int numOfPasses) {
+        this.numOfPasses = numOfPasses;
     }
 
-    public double getCostPerGymAccess() {
-        return costPerGymAccess;
+    public int getValidity() {
+        return validity;
     }
 
-    public void setCostPerGymAccess(double costPerGymAccess) {
-        this.costPerGymAccess = costPerGymAccess;
+    public void setValidity(int validity) {
+        this.validity = validity;
+    }
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
     
 }
