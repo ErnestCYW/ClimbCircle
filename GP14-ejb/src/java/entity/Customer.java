@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 
 /**
@@ -31,9 +33,12 @@ public class Customer implements Serializable {
     private String email;
     private Integer numOfPassesLeft;
     private Date expiryDate;
-    
+
     @ManyToMany
     private List<GymSlot> gymSlots;
+
+    @ManyToOne
+    private SubscriptionPlanEntity subscriptionPlan;
 
     public Customer() {
         gymSlots = new ArrayList<>();
@@ -163,6 +168,15 @@ public class Customer implements Serializable {
      */
     public void setGymSlots(List<GymSlot> gymSlots) {
         this.gymSlots = gymSlots;
+
     }
-    
+
+    public SubscriptionPlanEntity getSubscriptionPlan() {
+        return subscriptionPlan;
+    }
+
+    public void setSubscriptionPlan(SubscriptionPlanEntity subscriptionPlan) {
+        this.subscriptionPlan = subscriptionPlan;
+    }
+
 }

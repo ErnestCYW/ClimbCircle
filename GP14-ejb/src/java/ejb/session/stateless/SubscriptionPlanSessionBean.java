@@ -74,9 +74,9 @@ public class SubscriptionPlanSessionBean implements SubscriptionPlanSessionBeanL
             SubscriptionPlanEntity subscriptionPlanEntityToUpdate = retrievePlanById(subscriptionPlanEntity.getSubscriptionPlanId());
 
             subscriptionPlanEntityToUpdate.setName(subscriptionPlanEntity.getName());
-            subscriptionPlanEntityToUpdate.setNumOfMonthlyAccess(subscriptionPlanEntity.getNumOfMonthlyAccess());
-            subscriptionPlanEntityToUpdate.setFee(subscriptionPlanEntity.getFee());
-            subscriptionPlanEntityToUpdate.setCostPerGymAccess(subscriptionPlanEntity.getCostPerGymAccess());
+            subscriptionPlanEntityToUpdate.setPrice(subscriptionPlanEntity.getPrice());
+            subscriptionPlanEntityToUpdate.setNumOfPasses(subscriptionPlanEntity.getNumOfPasses());
+            subscriptionPlanEntityToUpdate.setValidity(subscriptionPlanEntity.getValidity());
 
         } else {
             throw new SubscriptionPlanEntityNotFoundException("Subscription Plan ID not provided for product to be updated");
