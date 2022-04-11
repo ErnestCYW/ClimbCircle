@@ -7,7 +7,7 @@ package ws.rest;
 
 import ejb.session.stateless.CustomerSessionBeanLocal;
 import entity.Customer;
-import java.util.ArrayList;
+import entity.GymSlot;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +51,13 @@ public class CustomerResource {
     public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
         try {
             Customer customer = customerSessionBeanLocal.login(username, password);
+            
+            customer.getSubscriptionPlan().getCustomers().clear();
+            
+            List<GymSlot> gymSlots = customer.getGymSlots();
+            for (GymSlot gymSlot : gymSlots) {
+                gymSlot.getCustomers().clear();
+            }
 
             GenericEntity<Customer> genericEntity = new GenericEntity<Customer>(customer) {
             };
