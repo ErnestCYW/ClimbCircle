@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+
+        <div>
+            <h3>Subscription Plan</h3>
+            <h:form>
+                <p:menubar>
+                    <p:submenu label="File" icon="ui-icon-document">
+                        <p:menuitem value="Create New Subscription Plan" onclick="PF('dialogCreateNewSubscriptionPlan').show()" icon="pi pi-plus"/>
+                    </p:submenu>
+                </p:menubar>
+                <br/>
+            </h:form>
+
+
+            <h:form id="formAllSubscriptionPlans">
+                <p:messages id="messages" redisplay="false" closable="true"/>
+                <p:dataTable id="dataTableAllSubscriptionPlans" widgetVar="dataTableAllSubscriptionPlans" value="#{subscriptionPlanManagementManagedBean.subscriptionPlans}" var="subscriptionPlanEntity" rowKey="#{subscriptionPlanEntity.subscriptionPlanId}" rowIndexVar="row" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                    <p:column headerText="Subscription Plan ID" sortBy="#{subscriptionPlanEntity.subscriptionPlanId}" filterBy="#{subscriptionPlanEntity.subscriptionPlanId}" filterMatchMode="contains">
+                        <h:outputText value="#{subscriptionPlanEntity.subscriptionPlanId}"/>
+                    </p:column>
+
+                    <p:column headerText="Name of Subscription Plan" sortBy="#{subscriptionPlanEntity.name}" filterBy="#{subscriptionPlanEntity.name}" filterMatchMode="contains">
+                        <h:outputText value="#{subscriptionPlanEntity.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Cost Per Gym Access" sortBy="#{subscriptionPlanEntity.costPerGymAccess}" filterBy="#{subscriptionPlanEntity.costPerGymAccess}" filterMatchMode="contains">
+                        <h:outputText value="#{subscriptionPlanEntity.costPerGymAccess}"/>
+                    </p:column>
+
+                    <p:column headerText="Subscription Plan Fee" sortBy="#{subscriptionPlanEntity.fee}" filterBy="#{subscriptionPlanEntity.fee}" filterMatchMode="contains">
+                        <h:outputText value="#{subscriptionPlanEntity.fee}"/>
+                    </p:column>
+
+                    <p:column headerText="Number of Monthly Access" sortBy="#{subscriptionPlanEntity.numOfMonthlyAccess}" filterBy="#{subscriptionPlanEntity.numOfMonthlyAccess}" filterMatchMode="contains">
+                        <h:outputText value="#{subscriptionPlanEntity.numOfMonthlyAccess}"/>
+                    </p:column>
+
+                    <p:column headerText="Action">
+                        <p:commandButton actionListener="#{subscriptionPlanManagementManagedBean.doUpdatePlan}" update="formUpdateSubscriptionPlan" oncomplete="PF('dialogUpdateSubscriptionPlan').show()" icon="ui-icon-pencil" title="Update">
+                            <f:attribute name="subscriptionPlanEntityToUpdate" value="#{subscriptionPlanEntity}"/>
+                        </p:commandButton>
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{subscriptionPlanManagementManagedBean.deletePlan}" update="formAllSubscriptionPlans:dataTableAllSubscriptionPlans formAllSubscriptionPlans:messages">
+                            <f:attribute name="subscriptionPlanEntityToDelete" value="#{subscriptionPlanEntity}"/>
+                            <p:confirm header="Confirmation" message="Are you sure you want to delete #{subscriptionPlanEntity.name} (id: #{subscriptionPlanEntity.subscriptionPlanId})?" icon="ui-icon-alert"/>
+                        </p:commandButton>
+                    </p:column>
+
+
+                </p:dataTable>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+
+            </h:form>
+
+            <h:form id="formCreateNewPlan">
+                <p:dialog id="dialogCreateNewSubscriptionPlan" widgetVar="dialogCreateNewSubscriptionPlan" header="Create New Subscription Plan" closable="true">
+                    <p:messages id="messagesCreateNewSubscriptionPlan" redisplay="false"/>
+                    <p:panelGrid>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="name" value="Name of Subscription Plan " style="font-weight: bold;"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="name" value="#{subscriptionPlanManagementManagedBean.newSubscriptionPlanEntity.name}" placeholder="" required="true" requiredMessage="Subscription Plan Name is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="name"/>
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="costPerGymAccess" value="Cost per Gym Access" style="font-weight: bold;"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="costPerGymAccess" value="#{subscriptionPlanManagementManagedBean.newSubscriptionPlanEntity.costPerGymAccess}" placeholder="" required="true" requiredMessage="Cost per Gym Access is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="costPerGymAccess"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="fee" value="Subscription Plan Fee" style="font-weight: bold;"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="fee" value="#{subscriptionPlanManagementManagedBean.newSubscriptionPlanEntity.fee}" placeholder="" required="true" requiredMessage="Subscription Fee is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="fee"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="numOfMonthlyAccess" value="Number of Monthly Access Passes" style="font-weight: bold;"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="numOfMonthlyAccess" value="#{subscriptionPlanManagementManagedBean.newSubscriptionPlanEntity.numOfMonthlyAccess}" placeholder="" required="true" requiredMessage="Number of Monthly Access Passes is required"/>
+                            </p:column>
+                            <p:column>
+                                <p:message for="numOfMonthlyAccess"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton type="reset" value="Clear"/>
+                                <p:commandButton value="Create New Subscription Plan" update="@form formAllSubscriptionPlans:dataTableAllSubscriptionPlans" actionListener="#{subscriptionPlanManagementManagedBean.createNewPlan}" oncomplete="PF('dialogCreateNewSubscriptionPlan').show();"/>
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+                </p:dialog>
+            </h:form>
+
+            <h:form id="formUpdateSubscriptionPlan">
+
+                <p:dialog id="dialogUpdateSubscriptionPlan" widgetVar="dialogUpdateSubscriptionPlan" header="Update Subscription Plan" closable="true">
+
+                    <p:messages id="messagesUpdateSubscriptionPlan" redisplay="false" />
+
+                    <p:panelGrid>
+
+                        <p:row>
+                            <p:column>
+                                <h:outputLabel value="Subscription Package: " />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.subscriptionPlanId}" />
+                            </p:column>
+                            <p:column>
+                                &nbsp;
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="name" value="Name: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="name" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.name}" placeholder="" required="true" requiredMessage="Name is required" />
+                            </p:column>
+                            <p:column>
+                                &nbsp;
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="costPerGymAccess" value="Cost Per Gym Access: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="costPerGymAccess" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.costPerGymAccess}" placeholder="" required="true" requiredMessage="Cost per gym access is required" />
+                            </p:column>
+                            <p:column>
+                                &nbsp;
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="fee" value="Suscription Plan Fee: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="fee" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.fee}" placeholder="" required="true" requiredMessage="Suscription plan fee is required" />
+                            </p:column>
+                            <p:column>
+                                &nbsp;
+                            </p:column>
+                        </p:row>
+
+                        <p:row>
+                            <p:column>
+                                <p:outputLabel for="numOfMonthlyAccess" value="Number of Monthly Access: " style="font-weight: bold;" />
+                            </p:column>
+                            <p:column>
+                                <p:inputText id="numOfMonthlyAccess" value="#{subscriptionPlanManagementManagedBean.subscriptionPlanEntityToUpdate.numOfMonthlyAccess}" placeholder="" required="true" requiredMessage="Number of monthly access is required" />
+                            </p:column>
+                            <p:column>
+                                &nbsp;
+                            </p:column>
+                        </p:row>
+
+
+                        <p:row>
+                            <p:column colspan="3">
+                                <p:commandButton value="Update Subscription Plan" update="@form formAllSubscriptionPlans:dataTableAllSubscriptionPlans" actionListener="#{subscriptionPlanManagementManagedBean.updatePlan}" oncomplete="PF('dialogUpdateSubscriptionPlan').show();" />
+                            </p:column>
+                        </p:row>
+
+                    </p:panelGrid>
+
+                </p:dialog>
+
+            </h:form>
+
+        </div>
+
+    </ui:define>
+</ui:composition>
