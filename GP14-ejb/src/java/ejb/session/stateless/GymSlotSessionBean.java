@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.Customer;
 import entity.GymEntity;
 import entity.GymSlot;
 import java.util.Date;
@@ -16,6 +17,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.exception.CustomerNotFoundException;
 import util.exception.GymEntityNotFoundException;
 
 /**
@@ -25,8 +27,13 @@ import util.exception.GymEntityNotFoundException;
 @Stateless
 public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
 
+    @EJB
+    private CustomerSessionBeanLocal customerSessionBeanLocal;
+
     @EJB(name = "GymEntitySessionBeanLocal")
     private GymEntitySessionBeanLocal gymEntitySessionBeanLocal;
+    
+    
     
     @PersistenceContext(unitName = "GP14-ejbPU")
     private EntityManager em;
@@ -91,6 +98,21 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
         gymSlotToUpdate.setStartTime(gymSlot.getStartTime());
         gymSlotToUpdate.setEndTime(gymSlot.getEndTime());
         gymSlotToUpdate.setVacancies(gymSlot.getVacancies());
+        //gymSlotToUpdate.setCustomers(gymSlot.getCustomers());
+    }
+    
+    @Override
+    public void createBooking(Long gymSlotId, String username) {
+        try {
+            GymSlot gymSlot = retrieveGymSlotById(gymSlotId);
+            Customer customer = customerSessionBeanLocal.retrieveCustomerByUsername(username);
+            gymSlot.setVacancies(gymSlot.getVacancies() - 1);
+            gymSlot.getCustomers().add(customer);
+            customer.getGymSlots().add(gymSlot);
+        } catch (CustomerNotFoundException ex) {
+            
+        }
+        
     }
 
     
