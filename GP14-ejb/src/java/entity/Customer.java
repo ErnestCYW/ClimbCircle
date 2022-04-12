@@ -31,6 +31,7 @@ public class Customer implements Serializable {
     private String password;
     private String email;
     private Integer numOfPassesLeft;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date expiryDate;
 
     @ManyToMany

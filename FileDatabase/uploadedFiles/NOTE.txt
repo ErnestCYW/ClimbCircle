@@ -1,0 +1,3 @@
+To be hosted on external server...
+
+All files must have unique names (CAN BE ENFORCED ON BACKEND OR FRONTEND OR DONE THROUGH UUIDS)

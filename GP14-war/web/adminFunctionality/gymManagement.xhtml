@@ -88,9 +88,9 @@
 
             </h:form>
 
-            <h:form id="formCreateNewGym">
+            <h:form id="formCreateNewGym" enctype="multipart/form-data">
 
-                <p:dialog id="dialogCreateNewGym" widgetVar="dialogCreateNewGym" header="Create New Gym" closable="true">
+                <p:dialog id="dialogCreateNewGym" widgetVar="dialogCreateNewGym" header="Create New Gym" closable="true" closeOnEscape="true" >
 
                     <p:messages id="messagesCreateNewGym" redisplay="false" />
 
@@ -158,10 +158,10 @@
 
                         <p:row>
                             <p:column>
-                                <p:outputLabel for="profilePictureURL" value="Profile Picture URL: " style="font-weight: bold;" />
+                                <p:outputLabel for="profilePictureURL" value="Profile Picture: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="profilePictureURL" value="#{gymManagementManagedBean.newGymEntity.profilePictureURL}" placeholder="" />
+                                <p:fileUpload id ="profilePictureURL" listener="#{gymManagementManagedBean.handleFileUploadCreate}" mode="advanced" auto="true"/>
                             </p:column>
                             <p:column>
                                 <p:message for="profilePictureURL" />
@@ -221,9 +221,9 @@
 
             <ez:ViewGym id="ccViewGym" />
 
-            <h:form id="formUpdateGym">
+            <h:form id="formUpdateGym" enctype="multipart/form-data">
 
-                <p:dialog id="dialogUpdateGym" widgetVar="dialogUpdateGym" header="Update Gym" closable="true">
+                <p:dialog id="dialogUpdateGym" widgetVar="dialogUpdateGym" header="Update Gym" closable="true" closeOnEscape="true">
 
                     <p:messages id="messagesUpdateGym" redisplay="false" />
 
@@ -282,7 +282,7 @@
                                 <p:outputLabel for="password" value="Password: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:password id="password" value="#{gymManagementManagedBean.gymEntityToUpdate.password}" placeholder="" required="true" requiredMessage="Password is required"/>
+                                <p:password id="password" value="#{gymManagementManagedBean.gymEntityToUpdate.password}" placeholder="Leave blank if no change"/>
                             </p:column>
                             <p:column>
                                 &nbsp;
@@ -306,7 +306,7 @@
                                 <p:outputLabel for="profilePictureURL" value="Profile Picture URL: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="profilePictureURL" value="#{gymManagementManagedBean.gymEntityToUpdate.profilePictureURL}" placeholder="" />
+                                <p:fileUpload id ="profilePictureURL" listener="#{gymManagementManagedBean.handleFileUploadUpdate}" mode="advanced" auto="true"/>
                             </p:column>
                             <p:column>
                                 &nbsp;
