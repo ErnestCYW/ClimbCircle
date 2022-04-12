@@ -81,7 +81,8 @@ public class DefaultFilter implements Filter {
     private Boolean excludeLoginCheck(String path) {
         if (path.equals("/index.xhtml")
                 || path.equals("/accessRightError.xhtml")
-                || path.startsWith("/javax.faces.resource")) {
+                || path.startsWith("/javax.faces.resource")
+                || path.startsWith("/uploadedFiles")) {
             return true;
         } else {
             return false;

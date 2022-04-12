@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -31,6 +32,7 @@ public class Customer implements Serializable {
     private String password;
     private String email;
     private Integer numOfPassesLeft;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date expiryDate;
 
     @ManyToMany
