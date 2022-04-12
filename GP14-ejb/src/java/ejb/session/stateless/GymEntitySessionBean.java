@@ -141,6 +141,7 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
             gymEntityToUpdate.setGymName(gymEntity.getGymName());
             gymEntityToUpdate.setFranchise(gymEntity.getFranchise());
             gymEntityToUpdate.setAddress(gymEntity.getAddress());
+            gymEntityToUpdate.setProfilePictureURL(gymEntity.getProfilePictureURL());
             gymEntityToUpdate.setOperatingHours(gymEntity.getOperatingHours());
             gymEntityToUpdate.setContactNumber(gymEntity.getContactNumber());
             gymEntityToUpdate.setFacilities(gymEntity.getFacilities());
