@@ -64,6 +64,8 @@ public class RouteManagementManagedBean implements Serializable {
             Long newRouteId = routeEntitySessionBeanLocal.createNewRoute(newRouteEntity);
 
             routeEntities.add(newRouteEntity);
+            
+            newRouteEntity = new RouteEntity();
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New route created successfully (Route ID: " + newRouteId + ")", null));
         } catch (Exception ex) {

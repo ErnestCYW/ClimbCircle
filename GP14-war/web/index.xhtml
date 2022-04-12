@@ -5,13 +5,15 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
-                template="./template/defaultTemplate.xhtml">
+                template="./template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
     <ui:define name="content">
-        
+
         <h1>Climb Circle</h1>
-        
+
         <br></br>
-        
+
         <h:panelGroup rendered="#{sessionScope.isLogin == false}">
 
             <h:form id="loginForm">
@@ -46,11 +48,254 @@
         </h:panelGroup>
 
         <h:panelGroup rendered="#{sessionScope.isLogin == true}">
-                <h:outputText value="You are login as #{sessionScope.currentUser.username}" />&nbsp;
+            <h:outputText value="You are login as #{sessionScope.currentUser.username}" />&nbsp;
         </h:panelGroup>
-        
-        
+
+        <br/><br/>
+        <h:panelGroup rendered="#{sessionScope.usertype.equals('Partner Gym')}">
+
+            <h:form id="formViewDetails">
+
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Gym ID: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sessionScope.currentUser.gymId}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Username: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sessionScope.currentUser.username}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Gym Name: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sessionScope.currentUser.gymName}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Franchise: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sessionScope.currentUser.franchise}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Address: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sessionScope.currentUser.address}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Operating Hours: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sessionScope.currentUser.operatingHours}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Contact Number: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{sessionScope.currentUser.contactNumber}" />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Facilities: " />
+                        </p:column>
+                        <p:column>
+                            <p:dataList value="#{sessionScope.currentUser.facilities}" var="facility" type="unordered">
+                                #{facility}
+                            </p:dataList>
+                        </p:column>
+                    </p:row>
+
+                    <!--kinda broken-->
+                    <!--<p:row>
+                        <p:column>
+                            <h:outputLabel value="Action" />
+                        </p:column>
+                        <p:column>
+                            <p:commandButton actionListener="#{gymManagementManagedBean.doUpdateGym}" update="formUpdateGym" oncomplete="PF('dialogUpdateGym').show()" icon="ui-icon-pencil" title="Update">
+                                <f:setPropertyActionListener value="#{gymEntity}" target="#{gymManagementManagedBean.gymEntityToView}" />
+                                <f:attribute name="gymEntityToUpdate" value="#{gymEntity}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:row>-->
+
+
+
+                </p:panelGrid>
+
+            </h:form>
+
+        </h:panelGroup>
+
+<!--        <h:form id="formUpdateGym">
+
+            <p:dialog id="dialogUpdateGym" widgetVar="dialogUpdateGym" header="Update Gym" closable="true">
+
+                <p:messages id="messagesUpdateGym" redisplay="false" />
+
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="User: " />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{gymManagementManagedBean.gymEntityToView.gymId}" />
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="username" value="Username: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="username" value="#{gymManagementManagedBean.gymEntityToView.username}" placeholder="Username" required="true" requiredMessage="Username is required" />
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="gymName" value="Gym Name: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="gymName" value="#{gymManagementManagedBean.gymEntityToView.gymName}" placeholder="Gym Name" required="true" requiredMessage="Gym name is required" />
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="franchise" value="Franchise: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="franchise" value="#{gymManagementManagedBean.gymEntityToView.franchise}" placeholder="Franchise" required="true" requiredMessage="Franchise is required" />
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="password" value="Password: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:password id="password" value="#{gymManagementManagedBean.gymEntityToView.password}" placeholder="" required="true" requiredMessage="Password is required"/>
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="address" value="Address: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="address" value="#{gymManagementManagedBean.gymEntityToView.address}" placeholder="Address" required="true" requiredMessage="Address is required"/>
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="profilePictureURL" value="Profile Picture URL: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="profilePictureURL" value="#{gymManagementManagedBean.gymEntityToView.profilePictureURL}" placeholder="" />
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="operatingHours" value="Operating Hours: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="operatingHours" value="#{gymManagementManagedBean.gymEntityToView.operatingHours}" placeholder="Start Day - End Day XXam to XXpm" required="true" requiredMessage="Operating hours is required"/>
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>                        
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="contactNumber" value="Contact Number: " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="contactNumber" value="#{gymManagementManagedBean.gymEntityToView.contactNumber}" placeholder="+65 XXXX XXXX" required="true" requiredMessage="Contact Number is required"/>
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel for="selFacilities" value="Facilities(s) " style="font-weight: bold;" />
+                        </p:column>
+                        <p:column>
+                            <p:selectManyMenu id="selFacilities" value="#{gymManagementManagedBean.gymEntityToView.facilities}" showCheckbox="true">
+                                <f:selectItems value="#{gymManagementManagedBean.gymEntityToView.facilities}" var="facility" itemValue="#{facility}" itemLabel="#{facility}" />
+                            </p:selectManyMenu>
+                        </p:column>
+                        <p:column>
+                            &nbsp;
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="3">
+                            <p:commandButton value="Update Gym" update="@form formViewDetails" actionListener="#{gymManagementManagedBean.updateGym}" oncomplete="PF('dialogUpdateGym').show();" />
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+
+            </p:dialog>
+
+        </h:form>-->
+
     </ui:define>
-        
+
 </ui:composition>
 
