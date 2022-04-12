@@ -27,5 +27,7 @@ public interface GymSlotSessionBeanLocal {
     public List<GymSlot> retrieveGymSlotsByDate(Date date, GymEntity gym);
 
     public void updateGymSlot(GymSlot gymSlot);
+
+    public void createBooking(Long gymSlotId, String username);
     
 }

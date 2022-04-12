@@ -52,11 +52,14 @@ public class CustomerResource {
         try {
             Customer customer = customerSessionBeanLocal.login(username, password);
             
-            customer.getSubscriptionPlan().getCustomers().clear();
+            //customer.getSubscriptionPlan().getCustomers().clear();
+            
+            //customer.getGymSlots().clear();
             
             List<GymSlot> gymSlots = customer.getGymSlots();
             for (GymSlot gymSlot : gymSlots) {
                 gymSlot.getCustomers().clear();
+                gymSlot.setGymEntity(null);
             }
 
             GenericEntity<Customer> genericEntity = new GenericEntity<Customer>(customer) {

@@ -30,7 +30,7 @@ public class SubscriptionPlanEntity implements Serializable {
     private int numOfPasses;
     private int validity;
     
-    @OneToMany
+    @OneToMany(mappedBy="subscriptionPlan")
     private List<Customer> customers;
     
 

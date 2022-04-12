@@ -17,4 +17,22 @@
         <local>ejb.session.stateless.GymSlotSessionBeanLocal</local>
         <ejb-link>GP14-ejb.jar#GymSlotSessionBean</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>GymSlotSessionBean1</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>ejb.session.stateless.GymSlotSessionBeanLocal</local>
+        <ejb-link>GP14-ejb.jar#GymSlotSessionBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>CustomerSessionBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>ejb.session.stateless.CustomerSessionBeanLocal</local>
+        <ejb-link>GP14-ejb.jar#CustomerSessionBean</ejb-link>
+    </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>GymEntitySessionBean1</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>ejb.session.stateless.GymEntitySessionBeanLocal</local>
+        <ejb-link>GP14-ejb.jar#GymEntitySessionBean</ejb-link>
+    </ejb-local-ref>
 </web-app>
