@@ -41,6 +41,7 @@ public class Customer implements Serializable {
 
     public Customer() {
         gymSlots = new ArrayList<>();
+        subscriptionPlan = new SubscriptionPlanEntity();
     }
 
     public Customer(String username, String password, String email, Integer numOfPassesLeft, Date expiryDate) {
