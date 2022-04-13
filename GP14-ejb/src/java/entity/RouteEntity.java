@@ -6,10 +6,13 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import util.enumeration.RouteRatingEnum;
 
 /**
@@ -29,6 +32,12 @@ public class RouteEntity implements Serializable {
     private String routeImageURL;
     private String location;
     private String color;
+    
+    @ManyToOne(optional = false)
+    private GymEntity gymEntity;
+    
+    @OneToMany(mappedBy = "route")
+    private List<RouteReview> routeReviews;
 
     public RouteEntity() {
     }
@@ -122,6 +131,34 @@ public class RouteEntity implements Serializable {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    /**
+     * @return the gymEntity
+     */
+    public GymEntity getGymEntity() {
+        return gymEntity;
+    }
+
+    /**
+     * @param gymEntity the gymEntity to set
+     */
+    public void setGymEntity(GymEntity gymEntity) {
+        this.gymEntity = gymEntity;
+    }
+
+    /**
+     * @return the routeReviews
+     */
+    public List<RouteReview> getRouteReviews() {
+        return routeReviews;
+    }
+
+    /**
+     * @param routeReviews the routeReviews to set
+     */
+    public void setRouteReviews(List<RouteReview> routeReviews) {
+        this.routeReviews = routeReviews;
     }
 }
     

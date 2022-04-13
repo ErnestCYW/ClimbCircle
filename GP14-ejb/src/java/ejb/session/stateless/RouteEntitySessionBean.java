@@ -56,7 +56,7 @@ public class RouteEntitySessionBean implements RouteEntitySessionBeanLocal {
 
     @Override
     public RouteEntity retrieveRouteByRouteName(String routeName) {
-        Query query = em.createQuery("SELECT r FROM RouteEntity r WHERE r.routeName =: routeName");
+        Query query = em.createQuery("SELECT r FROM RouteEntity r WHERE r.routeName = :routeName");
         query.setParameter("routeName", routeName);
         return (RouteEntity) query.getSingleResult();
     }

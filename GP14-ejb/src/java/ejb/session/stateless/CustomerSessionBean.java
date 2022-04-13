@@ -5,14 +5,12 @@
  */
 package ejb.session.stateless;
 
-import entity.Admin;
 import entity.Customer;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import util.exception.AdminNotFoundException;
 import util.exception.CustomerNotFoundException;
 import util.exception.InvalidLoginCredentialException;
 
@@ -43,6 +41,7 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
         try {
             Customer customer = (Customer)query.getSingleResult();
             customer.getGymSlots().size();
+            customer.getRouteReviews().size();
             return customer;
         } catch (NoResultException ex) {
             throw new CustomerNotFoundException("Customer does not exist");

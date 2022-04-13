@@ -45,10 +45,10 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
         try {
             GymEntity gym = gymEntitySessionBeanLocal.retrieveGymByUsername(username);
             
-            em.persist(newGymSlot);
             gym.getGymSlots().add(newGymSlot);
             newGymSlot.setGymEntity(gym);
             
+            em.persist(newGymSlot);
             em.flush();
             
             return newGymSlot.getGymSlotId();

@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Admin;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -62,6 +63,13 @@ public class AdminSessionBean implements AdminSessionBeanLocal {
         }
         
         
+    }
+    
+    public List<Admin> retrieveAllAdmins() {
+        Query query = em.createQuery("SELECT a FROM Admin a");
+        List<Admin> admins = query.getResultList();
+        
+        return admins;
     }
 
     public void persist(Object object) {

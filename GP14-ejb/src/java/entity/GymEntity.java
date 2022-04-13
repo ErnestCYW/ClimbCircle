@@ -26,23 +26,30 @@ public class GymEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gymId;
     private String username;
-    private String gymName;
-    private String franchise;
     private String password;
+    private String franchise;
+    private String gymName;
     private String address;
     private String profilePictureURL;
     private String operatingHours;
     private String contactNumber;
     private List<Enum> facilities;
-    
-    @OneToMany(mappedBy="gymEntity")
+    private List<String> gymPicturesURL;
+
+    @OneToMany(mappedBy = "gymEntity")
     private List<GymSlot> gymSlots;
+    
+    @OneToMany(mappedBy = "gymEntity")
+    private List<RouteReview> routeReviews;
+    
+    @OneToMany(mappedBy = "gymEntity")
+    private List<RouteEntity> routes;
 
     public GymEntity() {
         facilities = new ArrayList<>();
         gymSlots = new ArrayList<>();
     }
-    
+
     public GymEntity(String username, String gymName, String franchise, String password, String address,
             String profilePictureURL, String operatingHours, String contactNumber, List<Enum> facilities) {
         this();
@@ -56,7 +63,6 @@ public class GymEntity implements Serializable {
         this.contactNumber = contactNumber;
         this.facilities = facilities;
     }
-    
 
     public Long getGymId() {
         return gymId;
@@ -174,8 +180,8 @@ public class GymEntity implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
-    
-        /**
+
+    /**
      * @return the profilePictureURL
      */
     public String getProfilePictureURL() {
@@ -231,5 +237,46 @@ public class GymEntity implements Serializable {
         this.gymSlots = gymSlots;
     }
 
+    /**
+     * @return the gymPicturesURL
+     */
+    public List<String> getGymPicturesURL() {
+        return gymPicturesURL;
+    }
+
+    /**
+     * @param gymPicturesURL the gymPicturesURL to set
+     */
+    public void setGymPicturesURL(List<String> gymPicturesURL) {
+        this.gymPicturesURL = gymPicturesURL;
+    }
+
+    /**
+     * @return the routeReviews
+     */
+    public List<RouteReview> getRouteReviews() {
+        return routeReviews;
+    }
+
+    /**
+     * @param routeReviews the routeReviews to set
+     */
+    public void setRouteReviews(List<RouteReview> routeReviews) {
+        this.routeReviews = routeReviews;
+    }
+
+    /**
+     * @return the routes
+     */
+    public List<RouteEntity> getRoutes() {
+        return routes;
+    }
+
+    /**
+     * @param routes the routes to set
+     */
+    public void setRoutes(List<RouteEntity> routes) {
+        this.routes = routes;
+    }
 
 }
