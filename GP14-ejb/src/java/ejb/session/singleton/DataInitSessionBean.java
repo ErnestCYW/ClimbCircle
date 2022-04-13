@@ -72,7 +72,6 @@ public class DataInitSessionBean {
     @PostConstruct
     public void postConstruct() {
         
-        System.out.println("POSTCONTRUCT RUNNIN");
 
         //Creating Gyms
         if (em.find(GymEntity.class, 1L) == null) {
@@ -93,7 +92,7 @@ public class DataInitSessionBean {
         //NOTE: Email here is where the request to create a gym account is sent to
         if (em.find(Admin.class, 1L) == null) {
             Admin mainAdmin = new Admin("admin", "password");
-            mainAdmin.setEmail("ernestc@u.nus.edu");
+            mainAdmin.setEmail("ernestcyw99@gmail.com");
             adminSessionBeanLocal.createNewAdmin(mainAdmin);
         }
 
