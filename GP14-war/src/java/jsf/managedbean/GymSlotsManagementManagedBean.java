@@ -83,11 +83,11 @@ public class GymSlotsManagementManagedBean implements Serializable {
         GymSlot gymSlotToDelete = (GymSlot) event.getComponent().getAttributes().get("gymSlotToDelete");
 
         try {
-            existingGymSlots.remove(gymSlotToDelete);
             if (gymSlotToDelete.getGymSlotId() != null) {
                 gymSlotSessionBeanLocal.deleteGymSlot(gymSlotToDelete.getGymSlotId());
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Gym Slot successfully deleted: " + gymSlotToDelete.getGymSlotId(), null));
             }
+            existingGymSlots.remove(gymSlotToDelete);
         } catch (DeleteGymSlotException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), null));
         }
