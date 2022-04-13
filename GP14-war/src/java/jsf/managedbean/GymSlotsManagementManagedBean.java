@@ -24,6 +24,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
+import util.exception.DeleteGymSlotException;
 
 /**
  *
@@ -60,10 +61,10 @@ public class GymSlotsManagementManagedBean implements Serializable {
         LocalDate localDate = inst.atZone(ZoneId.systemDefault()).toLocalDate();
         Instant dayInst = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
         currDate = Date.from(dayInst);
-        
-        currGym = (GymEntity)FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentUser");
-        
-        existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate,currGym);
+
+        currGym = (GymEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentUser");
+
+        existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate, currGym);
     }
 
     public void add(ActionEvent event) {
@@ -78,14 +79,25 @@ public class GymSlotsManagementManagedBean implements Serializable {
         existingGymSlots.add(newGymSlot);
     }
 
-//    public void delete(ActionEvent event) {
-//        GymSlot gymSlotToDelete = (GymSlot) event.getComponent().getAttributes().get("gymSlotToDelete");
-//        gymSlots.remove(gymSlotToDelete);
-//    }
+    public void delete(ActionEvent event) {
+        GymSlot gymSlotToDelete = (GymSlot) event.getComponent().getAttributes().get("gymSlotToDelete");
+
+        try {
+            existingGymSlots.remove(gymSlotToDelete);
+            if (gymSlotToDelete.getGymSlotId() != null) {
+                gymSlotSessionBeanLocal.deleteGymSlot(gymSlotToDelete.getGymSlotId());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Gym Slot successfully deleted: " + gymSlotToDelete.getGymSlotId(), null));
+            }
+        } catch (DeleteGymSlotException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), null));
+        }
+
+    }
 
     public void dateChanged(SelectEvent event) {
         currDate = (Date) event.getObject();
-        existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate,currGym);
+        prevEndTime = LocalTime.parse("09:00");
+        existingGymSlots = gymSlotSessionBeanLocal.retrieveGymSlotsByDate(currDate, currGym);
     }
 
     public void validateStartAndEndTime(RowEditEvent event) {
@@ -97,7 +109,7 @@ public class GymSlotsManagementManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Vacancies must be filled in", null));
             FacesContext.getCurrentInstance().validationFailed();
         }
-        
+
         if (index > 0) {
             GymSlot prevGymSlot = existingGymSlots.get(index - 1);
             if (currGymSlot.getStartTime().compareTo(prevGymSlot.getEndTime()) < 0) {
@@ -106,7 +118,7 @@ public class GymSlotsManagementManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().validationFailed();
             }
         }
-        
+
         if (index < existingGymSlots.size() - 1) {
             GymSlot nextGymSlot = existingGymSlots.get(index + 1);
             if (currGymSlot.getEndTime().compareTo(nextGymSlot.getStartTime()) > 0) {
@@ -115,7 +127,7 @@ public class GymSlotsManagementManagedBean implements Serializable {
                 FacesContext.getCurrentInstance().validationFailed();
             }
         }
-        
+
         if (currGymSlot.getEndTime().compareTo(currGymSlot.getStartTime()) <= 0) {
             validated = false;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "End Time must be later than Start Time", null));
@@ -127,7 +139,7 @@ public class GymSlotsManagementManagedBean implements Serializable {
     public void createNewGymSlot(ActionEvent event) {
 
         for (GymSlot gymSlot : existingGymSlots) {
-            
+
             if (gymSlot.getGymSlotId() == null) {
                 gymSlot.setDate(currDate);
                 Long gymSlotId = gymSlotSessionBeanLocal.createNewGymSlot(currGym.getUsername(), gymSlot);

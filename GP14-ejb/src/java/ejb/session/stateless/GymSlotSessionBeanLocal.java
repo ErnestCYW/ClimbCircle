@@ -10,6 +10,7 @@ import entity.GymSlot;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
+import util.exception.DeleteGymSlotException;
 
 /**
  *
@@ -29,5 +30,7 @@ public interface GymSlotSessionBeanLocal {
     public void updateGymSlot(GymSlot gymSlot);
 
     public void createBooking(Long gymSlotId, String username);
+
+    public void deleteGymSlot(Long gymSlotId) throws DeleteGymSlotException;
     
 }

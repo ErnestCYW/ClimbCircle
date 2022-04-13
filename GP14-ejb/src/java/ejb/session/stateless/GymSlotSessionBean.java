@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.CustomerNotFoundException;
+import util.exception.DeleteGymSlotException;
 import util.exception.GymEntityNotFoundException;
 
 /**
@@ -113,6 +114,17 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
             
         }
         
+    }
+    
+    @Override
+    public void deleteGymSlot(Long gymSlotId) throws DeleteGymSlotException {
+        GymSlot gymSlotToDelete = retrieveGymSlotById(gymSlotId);
+        
+        if (gymSlotToDelete.getCustomers().isEmpty()) {
+            em.remove(gymSlotToDelete);
+        } else {
+            throw new DeleteGymSlotException("Gym Slot ID " + gymSlotId + " is associated with customer(s) and cannot be deleted!");
+        }
     }
 
     
