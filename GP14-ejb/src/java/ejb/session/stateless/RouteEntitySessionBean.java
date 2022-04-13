@@ -5,18 +5,15 @@
  */
 package ejb.session.stateless;
 
-import com.sun.org.apache.bcel.internal.classfile.EnumElementValue;
+import entity.GymEntity;
 import entity.RouteEntity;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.RouteRatingEnum;
-import util.exception.DeleteRouteException;
 import util.exception.RouteNotFoundException;
 
 /**
@@ -64,6 +61,13 @@ public class RouteEntitySessionBean implements RouteEntitySessionBeanLocal {
     @Override
     public List<RouteEntity> retrieveAllRoutes() {
         Query query = em.createQuery("SELECT r FROM RouteEntity r");
+        return query.getResultList();
+    }
+    
+    @Override
+    public List<RouteEntity> retrieveRoutesByGym(GymEntity gym) {
+        Query query = em.createQuery("SELECT r FROM RouteEntity r WHERE r.gymEntity = :gym");
+        query.setParameter("gym", gym);
         return query.getResultList();
     }
 

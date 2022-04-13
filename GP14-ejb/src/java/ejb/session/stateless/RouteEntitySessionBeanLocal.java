@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.GymEntity;
 import entity.RouteEntity;
 import java.util.List;
 import javax.ejb.Local;
@@ -31,5 +32,7 @@ public interface RouteEntitySessionBeanLocal {
     public List<RouteRatingEnum> retrieveAllRouteRatings();
     
     public void updateRoute(RouteEntity routeEntity) throws RouteNotFoundException;
+
+    public List<RouteEntity> retrieveRoutesByGym(GymEntity gym);
     
 }
