@@ -10,48 +10,42 @@
 
     <ui:define name="content">
 
-        <h1>Climb Circle</h1>
-
-        <br></br>
-
         <h:panelGroup rendered="#{sessionScope.isLogin == false}">
-
-            <h:form id="loginForm">
-
-                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                    <p:outputLabel for="usertype" value="Sign in as:" />
-                    <p:selectOneRadio id="usertype" value="#{loginManagedBean.usertype}" unselectable="true" required="true" requiredMessage="User Type is required">
-                        <f:selectItem itemLabel="Admin" itemValue="Admin" />
-                        <f:selectItem itemLabel="Partner Gym" itemValue="Partner Gym" />
-                    </p:selectOneRadio>
-                </h:panelGrid>
-
-                <p:outputLabel for="username" value="Username" />&nbsp;
-                <p:inputText id="username" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32">
-                    <f:validateLength minimum="4" />
-                </p:inputText>
-                &nbsp;
-                <p:outputLabel for="password" value="Password" />&nbsp;
-                <p:password id="password" value="#{loginManagedBean.password}" size="16" required="true" requiredMessage="Password is required" maxlength="32">
-                    <f:validateLength minimum="4" />
-                </p:password>
-                &nbsp;
-                <p:commandButton type="reset" value="Clear" icon="pi pi-undo"  />&nbsp;
-                <p:commandButton type="submit" value="Login" actionListener="#{loginManagedBean.login}" icon="pi pi-sign-in"  />
-
-                <p:growl>
-                    <p:autoUpdate />
-                </p:growl>
-
-            </h:form>
+            <section class="carousel" aria-label="carousel" Tabindex="0">
+                <a class="carousel__skip-link" href="#skip-link">Skip the Carousel</a>
+                <div class="slides">
+                    <div class="slides-item" id="slide-1" aria-label="slide 1 of 5" tabindex="0">
+                        <h:graphicImage library="images" name="CarouselPic1.jpg" width="100%" height="100%"/>
+                    </div>
+                    <div class="slides-item slide-2" id="slide-2" aria-label="slide 2 of 5" tabindex="0">
+                        <h:graphicImage library="images" name="CarouselPic2.jpg" width="100%" height="100%"/>
+                    </div>
+                    <div class="slides-item slide-3" id="slide-3" aria-label="slide 3 of 5" tabindex="0">
+                        <h:graphicImage library="images" name="CarouselPic3.jpg" width="100%" height="100%"/>
+                    </div>
+                    <div class="slides-item slide-4" id="slide-4" aria-label="slide 4 of 5" tabindex="0">
+                        <h:graphicImage library="images" name="CarouselPic4.jpg" width="100%" height="100%"/>
+                    </div>
+                    <div class="slides-item slide-5" id="slide-5" aria-label="slide 5 of 5" tabindex="0">
+                        <h:graphicImage library="images" name="CarouselPic5.jpg" width="100%" height="100%"/>
+                    </div>       
+                </div>
+                <div class="carousel__nav">
+                    <a class="slider-nav" href="#slide-1" aria-label="Go to slide 1">1</a>
+                    <a class="slider-nav" href="#slide-2" aria-label="Go to slide 2">2</a>
+                    <a class="slider-nav" href="#slide-3" aria-label="Go to slide 3">3</a>
+                    <a class="slider-nav" href="#slide-4" aria-label="Go to slide 4">4</a>
+                    <a class="slider-nav" href="#slide-5" aria-label="Go to slide 5">5</a>
+                </div>
+                <div class="carousel__skip-message" id="skip-link" tabindex="0"></div>
+            </section>
 
         </h:panelGroup>
 
-        <h:panelGroup rendered="#{sessionScope.isLogin == true}">
-            <h:outputText value="You are login as #{sessionScope.currentUser.username}" />&nbsp;
+        <h:panelGroup rendered="#{sessionScope.usertype.equals('Admin')}">
+            <h:outputText value="You are an administrator with username: #{sessionScope.currentUser.username}" class="display-3" />&nbsp;
         </h:panelGroup>
 
-        <br/><br/>
         <h:panelGroup rendered="#{sessionScope.usertype.equals('Partner Gym')}">
 
             <h:form id="formViewDetails">
@@ -131,169 +125,153 @@
                             </p:dataList>
                         </p:column>
                     </p:row>
-
-                    <!--kinda broken-->
-                    <!--<p:row>
-                        <p:column>
-                            <h:outputLabel value="Action" />
-                        </p:column>
-                        <p:column>
-                            <p:commandButton actionListener="#{gymManagementManagedBean.doUpdateGym}" update="formUpdateGym" oncomplete="PF('dialogUpdateGym').show()" icon="ui-icon-pencil" title="Update">
-                                <f:setPropertyActionListener value="#{gymEntity}" target="#{gymManagementManagedBean.gymEntityToView}" />
-                                <f:attribute name="gymEntityToUpdate" value="#{gymEntity}" />
-                            </p:commandButton>
-                        </p:column>
-                    </p:row>-->
-
-
-
                 </p:panelGrid>
 
             </h:form>
 
         </h:panelGroup>
 
-<!--        <h:form id="formUpdateGym">
-
-            <p:dialog id="dialogUpdateGym" widgetVar="dialogUpdateGym" header="Update Gym" closable="true">
-
-                <p:messages id="messagesUpdateGym" redisplay="false" />
-
-                <p:panelGrid>
-
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="User: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{gymManagementManagedBean.gymEntityToView.gymId}" />
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="username" value="Username: " style="font-weight: bold;" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="username" value="#{gymManagementManagedBean.gymEntityToView.username}" placeholder="Username" required="true" requiredMessage="Username is required" />
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="gymName" value="Gym Name: " style="font-weight: bold;" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="gymName" value="#{gymManagementManagedBean.gymEntityToView.gymName}" placeholder="Gym Name" required="true" requiredMessage="Gym name is required" />
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="franchise" value="Franchise: " style="font-weight: bold;" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="franchise" value="#{gymManagementManagedBean.gymEntityToView.franchise}" placeholder="Franchise" required="true" requiredMessage="Franchise is required" />
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="password" value="Password: " style="font-weight: bold;" />
-                        </p:column>
-                        <p:column>
-                            <p:password id="password" value="#{gymManagementManagedBean.gymEntityToView.password}" placeholder="" required="true" requiredMessage="Password is required"/>
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="address" value="Address: " style="font-weight: bold;" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="address" value="#{gymManagementManagedBean.gymEntityToView.address}" placeholder="Address" required="true" requiredMessage="Address is required"/>
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="profilePictureURL" value="Profile Picture URL: " style="font-weight: bold;" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="profilePictureURL" value="#{gymManagementManagedBean.gymEntityToView.profilePictureURL}" placeholder="" />
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="operatingHours" value="Operating Hours: " style="font-weight: bold;" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="operatingHours" value="#{gymManagementManagedBean.gymEntityToView.operatingHours}" placeholder="Start Day - End Day XXam to XXpm" required="true" requiredMessage="Operating hours is required"/>
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>                        
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="contactNumber" value="Contact Number: " style="font-weight: bold;" />
-                        </p:column>
-                        <p:column>
-                            <p:inputText id="contactNumber" value="#{gymManagementManagedBean.gymEntityToView.contactNumber}" placeholder="+65 XXXX XXXX" required="true" requiredMessage="Contact Number is required"/>
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <p:outputLabel for="selFacilities" value="Facilities(s) " style="font-weight: bold;" />
-                        </p:column>
-                        <p:column>
-                            <p:selectManyMenu id="selFacilities" value="#{gymManagementManagedBean.gymEntityToView.facilities}" showCheckbox="true">
-                                <f:selectItems value="#{gymManagementManagedBean.gymEntityToView.facilities}" var="facility" itemValue="#{facility}" itemLabel="#{facility}" />
-                            </p:selectManyMenu>
-                        </p:column>
-                        <p:column>
-                            &nbsp;
-                        </p:column>
-                    </p:row>
-
-                    <p:row>
-                        <p:column colspan="3">
-                            <p:commandButton value="Update Gym" update="@form formViewDetails" actionListener="#{gymManagementManagedBean.updateGym}" oncomplete="PF('dialogUpdateGym').show();" />
-                        </p:column>
-                    </p:row>
-
-                </p:panelGrid>
-
-            </p:dialog>
-
-        </h:form>-->
+        <!--        <h:form id="formUpdateGym">
+        
+                    <p:dialog id="dialogUpdateGym" widgetVar="dialogUpdateGym" header="Update Gym" closable="true">
+        
+                        <p:messages id="messagesUpdateGym" redisplay="false" />
+        
+                        <p:panelGrid>
+        
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="User: " />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{gymManagementManagedBean.gymEntityToView.gymId}" />
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>
+        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="username" value="Username: " style="font-weight: bold;" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="username" value="#{gymManagementManagedBean.gymEntityToView.username}" placeholder="Username" required="true" requiredMessage="Username is required" />
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>
+        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="gymName" value="Gym Name: " style="font-weight: bold;" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="gymName" value="#{gymManagementManagedBean.gymEntityToView.gymName}" placeholder="Gym Name" required="true" requiredMessage="Gym name is required" />
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>
+        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="franchise" value="Franchise: " style="font-weight: bold;" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="franchise" value="#{gymManagementManagedBean.gymEntityToView.franchise}" placeholder="Franchise" required="true" requiredMessage="Franchise is required" />
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>
+        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="password" value="Password: " style="font-weight: bold;" />
+                                </p:column>
+                                <p:column>
+                                    <p:password id="password" value="#{gymManagementManagedBean.gymEntityToView.password}" placeholder="" required="true" requiredMessage="Password is required"/>
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>
+        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="address" value="Address: " style="font-weight: bold;" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="address" value="#{gymManagementManagedBean.gymEntityToView.address}" placeholder="Address" required="true" requiredMessage="Address is required"/>
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>
+        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="profilePictureURL" value="Profile Picture URL: " style="font-weight: bold;" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="profilePictureURL" value="#{gymManagementManagedBean.gymEntityToView.profilePictureURL}" placeholder="" />
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>
+        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="operatingHours" value="Operating Hours: " style="font-weight: bold;" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="operatingHours" value="#{gymManagementManagedBean.gymEntityToView.operatingHours}" placeholder="Start Day - End Day XXam to XXpm" required="true" requiredMessage="Operating hours is required"/>
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>                        
+        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="contactNumber" value="Contact Number: " style="font-weight: bold;" />
+                                </p:column>
+                                <p:column>
+                                    <p:inputText id="contactNumber" value="#{gymManagementManagedBean.gymEntityToView.contactNumber}" placeholder="+65 XXXX XXXX" required="true" requiredMessage="Contact Number is required"/>
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>
+        
+                            <p:row>
+                                <p:column>
+                                    <p:outputLabel for="selFacilities" value="Facilities(s) " style="font-weight: bold;" />
+                                </p:column>
+                                <p:column>
+                                    <p:selectManyMenu id="selFacilities" value="#{gymManagementManagedBean.gymEntityToView.facilities}" showCheckbox="true">
+                                        <f:selectItems value="#{gymManagementManagedBean.gymEntityToView.facilities}" var="facility" itemValue="#{facility}" itemLabel="#{facility}" />
+                                    </p:selectManyMenu>
+                                </p:column>
+                                <p:column>
+                                    &nbsp;
+                                </p:column>
+                            </p:row>
+        
+                            <p:row>
+                                <p:column colspan="3">
+                                    <p:commandButton value="Update Gym" update="@form formViewDetails" actionListener="#{gymManagementManagedBean.updateGym}" oncomplete="PF('dialogUpdateGym').show();" />
+                                </p:column>
+                            </p:row>
+        
+                        </p:panelGrid>
+        
+                    </p:dialog>
+        
+                </h:form>-->
 
     </ui:define>
 

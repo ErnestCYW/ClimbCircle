@@ -39,7 +39,6 @@ public class GymResource {
 
     GymEntitySessionBeanLocal gymEntitySessionBean = lookupGymEntitySessionBeanLocal();
 
-    
     @Context
     private UriInfo context;
 
@@ -48,21 +47,18 @@ public class GymResource {
      */
     public GymResource() {
     }
-    
+
     @Path("retrieveAllGyms")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveAllGyms() {
         try {
             List<GymEntity> gyms = gymEntitySessionBean.retrieveAllGyms();
-            
+
             for (GymEntity gym : gyms) {
-                List<GymSlot> gymSlots = gym.getGymSlots();
-                
-                for (GymSlot gymSlot : gymSlots) {
-                    gymSlot.setGymEntity(null);
-                    gymSlot.getCustomers().clear();
-                }
+                gym.getGymSlots().clear();
+                gym.getRouteReviews().clear();
+                gym.getRoutes().clear();
             }
 
             GenericEntity<List<GymEntity>> genericEntity = new GenericEntity<List<GymEntity>>(gyms) {
@@ -73,18 +69,17 @@ public class GymResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("retrieveGym/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveGymById(@PathParam("id") Long gymId) {
         try {
             GymEntity gym = gymEntitySessionBean.retrieveGymByGymId(gymId);
-            
-            for (GymSlot gymSlot : gym.getGymSlots()) {
-                gymSlot.setGymEntity(null);
-                gymSlot.getCustomers().clear();
-            }
+
+            gym.getGymSlots().clear();
+            gym.getRouteReviews().clear();
+            gym.getRoutes().clear();
 
             GenericEntity<GymEntity> genericEntity = new GenericEntity<GymEntity>(gym) {
             };
@@ -94,11 +89,10 @@ public class GymResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
-    
-    
 
     /**
      * Retrieves representation of an instance of ws.rest.GymResource
+     *
      * @return an instance of java.lang.String
      */
     @GET
@@ -110,6 +104,7 @@ public class GymResource {
 
     /**
      * PUT method for updating or creating an instance of GymResource
+     *
      * @param content representation for the resource
      */
     @PUT

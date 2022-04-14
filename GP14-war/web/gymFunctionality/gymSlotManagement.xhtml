@@ -8,9 +8,9 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
         <h3>View Slots</h3>
-        
+
         <h:form id="viewSlots">
-            
+
             <p:messages>
                 <p:autoUpdate/>
             </p:messages>
@@ -18,15 +18,15 @@
             <p:calendar id="event" value="#{gymSlotsManagementManagedBean.currDate}" mode="inline">
                 <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.dateChanged}" update="existingSlotsTable"/>
             </p:calendar>
-            
+
             <p:dataTable id="existingSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.existingGymSlots}" var="existingSlot" editable="true">
                 <p:ajax event="rowEdit" listener="#{gymSlotsManagementManagedBean.validateStartAndEndTime}" update="viewSlots:addButton viewSlots:saveButton"/>
                 <p:ajax event="rowEditCancel" listener="#{gymSlotsManagementManagedBean.validateStartAndEndTime}" update="viewSlots:addButton viewSlots:saveButton"/>
-                
+
                 <p:column headerText="Slot" style="width:5%">
                     <h:outputText value="#{row+1}"/>
                 </p:column>
-                
+
                 <p:column headerText="Start Time">
                     <p:cellEditor>
                         <f:facet name="output">
@@ -63,53 +63,59 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                
+
                 <p:column headerText="Edit" style="width:5%">
                     <p:rowEditor/>
                 </p:column>
+                
+                <p:column headerText="Delete" style="width:5%">
+                    <p:commandButton styleClass="button-icon-only" icon="ui-icon-trash" actionListener="#{gymSlotsManagementManagedBean.delete}" update="existingSlotsTable">
+                        <f:attribute name="gymSlotToDelete" value="#{existingSlot}" />
+                    </p:commandButton>
+                </p:column>
 
             </p:dataTable>
-            
+
             <p:commandButton id="addButton" value="Add Slots" disabled="#{!gymSlotsManagementManagedBean.validated}" actionListener="#{gymSlotsManagementManagedBean.add}" update="existingSlotsTable"/>
             <br/>
             <p:commandButton id="saveButton" value="Save Slots" disabled="#{!gymSlotsManagementManagedBean.validated}" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}" update="existingSlotsTable" />
         </h:form>
 
 
-<!--        <h3>Add Slots</h3>
-        <h:form id="addSlots">
-            <p:dataTable id="newSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.gymSlots}" var="gymSlot">
-
-                <p:column headerText="Slot" style="width:5%">
-                    <h:outputText value="#{row+1}"/>
-                </p:column>
-                <p:column headerText="Start Time">
-                    
-                    <p:datePicker id="startTime" value="#{gymSlot.startTime}" timeOnly="true" pattern="HH:mm"/>
-
-                </p:column>
-                <p:column headerText="End Time">
-                    
-                    <p:datePicker id="endTime" value="#{gymSlot.endTime}" timeOnly="true" pattern="HH:mm" />
-                </p:column>
-                <p:column headerText="Vacancies">
-                    
-                    <p:inputText id="vacancies" value="#{gymSlot.vacancies}" />
-                </p:column>
-                <p:column style="width:5%">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{gymSlotsManagementManagedBean.delete}" update="@form addSlots:newSlotsTable">
-                        <f:attribute name="gymSlotToDelete" value="#{gymSlot}" />
-                    </p:commandButton>    
-                </p:column>
-            </p:dataTable>
-            <p:commandButton value="add" action="#{gymSlotsManagementManagedBean.add}" />
-            <br/>
-            <p:outputLabel for="multiselect" value="Select Dates" />
-            <p:datePicker id="multiselect" selectionMode="multiple" value="#{gymSlotsManagementManagedBean.dates}" readonlyInput="true" />
-
-            <p:commandButton value="Submit" update="@form viewSlots:existingSlotsTable" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}"/>
-                
-        </h:form>-->
+        <!--        <h3>Add Slots</h3>
+                <h:form id="addSlots">
+                    <p:dataTable id="newSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.gymSlots}" var="gymSlot">
+        
+                        <p:column headerText="Slot" style="width:5%">
+                            <h:outputText value="#{row+1}"/>
+                        </p:column>
+                        <p:column headerText="Start Time">
+                            
+                            <p:datePicker id="startTime" value="#{gymSlot.startTime}" timeOnly="true" pattern="HH:mm"/>
+        
+                        </p:column>
+                        <p:column headerText="End Time">
+                            
+                            <p:datePicker id="endTime" value="#{gymSlot.endTime}" timeOnly="true" pattern="HH:mm" />
+                        </p:column>
+                        <p:column headerText="Vacancies">
+                            
+                            <p:inputText id="vacancies" value="#{gymSlot.vacancies}" />
+                        </p:column>
+                        <p:column style="width:5%">
+                            <p:commandButton icon="ui-icon-trash" actionListener="#{gymSlotsManagementManagedBean.delete}" update="@form addSlots:newSlotsTable">
+                                <f:attribute name="gymSlotToDelete" value="#{gymSlot}" />
+                            </p:commandButton>    
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="add" action="#{gymSlotsManagementManagedBean.add}" />
+                    <br/>
+                    <p:outputLabel for="multiselect" value="Select Dates" />
+                    <p:datePicker id="multiselect" selectionMode="multiple" value="#{gymSlotsManagementManagedBean.dates}" readonlyInput="true" />
+        
+                    <p:commandButton value="Submit" update="@form viewSlots:existingSlotsTable" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}"/>
+                        
+                </h:form>-->
 
 
 

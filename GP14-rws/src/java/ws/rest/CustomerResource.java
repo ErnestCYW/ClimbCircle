@@ -8,6 +8,7 @@ package ws.rest;
 import ejb.session.stateless.CustomerSessionBeanLocal;
 import entity.Customer;
 import entity.GymSlot;
+import entity.RouteReview;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,6 +61,13 @@ public class CustomerResource {
             for (GymSlot gymSlot : gymSlots) {
                 gymSlot.getCustomers().clear();
                 gymSlot.setGymEntity(null);
+            }
+            
+            List<RouteReview> routeReviews = customer.getRouteReviews();
+            for (RouteReview routeReview : routeReviews) {
+                routeReview.setCustomer(null);
+                routeReview.setGymEntity(null);
+                routeReview.setRoute(null);
             }
 
             GenericEntity<Customer> genericEntity = new GenericEntity<Customer>(customer) {

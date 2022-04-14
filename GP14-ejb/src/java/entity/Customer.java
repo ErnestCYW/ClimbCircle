@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
@@ -40,6 +41,9 @@ public class Customer implements Serializable {
 
     @ManyToOne
     private SubscriptionPlanEntity subscriptionPlan;
+    
+    @OneToMany(mappedBy = "customer")
+    private List<RouteReview> routeReviews;
 
     public Customer() {
         gymSlots = new ArrayList<>();
@@ -178,6 +182,20 @@ public class Customer implements Serializable {
 
     public void setSubscriptionPlan(SubscriptionPlanEntity subscriptionPlan) {
         this.subscriptionPlan = subscriptionPlan;
+    }
+    
+    /**
+     * @return the routeReviews
+     */
+    public List<RouteReview> getRouteReviews() {
+        return routeReviews;
+    }
+
+    /**
+     * @param routeReviews the routeReviews to set
+     */
+    public void setRouteReviews(List<RouteReview> routeReviews) {
+        this.routeReviews = routeReviews;
     }
 
 }

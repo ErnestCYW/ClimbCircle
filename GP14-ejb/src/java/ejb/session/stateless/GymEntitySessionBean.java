@@ -9,8 +9,6 @@ import entity.GymEntity;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -42,9 +40,11 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
 
         Query query = em.createQuery("SELECT g FROM GymEntity g");
         List<GymEntity> gymEntities = query.getResultList();
-        
+
         for (GymEntity gymEntity : gymEntities) {
             gymEntity.getGymSlots().size();
+            gymEntity.getRouteReviews().size();
+            gymEntity.getRoutes().size();
         }
 
         return gymEntities;
@@ -59,6 +59,8 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
         try {
             GymEntity gymEntity = (GymEntity) query.getSingleResult();
             gymEntity.getGymSlots().size();
+            gymEntity.getRouteReviews().size();
+            gymEntity.getRoutes().size();
             return gymEntity;
         } catch (NoResultException ex) {
             throw new GymEntityNotFoundException("Gym does not exist");
@@ -73,7 +75,8 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
         if (gymEntity != null) {
 
             gymEntity.getGymSlots().size();
-//            gymEntity.getRouteReviews();
+            gymEntity.getRouteReviews().size();
+            gymEntity.getRoutes().size();
             return gymEntity;
 
         } else {
@@ -110,7 +113,7 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
     @Override
     public List<Enum> retrieveAllFacilities() {
 
-        List<Enum> allFacilities = new ArrayList<Enum>(EnumSet.allOf(FacilitiesEnum.class));
+        List<Enum> allFacilities = new ArrayList<>(EnumSet.allOf(FacilitiesEnum.class));
         return allFacilities;
 
     }
@@ -120,14 +123,11 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
 
         GymEntity gymEntityToRemove = retrieveGymByGymId(gymId);
 
-//        if (gymEntityToRemove.getGymSlots().isEmpty() && gymEntityToRemove.getRouteReview().isEmpty()) {
-        em.remove(gymEntityToRemove);
-
-//        } else {
-//            
-//            throw new DeleteGymException("Gym ID " + gymId + " is associated with gymSlot(s) and or routeReview(s) and cannot be deleted!");
-//            
-//        }
+        if (gymEntityToRemove.getGymSlots().isEmpty() && gymEntityToRemove.getRouteReviews().isEmpty()) {
+            em.remove(gymEntityToRemove);
+        } else {
+            throw new DeleteGymException("Gym ID " + gymId + " is associated with gymSlot(s) and or routeReview(s) and cannot be deleted!");
+        }
     }
 
     @Override
@@ -141,15 +141,15 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
             gymEntityToUpdate.setGymName(gymEntity.getGymName());
             gymEntityToUpdate.setFranchise(gymEntity.getFranchise());
             gymEntityToUpdate.setAddress(gymEntity.getAddress());
+            gymEntityToUpdate.setProfilePictureURL(gymEntity.getProfilePictureURL());
             gymEntityToUpdate.setOperatingHours(gymEntity.getOperatingHours());
             gymEntityToUpdate.setContactNumber(gymEntity.getContactNumber());
             gymEntityToUpdate.setFacilities(gymEntity.getFacilities());
 
         } else {
-            
+
             throw new GymEntityNotFoundException("Gym ID not provided for gym to be updated");
         }
-        
 
     }
 
