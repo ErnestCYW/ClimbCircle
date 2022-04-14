@@ -17,7 +17,7 @@ import util.exception.InvalidLoginCredentialException;
 @Local
 public interface CustomerSessionBeanLocal {
 
-    public Long createNewCustomer(Customer newCustomer);
+    public Long createNewCustomer(Customer newCustomer, String subscriptionPlanName);
 
     public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;
 

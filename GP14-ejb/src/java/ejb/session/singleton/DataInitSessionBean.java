@@ -107,12 +107,12 @@ public class DataInitSessionBean {
 
         //Creating Customers
         if (em.find(Customer.class, 1L) == null) {
-            customerSessionBeanLocal.createNewCustomer(new Customer("Alice", "password", "alice@gmail.com", 5, new Date()));
-            customerSessionBeanLocal.createNewCustomer(new Customer("Bob", "password", "test@gmail.com", 3, new Date()));
-            customerSessionBeanLocal.createNewCustomer(new Customer("Charlie", "password", "charlie@gmail.com", 20, new Date()));
-            customerSessionBeanLocal.createNewCustomer(new Customer("Daniel", "password", "daniel@gmail.com", 10, new Date()));
-            customerSessionBeanLocal.createNewCustomer(new Customer("Edward", "password", "edward@gmail.com", 15, new Date()));
-            customerSessionBeanLocal.createNewCustomer(new Customer("Francis", "password", "francis@gmail.com", 9, new Date()));
+            customerSessionBeanLocal.createNewCustomer(new Customer("Alice", "password", "alice@gmail.com", 5, new Date()), "Premium");
+            customerSessionBeanLocal.createNewCustomer(new Customer("Bob", "password", "test@gmail.com", 3, new Date()), "Deluxe");
+            customerSessionBeanLocal.createNewCustomer(new Customer("Charlie", "password", "charlie@gmail.com", 20, new Date()), "Basic");
+            customerSessionBeanLocal.createNewCustomer(new Customer("Daniel", "password", "daniel@gmail.com", 10, new Date()), "Economy");
+            customerSessionBeanLocal.createNewCustomer(new Customer("Edward", "password", "edward@gmail.com", 15, new Date()), "Single");
+            customerSessionBeanLocal.createNewCustomer(new Customer("Francis", "password", "francis@gmail.com", 9, new Date()), "Single");
         }
 
         //Creating Routes
