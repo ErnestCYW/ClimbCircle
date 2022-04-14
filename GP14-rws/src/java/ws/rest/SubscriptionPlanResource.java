@@ -30,7 +30,7 @@ import util.exception.InvalidLoginCredentialException;
  *
  * @author user
  */
-@Path("Resource")
+@Path("SubscriptionPlan")
 public class SubscriptionPlanResource {
 
     SubscriptionPlanSessionBeanLocal subscriptionPlanSessionBeanLocal = lookupSubscriptionPlanSessionBeanLocal();
@@ -53,6 +53,10 @@ public class SubscriptionPlanResource {
       
             List<SubscriptionPlanEntity> subscriptionPlans = subscriptionPlanSessionBeanLocal.retrieveAllPlans();
 
+            for (SubscriptionPlanEntity subscriptionPlan : subscriptionPlans) {
+                subscriptionPlan.getCustomers().clear();
+            }
+            
             GenericEntity<List<SubscriptionPlanEntity>> genericEntity = new GenericEntity<List<SubscriptionPlanEntity>>(subscriptionPlans) {
             };
 

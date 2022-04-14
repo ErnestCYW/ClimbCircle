@@ -26,6 +26,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import ws.datamodel.CreateCustomerRequest;
 
 /**
  * REST Web Service
@@ -53,9 +54,7 @@ public class CustomerResource {
         try {
             Customer customer = customerSessionBeanLocal.login(username, password);
             
-            //customer.getSubscriptionPlan().getCustomers().clear();
-            
-            //customer.getGymSlots().clear();
+            customer.getSubscriptionPlan().getCustomers().clear();
             
             List<GymSlot> gymSlots = customer.getGymSlots();
             for (GymSlot gymSlot : gymSlots) {
@@ -82,13 +81,13 @@ public class CustomerResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createCustomer(Customer newCustomer) {
-        if (newCustomer != null) {
-            Long id = customerSessionBeanLocal.createNewCustomer(newCustomer);
+    public Response createCustomer(CreateCustomerRequest createCustomerRequest) {
+        try {
+            Long id = customerSessionBeanLocal.createNewCustomer(createCustomerRequest.getNewCustomer(), createCustomerRequest.getSubscriptionPlan());
             return Response.status(Response.Status.OK).entity(id).build();
 
-        } else {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Customer exists! Invalid customer creation request!").build();
+        } catch (Exception ex) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
 

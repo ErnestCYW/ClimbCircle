@@ -47,6 +47,7 @@ public class Customer implements Serializable {
 
     public Customer() {
         gymSlots = new ArrayList<>();
+        routeReviews = new ArrayList<>();
     }
 
     public Customer(String username, String password, String email, Integer numOfPassesLeft, Date expiryDate) {

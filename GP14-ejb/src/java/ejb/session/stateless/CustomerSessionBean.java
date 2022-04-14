@@ -6,6 +6,10 @@
 package ejb.session.stateless;
 
 import entity.Customer;
+import entity.SubscriptionPlanEntity;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -13,6 +17,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.CustomerNotFoundException;
 import util.exception.InvalidLoginCredentialException;
+import util.exception.SubscriptionPlanEntityNotFoundException;
 
 /**
  *
@@ -21,15 +26,29 @@ import util.exception.InvalidLoginCredentialException;
 @Stateless
 public class CustomerSessionBean implements CustomerSessionBeanLocal {
 
+    @EJB(name = "SubscriptionPlanSessionBeanLocal")
+    private SubscriptionPlanSessionBeanLocal subscriptionPlanSessionBeanLocal;
+
+    
     @PersistenceContext(unitName = "GP14-ejbPU")
     private EntityManager em;
 
     @Override
-    public Long createNewCustomer(Customer newCustomer) {
-        em.persist(newCustomer);
-        em.flush();
+    public Long createNewCustomer(Customer newCustomer, String subscriptionPlanName) {
         
-        return newCustomer.getCustomerId();
+        try {
+            SubscriptionPlanEntity subscriptionPlan = subscriptionPlanSessionBeanLocal.retrievePlanByName(subscriptionPlanName);
+            
+            subscriptionPlan.getCustomers().add(newCustomer);
+            newCustomer.setSubscriptionPlan(subscriptionPlan);
+            
+            em.persist(newCustomer);
+            em.flush();
+            
+            return newCustomer.getCustomerId();
+        } catch (SubscriptionPlanEntityNotFoundException ex) {
+            return null;
+        }
     }
     
     
