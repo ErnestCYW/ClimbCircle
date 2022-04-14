@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(ws.rest.CustomerResource.class);
         resources.add(ws.rest.GymResource.class);
         resources.add(ws.rest.GymSlotResource.class);
+        resources.add(ws.rest.SubscriptionPlanResource.class);
     }
     
 }
