@@ -7,6 +7,7 @@ package ws.rest;
 
 import ejb.session.stateless.GymEntitySessionBeanLocal;
 import ejb.session.stateless.RouteEntitySessionBeanLocal;
+import entity.Customer;
 import entity.GymEntity;
 import entity.RouteEntity;
 import entity.RouteReview;
@@ -60,13 +61,7 @@ public class RouteResource {
             
             for (RouteEntity route : routes) {
                 route.setGymEntity(null);
-                List<RouteReview> routeReviews = route.getRouteReviews();
-                
-                for (RouteReview routeReview : routeReviews) {
-                    routeReview.setRoute(null);
-                    routeReview.setGymEntity(null);
-                    routeReview.getCustomer().getRouteReviews().clear();
-                }
+                route.getRouteReviews().clear();
             }
 
             GenericEntity<List<RouteEntity>> genericEntity = new GenericEntity<List<RouteEntity>>(routes) {
