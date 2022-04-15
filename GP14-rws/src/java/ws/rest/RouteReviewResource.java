@@ -5,10 +5,9 @@
  */
 package ws.rest;
 
-import ejb.session.stateless.GymEntitySessionBeanLocal;
 import ejb.session.stateless.RouteEntitySessionBeanLocal;
+import ejb.session.stateless.RouteReviewSessionBeanLocal;
 import entity.Customer;
-import entity.GymEntity;
 import entity.RouteEntity;
 import entity.RouteReview;
 import java.util.List;
@@ -34,56 +33,45 @@ import javax.ws.rs.core.Response.Status;
  *
  * @author elgin
  */
-@Path("Route")
-public class RouteResource {
-
-    GymEntitySessionBeanLocal gymEntitySessionBean = lookupGymEntitySessionBeanLocal();
+@Path("RouteReview")
+public class RouteReviewResource {
 
     RouteEntitySessionBeanLocal routeEntitySessionBean = lookupRouteEntitySessionBeanLocal();
 
+    RouteReviewSessionBeanLocal routeReviewSessionBean = lookupRouteReviewSessionBeanLocal();
+
+    
     @Context
     private UriInfo context;
 
     /**
-     * Creates a new instance of RouteResource
+     * Creates a new instance of RouteReviewResource
      */
-    public RouteResource() {
+    public RouteReviewResource() {
     }
-
-    @Path("retrieveRoutes/{id}")
+    
+    @Path("retrieveRouteReviews/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveRoutesByGym(@PathParam("id") Long gymId) {
-        try {
-            GymEntity gym = gymEntitySessionBean.retrieveGymByGymId(gymId);
-
-            List<RouteEntity> routes = routeEntitySessionBean.retrieveRoutesByGym(gym);
-
-            for (RouteEntity route : routes) {
-                route.setGymEntity(null);
-                route.getRouteReviews().clear();
-            }
-
-            GenericEntity<List<RouteEntity>> genericEntity = new GenericEntity<List<RouteEntity>>(routes) {
-            };
-
-            return Response.status(Status.OK).entity(genericEntity).build();
-        } catch (Exception ex) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
-        }
-    }
-
-    @Path("retrieveRoute/{id}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response retrieveRouteById(@PathParam("id") Long routeId) {
+    public Response retrieveRouteReviewsByRoute(@PathParam("id") Long routeId) {
         try {
             RouteEntity route = routeEntitySessionBean.retrieveRouteByRouteId(routeId);
 
-            route.setGymEntity(null);
-            route.getRouteReviews().clear();
+            List<RouteReview> routeReviews = routeReviewSessionBean.retrieveRouteReviewsByRoute(route);
 
-            GenericEntity<RouteEntity> genericEntity = new GenericEntity<RouteEntity>(route) {
+            for (RouteReview routeReview : routeReviews) {
+                routeReview.setGymEntity(null);
+                routeReview.setRoute(null);
+                
+                Customer customer = routeReview.getCustomer();
+                
+                customer.getRouteReviews().clear();
+                customer.getGymSlots().clear();
+                customer.setSubscriptionPlan(null);
+            }
+            
+            
+            GenericEntity<List<RouteReview>> genericEntity = new GenericEntity<List<RouteReview>>(routeReviews) {
             };
 
             return Response.status(Status.OK).entity(genericEntity).build();
@@ -93,8 +81,7 @@ public class RouteResource {
     }
 
     /**
-     * Retrieves representation of an instance of ws.rest.RouteResource
-     *
+     * Retrieves representation of an instance of ws.rest.RouteReviewResource
      * @return an instance of java.lang.String
      */
     @GET
@@ -105,8 +92,7 @@ public class RouteResource {
     }
 
     /**
-     * PUT method for updating or creating an instance of RouteResource
-     *
+     * PUT method for updating or creating an instance of RouteReviewResource
      * @param content representation for the resource
      */
     @PUT
@@ -114,20 +100,20 @@ public class RouteResource {
     public void putXml(String content) {
     }
 
-    private RouteEntitySessionBeanLocal lookupRouteEntitySessionBeanLocal() {
+    private RouteReviewSessionBeanLocal lookupRouteReviewSessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (RouteEntitySessionBeanLocal) c.lookup("java:global/GP14/GP14-ejb/RouteEntitySessionBean!ejb.session.stateless.RouteEntitySessionBeanLocal");
+            return (RouteReviewSessionBeanLocal) c.lookup("java:global/GP14/GP14-ejb/RouteReviewSessionBean!ejb.session.stateless.RouteReviewSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
         }
     }
 
-    private GymEntitySessionBeanLocal lookupGymEntitySessionBeanLocal() {
+    private RouteEntitySessionBeanLocal lookupRouteEntitySessionBeanLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (GymEntitySessionBeanLocal) c.lookup("java:global/GP14/GP14-ejb/GymEntitySessionBean!ejb.session.stateless.GymEntitySessionBeanLocal");
+            return (RouteEntitySessionBeanLocal) c.lookup("java:global/GP14/GP14-ejb/RouteEntitySessionBean!ejb.session.stateless.RouteEntitySessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

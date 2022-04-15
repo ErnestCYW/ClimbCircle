@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.RouteEntity;
 import entity.RouteReview;
 import java.util.List;
 import javax.ejb.Local;
@@ -28,5 +29,7 @@ public interface RouteReviewSessionBeanLocal {
     public void deleteRouteReview(Long routeReviewId) throws RouteReviewNotFoundException;
 
     public void updateRouteReview(RouteReview routeReview) throws RouteReviewNotFoundException;
+
+    public List<RouteReview> retrieveRouteReviewsByRoute(RouteEntity route);
     
 }
