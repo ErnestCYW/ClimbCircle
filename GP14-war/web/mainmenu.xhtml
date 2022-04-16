@@ -20,9 +20,11 @@
 
                     <!--admin-->
                     <p:submenu label="System Administration" rendered="#{sessionScope.usertype.equals('Admin')}">
-                        <!--<p:menuitem value="Customer Management" outcome="/customerManagement.xhtml" icon="pi pi-users" />-->
+                        <p:menuitem value="Customer Management" outcome="/adminFunctionality/customerManagement.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="Route Review Management" outcome="/adminFunctionality/routeReviewsManagement.xhtml" icon="pi pi-arrow-circle-right" />
                         <p:menuitem value="Subscription Management" outcome="/adminFunctionality/subscriptionPlanManagement.xhtml" icon="pi pi-arrow-circle-right" />
                         <p:menuitem value="Gym Management" outcome="/adminFunctionality/gymManagement.xhtml" icon="pi pi-arrow-circle-right" />
+                        
                     </p:submenu>
 
                     <!--gym-->

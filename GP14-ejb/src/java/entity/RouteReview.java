@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 import util.enumeration.RouteRatingEnum;
 
 /**
@@ -27,6 +28,7 @@ public class RouteReview implements Serializable {
     private Long routeReviewId;
     private String content;
     private RouteRatingEnum rating;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date datePosted;
 
     @ManyToOne(optional = false)
