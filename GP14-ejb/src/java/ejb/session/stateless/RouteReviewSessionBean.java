@@ -5,15 +5,13 @@
  */
 package ejb.session.stateless;
 
-import entity.GymEntity;
+import entity.RouteEntity;
 import entity.RouteReview;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import util.exception.DeleteGymException;
-import util.exception.GymEntityNotFoundException;
 import util.exception.RouteReviewNotFoundException;
 
 /**
@@ -69,6 +67,15 @@ public class RouteReviewSessionBean implements RouteReviewSessionBeanLocal {
         } else {
             throw new RouteReviewNotFoundException("Route Review Id " + routeReviewId + " does not exists!");
         }
+    }
+    
+    @Override
+    public List<RouteReview> retrieveRouteReviewsByRoute(RouteEntity route) {
+        
+        Query query = em.createQuery("SELECT rr FROM RouteReview rr WHERE rr.route = :route");
+        query.setParameter("route", route);
+        
+        return query.getResultList();
     }
 
     @Override
