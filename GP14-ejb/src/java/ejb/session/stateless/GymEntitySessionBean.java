@@ -43,7 +43,6 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
 
         for (GymEntity gymEntity : gymEntities) {
             gymEntity.getGymSlots().size();
-            gymEntity.getRouteReviews().size();
             gymEntity.getRoutes().size();
         }
 
@@ -59,7 +58,6 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
         try {
             GymEntity gymEntity = (GymEntity) query.getSingleResult();
             gymEntity.getGymSlots().size();
-            gymEntity.getRouteReviews().size();
             gymEntity.getRoutes().size();
             return gymEntity;
         } catch (NoResultException ex) {
@@ -75,7 +73,6 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
         if (gymEntity != null) {
 
             gymEntity.getGymSlots().size();
-            gymEntity.getRouteReviews().size();
             gymEntity.getRoutes().size();
             return gymEntity;
 
@@ -123,10 +120,10 @@ public class GymEntitySessionBean implements GymEntitySessionBeanLocal {
 
         GymEntity gymEntityToRemove = retrieveGymByGymId(gymId);
 
-        if (gymEntityToRemove.getGymSlots().isEmpty() && gymEntityToRemove.getRouteReviews().isEmpty()) {
+        if (gymEntityToRemove.getGymSlots().isEmpty() && gymEntityToRemove.getRoutes().isEmpty()) {
             em.remove(gymEntityToRemove);
         } else {
-            throw new DeleteGymException("Gym ID " + gymId + " is associated with gymSlot(s) and or routeReview(s) and cannot be deleted!");
+            throw new DeleteGymException("Gym ID " + gymId + " is associated with gymSlot(s) and or route(s) and cannot be deleted!");
         }
     }
 

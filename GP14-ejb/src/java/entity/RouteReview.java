@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,9 +27,7 @@ public class RouteReview implements Serializable {
     private Long routeReviewId;
     private String content;
     private RouteRatingEnum rating;
-
-    @ManyToOne(optional = false)
-    private GymEntity gymEntity;
+    private Date datePosted;
 
     @ManyToOne(optional = false)
     private RouteEntity route;
@@ -39,10 +38,11 @@ public class RouteReview implements Serializable {
     public RouteReview() {
     }
 
-    public RouteReview(String content, RouteRatingEnum rating) {
+    public RouteReview(String content, RouteRatingEnum rating, Date datePosted) {
         this();
         this.content = content;
         this.rating = rating;
+        this.datePosted = datePosted;
     }
 
     public Long getRouteReviewId() {
@@ -107,20 +107,6 @@ public class RouteReview implements Serializable {
     }
 
     /**
-     * @return the gymEntity
-     */
-    public GymEntity getGymEntity() {
-        return gymEntity;
-    }
-
-    /**
-     * @param gymEntity the gymEntity to set
-     */
-    public void setGymEntity(GymEntity gymEntity) {
-        this.gymEntity = gymEntity;
-    }
-
-    /**
      * @return the route
      */
     public RouteEntity getRoute() {
@@ -146,6 +132,20 @@ public class RouteReview implements Serializable {
      */
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    /**
+     * @return the datePosted
+     */
+    public Date getDatePosted() {
+        return datePosted;
+    }
+
+    /**
+     * @param datePosted the datePosted to set
+     */
+    public void setDatePosted(Date datePosted) {
+        this.datePosted = datePosted;
     }
 
 }

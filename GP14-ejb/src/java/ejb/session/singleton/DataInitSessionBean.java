@@ -162,34 +162,29 @@ public class DataInitSessionBean {
 
             try {
 
-                RouteReview newRouteReview1 = new RouteReview("I think this route is great", RouteRatingEnum.V0to1);
+                RouteReview newRouteReview1 = new RouteReview("I think this route is great", RouteRatingEnum.V0to1, new Date());
                 newRouteReview1.setCustomer(customerSessionBeanLocal.retrieveCustomerByUsername("Alice"));
                 newRouteReview1.setRoute(routeEntitySessionBeanLocal.retrieveRouteByRouteName("CCFunanRoute1"));
-                newRouteReview1.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("CCFUNAN"));
                 routeReviewSessionBeanLocal.createNewRouteReview(newRouteReview1);
 
-                RouteReview newRouteReview2 = new RouteReview("I think this route is bad", RouteRatingEnum.VB);
+                RouteReview newRouteReview2 = new RouteReview("I think this route is bad", RouteRatingEnum.VB, new Date());
                 newRouteReview2.setCustomer(customerSessionBeanLocal.retrieveCustomerByUsername("Alice"));
                 newRouteReview2.setRoute(routeEntitySessionBeanLocal.retrieveRouteByRouteName("CCFunanRoute2"));
-                newRouteReview2.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("CCFUNAN"));
                 routeReviewSessionBeanLocal.createNewRouteReview(newRouteReview2);
 
-                RouteReview newRouteReview3 = new RouteReview("I think this route is very good", RouteRatingEnum.VB);
+                RouteReview newRouteReview3 = new RouteReview("I think this route is very good", RouteRatingEnum.VB, new Date());
                 newRouteReview3.setCustomer(customerSessionBeanLocal.retrieveCustomerByUsername("Bob"));
                 newRouteReview3.setRoute(routeEntitySessionBeanLocal.retrieveRouteByRouteName("CCFunanRoute1"));
-                newRouteReview3.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("CCFUNAN"));
                 routeReviewSessionBeanLocal.createNewRouteReview(newRouteReview3);
 
-                RouteReview newRouteReview4 = new RouteReview("I think this route is very very good", RouteRatingEnum.V0to1);
+                RouteReview newRouteReview4 = new RouteReview("I think this route is very very good", RouteRatingEnum.V0to1, new Date());
                 newRouteReview4.setCustomer(customerSessionBeanLocal.retrieveCustomerByUsername("Charlie"));
                 newRouteReview4.setRoute(routeEntitySessionBeanLocal.retrieveRouteByRouteName("CCFunanRoute1"));
-                newRouteReview4.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("CCFUNAN"));
                 routeReviewSessionBeanLocal.createNewRouteReview(newRouteReview4);
 
-                RouteReview newRouteReview5 = new RouteReview("I think this route is super duper good", RouteRatingEnum.V0to1);
+                RouteReview newRouteReview5 = new RouteReview("I think this route is super duper good", RouteRatingEnum.V0to1, new Date());
                 newRouteReview5.setCustomer(customerSessionBeanLocal.retrieveCustomerByUsername("Daniel"));
                 newRouteReview5.setRoute(routeEntitySessionBeanLocal.retrieveRouteByRouteName("CCFunanRoute1"));
-                newRouteReview5.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("CCFUNAN"));
                 routeReviewSessionBeanLocal.createNewRouteReview(newRouteReview5);
 
             } catch (Exception e) {

@@ -5,6 +5,7 @@
  */
 package ws.rest;
 
+import ejb.session.stateless.CustomerSessionBeanLocal;
 import ejb.session.stateless.RouteEntitySessionBeanLocal;
 import ejb.session.stateless.RouteReviewSessionBeanLocal;
 import entity.Customer;
@@ -27,6 +28,7 @@ import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import ws.datamodel.CreateRouteReviewRequest;
 
 /**
  * REST Web Service
@@ -36,10 +38,13 @@ import javax.ws.rs.core.Response.Status;
 @Path("RouteReview")
 public class RouteReviewResource {
 
+    CustomerSessionBeanLocal customerSessionBean = lookupCustomerSessionBeanLocal();
+
     RouteEntitySessionBeanLocal routeEntitySessionBean = lookupRouteEntitySessionBeanLocal();
 
     RouteReviewSessionBeanLocal routeReviewSessionBean = lookupRouteReviewSessionBeanLocal();
 
+    
     
     @Context
     private UriInfo context;
@@ -60,7 +65,6 @@ public class RouteReviewResource {
             List<RouteReview> routeReviews = routeReviewSessionBean.retrieveRouteReviewsByRoute(route);
 
             for (RouteReview routeReview : routeReviews) {
-                routeReview.setGymEntity(null);
                 routeReview.setRoute(null);
                 
                 Customer customer = routeReview.getCustomer();
@@ -77,6 +81,48 @@ public class RouteReviewResource {
             return Response.status(Status.OK).entity(genericEntity).build();
         } catch (Exception ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
+        }
+    }
+    
+    @Path("retrieveRouteRatings/{id}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveRouteRatingsByRoute(@PathParam("id") Long routeId) {
+        try {
+            RouteEntity route = routeEntitySessionBean.retrieveRouteByRouteId(routeId);
+            
+            List<Object[]> ratings = routeReviewSessionBean.retrieveRouteRatingResults(route);
+            
+            
+            //GenericEntity<List<Object[]>> genericEntity = new GenericEntity<List<Object[]>>(ratings);
+
+            return Response.status(Status.OK).entity(ratings).build();
+        } catch (Exception ex) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
+        }
+    }
+    
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createRouteReview(CreateRouteReviewRequest createRouteReviewRequest) {
+        try {
+            RouteReview routeReview = createRouteReviewRequest.getRouteReview();
+            
+            Customer customer = customerSessionBean.retrieveCustomerByUsername(createRouteReviewRequest.getUsername());
+            customer.getRouteReviews().add(routeReview);
+            routeReview.setCustomer(customer);
+            
+            RouteEntity route = routeEntitySessionBean.retrieveRouteByRouteId(createRouteReviewRequest.getRouteId());
+            route.getRouteReviews().add(routeReview);
+            routeReview.setRoute(route);
+            
+            Long id = routeReviewSessionBean.createNewRouteReview(routeReview);
+            
+            return Response.status(Response.Status.OK).entity(id).build();
+
+        } catch (Exception ex) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
 
@@ -114,6 +160,16 @@ public class RouteReviewResource {
         try {
             javax.naming.Context c = new InitialContext();
             return (RouteEntitySessionBeanLocal) c.lookup("java:global/GP14/GP14-ejb/RouteEntitySessionBean!ejb.session.stateless.RouteEntitySessionBeanLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
+    private CustomerSessionBeanLocal lookupCustomerSessionBeanLocal() {
+        try {
+            javax.naming.Context c = new InitialContext();
+            return (CustomerSessionBeanLocal) c.lookup("java:global/GP14/GP14-ejb/CustomerSessionBean!ejb.session.stateless.CustomerSessionBeanLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

@@ -40,14 +40,12 @@ public class GymEntity implements Serializable {
     private List<GymSlot> gymSlots;
     
     @OneToMany(mappedBy = "gymEntity")
-    private List<RouteReview> routeReviews;
-    
-    @OneToMany(mappedBy = "gymEntity")
     private List<RouteEntity> routes;
 
     public GymEntity() {
         facilities = new ArrayList<>();
         gymSlots = new ArrayList<>();
+        routes = new ArrayList<>();
     }
 
     public GymEntity(String username, String gymName, String franchise, String password, String address,
@@ -249,20 +247,6 @@ public class GymEntity implements Serializable {
      */
     public void setGymPicturesURL(List<String> gymPicturesURL) {
         this.gymPicturesURL = gymPicturesURL;
-    }
-
-    /**
-     * @return the routeReviews
-     */
-    public List<RouteReview> getRouteReviews() {
-        return routeReviews;
-    }
-
-    /**
-     * @param routeReviews the routeReviews to set
-     */
-    public void setRouteReviews(List<RouteReview> routeReviews) {
-        this.routeReviews = routeReviews;
     }
 
     /**

@@ -31,5 +31,7 @@ public interface RouteReviewSessionBeanLocal {
     public void updateRouteReview(RouteReview routeReview) throws RouteReviewNotFoundException;
 
     public List<RouteReview> retrieveRouteReviewsByRoute(RouteEntity route);
+
+    public List<Object[]> retrieveRouteRatingResults(RouteEntity route);
     
 }

@@ -53,4 +53,10 @@
         <local>ejb.session.stateless.RouteEntitySessionBeanLocal</local>
         <ejb-link>GP14-ejb.jar#RouteEntitySessionBean</ejb-link>
     </ejb-local-ref>
+    <ejb-local-ref>
+        <ejb-ref-name>CustomerSessionBean1</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>ejb.session.stateless.CustomerSessionBeanLocal</local>
+        <ejb-link>GP14-ejb.jar#CustomerSessionBean</ejb-link>
+    </ejb-local-ref>
 </web-app>

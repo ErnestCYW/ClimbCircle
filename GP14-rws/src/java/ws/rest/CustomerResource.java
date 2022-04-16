@@ -65,7 +65,6 @@ public class CustomerResource {
             List<RouteReview> routeReviews = customer.getRouteReviews();
             for (RouteReview routeReview : routeReviews) {
                 routeReview.setCustomer(null);
-                routeReview.setGymEntity(null);
                 routeReview.setRoute(null);
             }
 
