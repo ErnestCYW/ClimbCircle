@@ -131,6 +131,12 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
         query.setParameter("gymId", gymId);
         List<GymSlot> gymSlots = query.getResultList();
         
+        for (GymSlot gymslot : gymSlots) {
+            
+            gymslot.getCustomers().size();
+            
+        }
+        
         return gymSlots;
     }
 

@@ -42,7 +42,7 @@ public class myBookingManagementManagedBean {
     public void postConstruct() {
         setCurrentUser((GymEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentUser"));
         setBookings(gymSlotSessionBeanLocal.retrieveGymBookings(getCurrentUser().getGymId()));
-    }
+            }
 
     /**
      * @return the bookings
