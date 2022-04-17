@@ -110,6 +110,7 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
             gymSlot.setVacancies(gymSlot.getVacancies() - 1);
             gymSlot.getCustomers().add(customer);
             customer.getGymSlots().add(gymSlot);
+            customer.setNumOfPassesLeft(customer.getNumOfPassesLeft() - 1);
         } catch (CustomerNotFoundException ex) {
             
         }

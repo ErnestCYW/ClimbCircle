@@ -46,10 +46,6 @@ public class GymSlotResource {
     CustomerSessionBeanLocal customerSessionBean = lookupCustomerSessionBeanLocal();
 
     GymSlotSessionBeanLocal gymSlotSessionBean = lookupGymSlotSessionBeanLocal();
-    
-    
-    
-    
 
     @Context
     private UriInfo context;
@@ -67,7 +63,9 @@ public class GymSlotResource {
         try {
             GymSlot gymSlot = gymSlotSessionBean.retrieveGymSlotById(gymSlotId);
 
-            gymSlot.getGymEntity().getGymSlots().clear();
+            GymEntity gym = gymSlot.getGymEntity();
+            gym.getGymSlots().clear();
+            gym.getRoutes().clear();
             gymSlot.getCustomers().clear();
 
             GenericEntity<GymSlot> genericEntity = new GenericEntity<GymSlot>(gymSlot) {
@@ -78,7 +76,7 @@ public class GymSlotResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("retrieveGymSlots/{id}/{date}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -88,9 +86,9 @@ public class GymSlotResource {
             String pattern = "yyyy-MM-dd";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             Date dateObj = simpleDateFormat.parse(date);
-            
+
             List<GymSlot> gymSlots = gymSlotSessionBean.retrieveGymSlotsByDate(dateObj, gym);
-            
+
             for (GymSlot gymSlot : gymSlots) {
                 gymSlot.getCustomers().clear();
                 gymSlot.setGymEntity(null);
@@ -104,7 +102,7 @@ public class GymSlotResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
-    
+
     @Path("retrieveGymSlots/{username}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -112,12 +110,15 @@ public class GymSlotResource {
         try {
             Customer customer = customerSessionBean.retrieveCustomerByUsername(username);
             List<GymSlot> gymSlots = customer.getGymSlots();
-            
+
             for (GymSlot gymSlot : gymSlots) {
+                GymEntity gym = gymSlot.getGymEntity();
+                gym.getGymSlots().clear();
+                gym.getRoutes().clear();
+
                 gymSlot.getCustomers().clear();
-                gymSlot.getGymEntity().getGymSlots().clear();
             }
-            
+
             GenericEntity<List<GymSlot>> genericEntity = new GenericEntity<List<GymSlot>>(gymSlots) {
             };
 

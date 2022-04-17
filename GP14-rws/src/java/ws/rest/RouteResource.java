@@ -80,7 +80,10 @@ public class RouteResource {
         try {
             RouteEntity route = routeEntitySessionBean.retrieveRouteByRouteId(routeId);
 
-            route.setGymEntity(null);
+            GymEntity gym = route.getGymEntity();
+            gym.getGymSlots().clear();
+            gym.getRoutes().clear();
+            
             route.getRouteReviews().clear();
 
             GenericEntity<RouteEntity> genericEntity = new GenericEntity<RouteEntity>(route) {
