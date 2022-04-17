@@ -153,7 +153,7 @@
 
                         <p:outputLabel for="updateGym" value="Edit Details: " style="font-weight: bold;" />
                         <p:commandButton id="updateGym" actionListener="#{gymManagementManagedBean.doUpdateGym}" update="formUpdateGym" oncomplete="PF('dialogUpdateGym').show()" icon="ui-icon-pencil" title="Update">
-                            <f:attribute name="gymEntityToUpdate" value="#{gymEntity}" />
+                            <f:attribute name="gymEntityToUpdate" value="#{sessionScope.currentUser}" />
                         </p:commandButton>
                         <p:message for="updateGym" />
 
