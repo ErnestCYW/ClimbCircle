@@ -10,23 +10,30 @@
 
     <ui:define name="content">
 
+        <div class="d-flex flex-column w-100">
 
-        <h1>Contact us to register your gym!</h1>
+            <h4 class="display-6 align-self-center">ClimbCircle is a trusted brand by many gyms across Singapore! See our partners:</h4>
 
-        <h2>Already With Us</h2>
+            <p:ring id="custom" value="#{gymManagementManagedBean.gymEntities}" var="gym" styleClass="image-ring" easing="easeInOutBack">
+                <p:graphicImage url="/uploadedFiles/gym_profile_pictures/#{gym.profilePictureURL}" height="100" alt="Missing Image" />
+            </p:ring>
 
-        <p:ring id="custom" value="#{gymManagementManagedBean.gymEntities}" var="gym" styleClass="image-ring" easing="easeInOutBack">
-            <p:graphicImage url="/uploadedFiles/gym_profile_pictures/#{gym.profilePictureURL}" height="100" alt="Missing Image" />
-        </p:ring>
+            <br></br>
+            <br></br>
 
-        <h2>Email Us Your Phone Number And We Will Get In Touch</h2>
-        
-        <h:form>
-            <p:messages id="messagesCreateNewGym" redisplay="false" />
-            <p:inputText id="clientHandphone" value="#{miscFunctionsManagedBean.clientPhone}" placeholder="+65 xxxx xxxx" required="true" requiredMessage="Phone number is required"/>
-            <p:commandButton  value="Submit" update="@form" actionListener="#{miscFunctionsManagedBean.sendEmail}" />
-        </h:form>
-        
+            <div class="align-self-center m-5 p-5 bg-dark text-white rounded">
+
+                <h4>Email Us Your Phone Number And We Will Get In Touch</h4>
+
+                <h:form>
+                    <p:messages id="messagesCreateNewGym" redisplay="false" />
+                    <p:inputText id="clientHandphone" value="#{miscFunctionsManagedBean.clientPhone}" placeholder="+65 xxxx xxxx" required="true" requiredMessage="Phone number is required"/>
+                    <p:commandButton  value="Submit" update="@form" actionListener="#{miscFunctionsManagedBean.sendEmail}" />
+                </h:form>
+            </div>
+
+        </div>
+
     </ui:define>
 
 </ui:composition>
