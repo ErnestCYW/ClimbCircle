@@ -119,6 +119,7 @@ body {
 
 .mainmenu {
     background-image: url("#{resource['images/ClimbCircleHeaderBanner.gif']}");
+    background-size: cover;
     height: 120px;
 }
 
