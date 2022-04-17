@@ -93,22 +93,7 @@ public class CustomerResource {
         }
     }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateCustomer(Customer customer) {
 
-        try {
-
-            customerSessionBeanLocal.updateCustomer(customer);
-
-            return Response.status(Response.Status.OK).build();
-
-        } catch (Exception ex) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
-        }
-
-    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

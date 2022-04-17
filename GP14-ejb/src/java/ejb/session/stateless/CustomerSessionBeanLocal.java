@@ -29,6 +29,7 @@ public interface CustomerSessionBeanLocal {
     public Customer updateCustomer(Customer customer) throws CustomerNotFoundException;
 
     public Customer renewMembership(Customer customer) throws CustomerNotFoundException;
+    
     public List<Customer> retrieveAllCustomers();
 
     public void deleteCustomer(String username) throws CustomerNotFoundException, DeleteCustomerException;
