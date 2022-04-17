@@ -69,7 +69,7 @@ public class GymResource {
         }
     }
 
-    @Path("retrieveGym/{id}")
+    @Path("retrieveGymById/{id}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response retrieveGymById(@PathParam("id") Long gymId) {
@@ -87,6 +87,26 @@ public class GymResource {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
     }
+    
+    @Path("retrieveGymByUsername/{username}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response retrieveGymByUsername(@PathParam("username") String username) {
+        try {
+            GymEntity gym = gymEntitySessionBean.retrieveGymByUsername(username);
+
+            gym.getGymSlots().clear();
+            gym.getRoutes().clear();
+
+            GenericEntity<GymEntity> genericEntity = new GenericEntity<GymEntity>(gym) {
+            };
+
+            return Response.status(Status.OK).entity(genericEntity).build();
+        } catch (Exception ex) {
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
+        }
+    }
+    
 
     /**
      * Retrieves representation of an instance of ws.rest.GymResource
