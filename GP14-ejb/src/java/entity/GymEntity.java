@@ -38,12 +38,13 @@ public class GymEntity implements Serializable {
 
     @OneToMany(mappedBy = "gymEntity")
     private List<GymSlot> gymSlots;
-    
+
     @OneToMany(mappedBy = "gymEntity")
     private List<RouteEntity> routes;
 
     public GymEntity() {
         facilities = new ArrayList<>();
+        gymPicturesURL = new ArrayList<>();
         gymSlots = new ArrayList<>();
         routes = new ArrayList<>();
     }

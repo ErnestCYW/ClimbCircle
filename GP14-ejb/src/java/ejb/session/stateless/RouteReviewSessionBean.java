@@ -38,6 +38,7 @@ public class RouteReviewSessionBean implements RouteReviewSessionBeanLocal {
 
         for (RouteReview routeReview : routeReviews) {
             routeReview.getRoute();
+            routeReview.getRoute().getGymEntity();
             routeReview.getCustomer();
         }
 
@@ -48,7 +49,7 @@ public class RouteReviewSessionBean implements RouteReviewSessionBeanLocal {
     @Override
     public List<RouteReview> retrieveAllRouteReviewsByGymId(Long gymId) {
 
-        Query query = em.createQuery("SELECT rr FROM RouteReview rr WHERE rr.gymEntity.gymId = :gymEntityId");
+        Query query = em.createQuery("SELECT rr FROM RouteReview rr JOIN rr.route r WHERE r.gymEntity.gymId = :gymEntityId");
         query.setParameter("gymEntityId", gymId);
         List<RouteReview> routeReviews = query.getResultList();
 

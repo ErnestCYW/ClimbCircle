@@ -33,75 +33,73 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
 
     @EJB(name = "GymEntitySessionBeanLocal")
     private GymEntitySessionBeanLocal gymEntitySessionBeanLocal;
-    
-    
-    
+
     @PersistenceContext(unitName = "GP14-ejbPU")
     private EntityManager em;
 
     @Override
     public Long createNewGymSlot(String username, GymSlot newGymSlot) {
-        
+
         try {
             GymEntity gym = gymEntitySessionBeanLocal.retrieveGymByUsername(username);
-            
+
             gym.getGymSlots().add(newGymSlot);
             newGymSlot.setGymEntity(gym);
-            
+
             em.persist(newGymSlot);
             em.flush();
-            
+
             return newGymSlot.getGymSlotId();
         } catch (GymEntityNotFoundException ex) {
             return null;
         }
     }
-    
+
     @Override
     public List<GymSlot> retrieveGymSlotsByGym(GymEntity gym) {
         Query query = em.createQuery("SELECT g FROM GymSlot g WHERE g.gymEntity = :gym");
         query.setParameter("gym", gym);
         List<GymSlot> gymSlots = query.getResultList();
-        
+
         for (GymSlot gymSlot : gymSlots) {
             gymSlot.getCustomers().size();
         }
-        
+
         return query.getResultList();
     }
-    
+
     @Override
     public GymSlot retrieveGymSlotById(Long gymSlotId) {
         GymSlot gymSlot = em.find(GymSlot.class, gymSlotId);
         gymSlot.getCustomers().size();
-        
+
         return gymSlot;
     }
-    
+
     @Override
     public List<GymSlot> retrieveGymSlotsByDate(Date date, GymEntity gym) {
         Query query = em.createQuery("SELECT g FROM GymSlot g WHERE g.gymEntity = :gym AND g.date = :inDate");
         query.setParameter("inDate", date).setParameter("gym", gym);
         List<GymSlot> gymSlots = query.getResultList();
-        
+
         for (GymSlot gymSlot : gymSlots) {
             gymSlot.getCustomers().size();
         }
-        
+
         return gymSlots;
     }
-    
+
     @Override
     public void updateGymSlot(GymSlot gymSlot) {
-        
+
         GymSlot gymSlotToUpdate = retrieveGymSlotById(gymSlot.getGymSlotId());
-        
+
         gymSlotToUpdate.setStartTime(gymSlot.getStartTime());
         gymSlotToUpdate.setEndTime(gymSlot.getEndTime());
         gymSlotToUpdate.setVacancies(gymSlot.getVacancies());
         //gymSlotToUpdate.setCustomers(gymSlot.getCustomers());
     }
-    
+
     @Override
     public void createBooking(Long gymSlotId, String username) {
         try {
@@ -112,15 +110,14 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
             customer.getGymSlots().add(gymSlot);
             customer.setNumOfPassesLeft(customer.getNumOfPassesLeft() - 1);
         } catch (CustomerNotFoundException ex) {
-            
+
         }
-        
     }
-    
+
     @Override
     public void deleteGymSlot(Long gymSlotId) throws DeleteGymSlotException {
         GymSlot gymSlotToDelete = retrieveGymSlotById(gymSlotId);
-        
+
         if (gymSlotToDelete.getCustomers().isEmpty()) {
             em.remove(gymSlotToDelete);
         } else {
@@ -128,5 +125,13 @@ public class GymSlotSessionBean implements GymSlotSessionBeanLocal {
         }
     }
 
-    
+    @Override
+    public List<GymSlot> retrieveGymBookings(Long gymId) {
+        Query query = em.createQuery("SELECT gs FROM GymSlot gs WHERE gs.gymEntity.gymId = :gymId AND gs.customers IS NOT EMPTY");
+        query.setParameter("gymId", gymId);
+        List<GymSlot> gymSlots = query.getResultList();
+        
+        return gymSlots;
+    }
+
 }

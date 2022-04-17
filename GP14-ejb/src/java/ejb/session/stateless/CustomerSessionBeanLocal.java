@@ -6,8 +6,10 @@
 package ejb.session.stateless;
 
 import entity.Customer;
+import java.util.List;
 import javax.ejb.Local;
 import util.exception.CustomerNotFoundException;
+import util.exception.DeleteCustomerException;
 import util.exception.InvalidLoginCredentialException;
 
 /**
@@ -22,5 +24,9 @@ public interface CustomerSessionBeanLocal {
     public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException;
 
     public Customer login(String username, String password) throws InvalidLoginCredentialException;
+
+    public List<Customer> retrieveAllCustomers();
+
+    public void deleteCustomer(String username) throws CustomerNotFoundException, DeleteCustomerException;
     
 }

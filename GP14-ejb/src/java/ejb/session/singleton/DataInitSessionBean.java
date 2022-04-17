@@ -71,12 +71,18 @@ public class DataInitSessionBean {
 
     @PostConstruct
     public void postConstruct() {
-        
 
         //Creating Gyms
         if (em.find(GymEntity.class, 1L) == null) {
             List<Enum> allFacilities = new ArrayList<Enum>(EnumSet.allOf(FacilitiesEnum.class));
-            gymEntitySessionBeanLocal.createNewGym(new GymEntity("CCFUNAN", "Climb Central Funan", "Climb Central", "password", "107 North Bridge Rd, #B2-19/21 Funan, Singapore 179105", "CCFunan.jpeg", "Mon - Fri 10am to 11pm", "+65 6906 3918", allFacilities));
+
+            //Special case for CCFunan --> Manually add gym pictures
+            GymEntity ccFunan = new GymEntity("CCFUNAN", "Climb Central Funan", "Climb Central", "password", "107 North Bridge Rd, #B2-19/21 Funan, Singapore 179105", "CCFunan.jpeg", "Mon - Fri 10am to 11pm", "+65 6906 3918", allFacilities);
+            ccFunan.getGymPicturesURL().add("CCFunanGym1.jpeg");
+            ccFunan.getGymPicturesURL().add("CCFunanGym2.jpeg");
+            ccFunan.getGymPicturesURL().add("CCFunanGym3.jpeg");
+            gymEntitySessionBeanLocal.createNewGym(ccFunan);
+
             gymEntitySessionBeanLocal.createNewGym(new GymEntity("CCKALLANG", "Climb Central Kallang", "Climb Central", "password", "#B1-01 Kallang Wave Mall, 1 Stadium Place, Singapore 397628", "CCKallang.jpeg", "Mon - Fri 10am to 11pm", "+65 6702 7972", allFacilities));
             gymEntitySessionBeanLocal.createNewGym(new GymEntity("CCNOVENA", "Climb Central Novena", "Climb Central", "password", "238 Thomson Rd, #03-23/25, Singapore 307683", "CCNovena.jpeg", "Mon - Fri 10am to 11pm", "+65 6353 6885", allFacilities));
             gymEntitySessionBeanLocal.createNewGym(new GymEntity("CLIMBERSLAB", "Climbers Lab", "Climbers Lab", "password", "48 Woodleigh Park Singapore 608586", "ClimbersLab.png", "Mon - Fri 10am to 9pm", "+65 6515 9363", allFacilities));
@@ -120,35 +126,35 @@ public class DataInitSessionBean {
 
             try {
 
-                RouteEntity newRouteEntity1 = new RouteEntity("CCFunanRoute1", "CCFunanRoute1 Description", RouteRatingEnum.V6to8, "CCFunanRoute1", "White Wall", "Black");
+                RouteEntity newRouteEntity1 = new RouteEntity("CCFunanRoute1", "CCFunanRoute1 Description", RouteRatingEnum.V6to8, "CCFunanRoute1.jpeg", "White Wall", "Black");
                 newRouteEntity1.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("CCFUNAN"));
                 routeEntitySessionBeanLocal.createNewRoute(newRouteEntity1);
 
-                RouteEntity newRouteEntity2 = new RouteEntity("CCFunanRoute2", "CCFunanRoute2 Description", RouteRatingEnum.V1to2, "CCFunanRoute2", "White Wall", "Orange");
+                RouteEntity newRouteEntity2 = new RouteEntity("CCFunanRoute2", "CCFunanRoute2 Description", RouteRatingEnum.V1to2, "CCFunanRoute2.jpg", "White Wall", "Orange");
                 newRouteEntity2.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("CCFUNAN"));
                 routeEntitySessionBeanLocal.createNewRoute(newRouteEntity2);
 
-                RouteEntity newRouteEntity3 = new RouteEntity("CCFunanRoute3", "CCFunanRoute3 Description", RouteRatingEnum.V6to8, "CCFunanRoute3", "Black Wall", "Pink");
+                RouteEntity newRouteEntity3 = new RouteEntity("CCFunanRoute3", "CCFunanRoute3 Description", RouteRatingEnum.V6to8, "CCFunanRoute3.jpeg", "Black Wall", "Pink");
                 newRouteEntity3.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("CCFUNAN"));
                 routeEntitySessionBeanLocal.createNewRoute(newRouteEntity3);
 
-                RouteEntity newRouteEntity4 = new RouteEntity("BMDowntownRoute1", "BMDowntownRoute1 Description", RouteRatingEnum.VB, "BMDowntownRoute1", "Pink Wall", "#f542f5");
+                RouteEntity newRouteEntity4 = new RouteEntity("BMDowntownRoute1", "BMDowntownRoute1 Description", RouteRatingEnum.VB, "BMDowntownRoute1.jpeg", "Pink Wall", "#f542f5");
                 newRouteEntity4.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("BMDOWNTOWN"));
                 routeEntitySessionBeanLocal.createNewRoute(newRouteEntity4);
 
-                RouteEntity newRouteEntity5 = new RouteEntity("BMDowntownRoute2", "BMDowntownRoute2 Description", RouteRatingEnum.VB, "BMDowntownRoute2", "Pink Wall", "#4287f5");
+                RouteEntity newRouteEntity5 = new RouteEntity("BMDowntownRoute2", "BMDowntownRoute2 Description", RouteRatingEnum.VB, "BMDowntownRoute2.jpg", "Pink Wall", "#4287f5");
                 newRouteEntity5.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("BMDOWNTOWN"));
                 routeEntitySessionBeanLocal.createNewRoute(newRouteEntity5);
 
-                RouteEntity newRouteEntity6 = new RouteEntity("BMDowntownRoute3", "BMDowntownRoute3 Description", RouteRatingEnum.VB, "BMDowntownRoute3", "Pink Wall", "#4287f5");
+                RouteEntity newRouteEntity6 = new RouteEntity("BMDowntownRoute3", "BMDowntownRoute3 Description", RouteRatingEnum.VB, "BMDowntownRoute3.jpeg", "Pink Wall", "#4287f5");
                 newRouteEntity6.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("BMDOWNTOWN"));
                 routeEntitySessionBeanLocal.createNewRoute(newRouteEntity6);
 
-                RouteEntity newRouteEntity7 = new RouteEntity("BMRochorRoute1", "BMDowntownRochor1 Description", RouteRatingEnum.V0to1, "BMRochorRoute1", "Wall 1", "Yellow");
+                RouteEntity newRouteEntity7 = new RouteEntity("BMRochorRoute1", "BMDowntownRochor1 Description", RouteRatingEnum.V0to1, "BMRochorRoute1.jpg", "Wall 1", "Yellow");
                 newRouteEntity7.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("BMROCHOR"));
                 routeEntitySessionBeanLocal.createNewRoute(newRouteEntity7);
 
-                RouteEntity newRouteEntity8 = new RouteEntity("BMRochorRoute2", "BMDowntownRochor2 Description", RouteRatingEnum.V0to1, "BMRochorRoute2", "Wall 2", "Red");
+                RouteEntity newRouteEntity8 = new RouteEntity("BMRochorRoute2", "BMDowntownRochor2 Description", RouteRatingEnum.V0to1, "BMRochorRoute2.jpg", "Wall 2", "Red");
                 newRouteEntity8.setGymEntity(gymEntitySessionBeanLocal.retrieveGymByUsername("BMROCHOR"));
                 routeEntitySessionBeanLocal.createNewRoute(newRouteEntity8);
 
@@ -187,15 +193,19 @@ public class DataInitSessionBean {
                 newRouteReview5.setRoute(routeEntitySessionBeanLocal.retrieveRouteByRouteName("CCFunanRoute1"));
                 routeReviewSessionBeanLocal.createNewRouteReview(newRouteReview5);
 
+                RouteReview newRouteReview6 = new RouteReview("I think this route is super duper good", RouteRatingEnum.V0to1, new Date());
+                newRouteReview6.setCustomer(customerSessionBeanLocal.retrieveCustomerByUsername("Daniel"));
+                newRouteReview6.setRoute(routeEntitySessionBeanLocal.retrieveRouteByRouteName("BMDowntownRoute1"));
+                routeReviewSessionBeanLocal.createNewRouteReview(newRouteReview6);
+
             } catch (Exception e) {
 
                 System.err.println("An error occured while creating new route reviews in data initialisation");
             }
 
         }
-        
+
         //Gym Slot to be created using gyms own logic...
-        
     }
 
     // Add business logic below. (Right-click in editor and choose
