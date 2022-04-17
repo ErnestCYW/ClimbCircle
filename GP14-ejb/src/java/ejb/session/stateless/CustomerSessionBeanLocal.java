@@ -26,11 +26,13 @@ public interface CustomerSessionBeanLocal {
 
     public Customer login(String username, String password) throws InvalidLoginCredentialException;
 
-    public Customer updateCustomer(Customer customer) throws CustomerNotFoundException;
+    public Customer updateCustomer(Customer customer);
 
-    public Customer renewMembership(Customer customer) throws CustomerNotFoundException;
+    public Customer renewMembership(Customer customer, String subscriptionPlanName);
+    
     public List<Customer> retrieveAllCustomers();
 
     public void deleteCustomer(String username) throws CustomerNotFoundException, DeleteCustomerException;
+
     
 }

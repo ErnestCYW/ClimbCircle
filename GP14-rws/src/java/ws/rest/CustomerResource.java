@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import util.exception.InvalidLoginCredentialException;
 import ws.datamodel.CreateCustomerRequest;
-import ws.datamodel.UpdateCustomerRequest;
+import ws.datamodel.RenewMembershipRequest;
 
 /**
  * REST Web Service
@@ -124,6 +124,7 @@ public class CustomerResource {
         }
     }
 
+    @Path("editProfile")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -131,30 +132,48 @@ public class CustomerResource {
 
         try {
 
-            customerSessionBeanLocal.updateCustomer(customer);
+            Customer updatedCustomer = customerSessionBeanLocal.updateCustomer(customer);
 
-            return Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).entity(updatedCustomer).build();
 
         } catch (Exception ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
 
     }
-
+    
+    @Path("renewMembership")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response renewMembership(Customer customer) {
+    public Response renewMembership(RenewMembershipRequest renewMembershipRequest) {
+
         try {
 
-            customerSessionBeanLocal.renewMembership(customer);
+            Customer updatedCustomer = customerSessionBeanLocal.renewMembership(renewMembershipRequest.getCustomer(), renewMembershipRequest.getSubscriptionPlan());
 
-            return Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).entity(updatedCustomer).build();
 
         } catch (Exception ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
         }
+
     }
+
+//    @POST
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public Response renewMembership(Customer customer) {
+//        try {
+//
+//            customerSessionBeanLocal.renewMembership(customer);
+//
+//            return Response.status(Response.Status.OK).build();
+//
+//        } catch (Exception ex) {
+//            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
+//        }
+//    }
 
     
 

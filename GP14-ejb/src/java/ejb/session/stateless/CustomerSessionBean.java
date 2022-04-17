@@ -98,29 +98,61 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
 
     }
 
-    @Override
-    public Customer renewMembership(Customer customer) throws CustomerNotFoundException {
-        SubscriptionPlanEntity subPlan = customer.getSubscriptionPlan();
-        customer.setNumOfPassesLeft(subPlan.getNumOfPasses() + customer.getNumOfPassesLeft());
-        customer.setExpiryDate(addMonths(customer.getExpiryDate(), subPlan.getValidity()));
     
-        return customer;
+    @Override
+    public Customer updateCustomer(Customer customer) {
+        try {
+            Customer customerToUpdate = retrieveCustomerByUsername(customer.getUsername());
+            customerToUpdate.setPassword(customer.getPassword());
+            customerToUpdate.setEmail(customer.getEmail());
+            
+            return customerToUpdate;
+        } catch (CustomerNotFoundException ex) {
+            return null;
+        }
     }
 
-    public Customer updateCustomer(Customer customer) throws CustomerNotFoundException {
-        Customer customerToUpdate = retrieveCustomerByUsername(customer.getUsername());
-        SubscriptionPlanEntity newSubPlan = customer.getSubscriptionPlan();
-        customerToUpdate.setSubscriptionPlan(newSubPlan);
-        
-        
-           //remove the u=customer associateing with old sub plan
-        customer.setSubscriptionPlan(newSubPlan);
-
-        int newNumOfPasses = newSubPlan.getNumOfPasses();
-        customer.setNumOfPassesLeft(customer.getNumOfPassesLeft() + newNumOfPasses);
-        customer.setExpiryDate(addMonths(customer.getExpiryDate(), newSubPlan.getValidity()));
-
-        return customer;
+    @Override
+    public Customer renewMembership(Customer customer, String subscriptionPlanName) {
+        try {
+            SubscriptionPlanEntity newPlan = subscriptionPlanSessionBeanLocal.retrievePlanByName(subscriptionPlanName);
+            SubscriptionPlanEntity oldPlan = subscriptionPlanSessionBeanLocal.retrievePlanByName(customer.getSubscriptionPlan().getName()); 
+            Customer customerToUpdate = retrieveCustomerByUsername(customer.getUsername());
+            
+            Integer passesToAdd;
+            Integer newValidity;
+            //change Plan
+            if (!customerToUpdate.getSubscriptionPlan().getName().equals(subscriptionPlanName)) {
+                
+                oldPlan.getCustomers().remove(customerToUpdate);
+                newPlan.getCustomers().add(customerToUpdate);
+                customerToUpdate.setSubscriptionPlan(newPlan);
+                
+                passesToAdd = newPlan.getNumOfPasses();
+                newValidity = newPlan.getValidity();
+            } else {
+                passesToAdd = oldPlan.getNumOfPasses();
+                newValidity = oldPlan.getValidity();
+            }
+            //renew and change Plan
+            customerToUpdate.setNumOfPassesLeft(passesToAdd + customer.getNumOfPassesLeft());
+            customerToUpdate.setExpiryDate(addMonths(customer.getExpiryDate(), newValidity));
+         
+//            SubscriptionPlanEntity newSubPlan = customer.getSubscriptionPlan();
+//            customerToUpdate.setSubscriptionPlan(newSubPlan);
+//            
+//            
+//            //remove the u=customer associateing with old sub plan
+//            customer.setSubscriptionPlan(newSubPlan);
+//            
+//            int newNumOfPasses = newSubPlan.getNumOfPasses();
+//            customer.setNumOfPassesLeft(customer.getNumOfPassesLeft() + newNumOfPasses);
+//            customer.setExpiryDate(addMonths(customer.getExpiryDate(), newSubPlan.getValidity()));
+            
+            return customerToUpdate;
+        } catch (SubscriptionPlanEntityNotFoundException | CustomerNotFoundException ex) {
+            return null;
+        }
     }
 
     public static Date addMonths(Date date, int months) {
