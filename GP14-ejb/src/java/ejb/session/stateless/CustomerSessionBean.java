@@ -100,20 +100,20 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
 
     
     @Override
-    public Customer updateCustomer(Customer customer) {
+    public void updateCustomer(Customer customer) {
         try {
             Customer customerToUpdate = retrieveCustomerByUsername(customer.getUsername());
             customerToUpdate.setPassword(customer.getPassword());
             customerToUpdate.setEmail(customer.getEmail());
             
-            return customerToUpdate;
+            
         } catch (CustomerNotFoundException ex) {
-            return null;
+            
         }
     }
 
     @Override
-    public Customer renewMembership(Customer customer, String subscriptionPlanName) {
+    public void renewMembership(Customer customer, String subscriptionPlanName) {
         try {
             SubscriptionPlanEntity newPlan = subscriptionPlanSessionBeanLocal.retrievePlanByName(subscriptionPlanName);
             SubscriptionPlanEntity oldPlan = subscriptionPlanSessionBeanLocal.retrievePlanByName(customer.getSubscriptionPlan().getName()); 
@@ -149,9 +149,9 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
 //            customer.setNumOfPassesLeft(customer.getNumOfPassesLeft() + newNumOfPasses);
 //            customer.setExpiryDate(addMonths(customer.getExpiryDate(), newSubPlan.getValidity()));
             
-            return customerToUpdate;
+            
         } catch (SubscriptionPlanEntityNotFoundException | CustomerNotFoundException ex) {
-            return null;
+            
         }
     }
 

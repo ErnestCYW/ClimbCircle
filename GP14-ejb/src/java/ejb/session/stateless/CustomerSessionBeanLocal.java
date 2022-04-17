@@ -26,9 +26,9 @@ public interface CustomerSessionBeanLocal {
 
     public Customer login(String username, String password) throws InvalidLoginCredentialException;
 
-    public Customer updateCustomer(Customer customer);
+    public void updateCustomer(Customer customer);
 
-    public Customer renewMembership(Customer customer, String subscriptionPlanName);
+    public void renewMembership(Customer customer, String subscriptionPlanName);
     
     public List<Customer> retrieveAllCustomers();
 

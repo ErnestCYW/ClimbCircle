@@ -132,9 +132,9 @@ public class CustomerResource {
 
         try {
 
-            Customer updatedCustomer = customerSessionBeanLocal.updateCustomer(customer);
+            customerSessionBeanLocal.updateCustomer(customer);
 
-            return Response.status(Response.Status.OK).entity(updatedCustomer).build();
+            return Response.status(Response.Status.OK).build();
 
         } catch (Exception ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
@@ -150,9 +150,9 @@ public class CustomerResource {
 
         try {
 
-            Customer updatedCustomer = customerSessionBeanLocal.renewMembership(renewMembershipRequest.getCustomer(), renewMembershipRequest.getSubscriptionPlan());
+            customerSessionBeanLocal.renewMembership(renewMembershipRequest.getCustomer(), renewMembershipRequest.getSubscriptionPlan());
 
-            return Response.status(Response.Status.OK).entity(updatedCustomer).build();
+            return Response.status(Response.Status.OK).build();
 
         } catch (Exception ex) {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex.getMessage()).build();
