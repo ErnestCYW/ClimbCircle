@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,6 +19,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.CustomerNotFoundException;
+import util.exception.DeleteCustomerException;
 import util.exception.InvalidLoginCredentialException;
 import util.exception.SubscriptionPlanEntityNotFoundException;
 
@@ -33,6 +35,20 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
 
     @PersistenceContext(unitName = "GP14-ejbPU")
     private EntityManager em;
+
+    @Override
+    public List<Customer> retrieveAllCustomers() {
+
+        Query query = em.createQuery("SELECT c FROM Customer c");
+        List<Customer> customers = query.getResultList();
+
+        for (Customer customer : customers) {
+            customer.getGymSlots().size();
+            customer.getRouteReviews().size();
+            customer.getSubscriptionPlan();
+        }
+        return customers;
+    }
 
     @Override
     public Long createNewCustomer(Customer newCustomer, String subscriptionPlanName) {
@@ -52,6 +68,20 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
         }
     }
 
+
+    @Override
+    public void deleteCustomer(String username) throws CustomerNotFoundException, DeleteCustomerException {
+
+        Customer customerToRemove = retrieveCustomerByUsername(username);
+
+        if (customerToRemove.getGymSlots().isEmpty() && customerToRemove.getRouteReviews().isEmpty()) {
+            customerToRemove.getSubscriptionPlan().getCustomers().remove(customerToRemove);
+            em.remove(customerToRemove);
+        } else {
+            throw new DeleteCustomerException("Customer username " + username + " is associated with gymSlot(s) and or route reviews(s) and cannot be deleted!");
+        }
+    }
+
     @Override
     public Customer retrieveCustomerByUsername(String username) throws CustomerNotFoundException {
         Query query = em.createQuery("SELECT c from Customer c WHERE c.username = :username");
@@ -67,7 +97,7 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
         }
 
     }
-    
+
     @Override
     public Customer renewMembership(Customer customer) throws CustomerNotFoundException {
         SubscriptionPlanEntity subPlan = customer.getSubscriptionPlan();
