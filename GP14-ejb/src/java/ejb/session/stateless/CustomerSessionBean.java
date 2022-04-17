@@ -7,6 +7,10 @@ package ejb.session.stateless;
 
 import entity.Customer;
 import entity.SubscriptionPlanEntity;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -64,6 +68,7 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
         }
     }
 
+
     @Override
     public void deleteCustomer(String username) throws CustomerNotFoundException, DeleteCustomerException {
 
@@ -92,6 +97,45 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
         }
 
     }
+
+    @Override
+    public Customer renewMembership(Customer customer) throws CustomerNotFoundException {
+        SubscriptionPlanEntity subPlan = customer.getSubscriptionPlan();
+        customer.setNumOfPassesLeft(subPlan.getNumOfPasses() + customer.getNumOfPassesLeft());
+        customer.setExpiryDate(addMonths(customer.getExpiryDate(), subPlan.getValidity()));
+    
+        return customer;
+    }
+
+    public Customer updateCustomer(Customer customer) throws CustomerNotFoundException {
+        Customer customerToUpdate = retrieveCustomerByUsername(customer.getUsername());
+        SubscriptionPlanEntity newSubPlan = customer.getSubscriptionPlan();
+        customerToUpdate.setSubscriptionPlan(newSubPlan);
+        
+        
+           //remove the u=customer associateing with old sub plan
+        customer.setSubscriptionPlan(newSubPlan);
+
+        int newNumOfPasses = newSubPlan.getNumOfPasses();
+        customer.setNumOfPassesLeft(customer.getNumOfPassesLeft() + newNumOfPasses);
+        customer.setExpiryDate(addMonths(customer.getExpiryDate(), newSubPlan.getValidity()));
+
+        return customer;
+    }
+
+    public static Date addMonths(Date date, int months) {
+        if (months == 0) {
+            return date;
+        }
+        if (date == null) {
+            return null;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MONTH, months);
+        return cal.getTime();
+    }
+
 
     @Override
     public Customer login(String username, String password) throws InvalidLoginCredentialException {

@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.Customer;
+import entity.SubscriptionPlanEntity;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.CustomerNotFoundException;
@@ -25,6 +26,9 @@ public interface CustomerSessionBeanLocal {
 
     public Customer login(String username, String password) throws InvalidLoginCredentialException;
 
+    public Customer updateCustomer(Customer customer) throws CustomerNotFoundException;
+
+    public Customer renewMembership(Customer customer) throws CustomerNotFoundException;
     public List<Customer> retrieveAllCustomers();
 
     public void deleteCustomer(String username) throws CustomerNotFoundException, DeleteCustomerException;
