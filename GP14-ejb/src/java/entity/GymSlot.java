@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -31,6 +32,7 @@ public class GymSlot implements Serializable {
     private Integer vacancies;
     private LocalTime startTime;
     private LocalTime endTime;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date date;
     
     @ManyToOne(optional = false)

@@ -86,7 +86,7 @@ public class GymManagementManagedBean implements Serializable {
 
             newGymEntity = new GymEntity();
             selectedFacilitiesCreate = new ArrayList<>(); // can't use .clear() here
-            
+
             PrimeFaces.current().executeScript("PF('dialogCreateNewGym').hide()");
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "New gym created successfully (Gym ID: " + gymIdCreated + ")", null));
@@ -106,9 +106,9 @@ public class GymManagementManagedBean implements Serializable {
 
         try {
 
-            getGymEntityToUpdate().setFacilities(getSelectedFacilitiesUpdate());            
+            getGymEntityToUpdate().setFacilities(getSelectedFacilitiesUpdate());
             gymEntitySessionBeanLocal.updateGym(getGymEntityToUpdate());
-            
+
             PrimeFaces.current().executeScript("PF('dialogUpdateGym').hide()");
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Gym updated successfully", null));
@@ -144,10 +144,9 @@ public class GymManagementManagedBean implements Serializable {
     public void handleFileUploadCreate(FileUploadEvent event) {
         try {
             String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + "gym_profile_pictures" + System.getProperty("file.separator") + event.getFile().getFileName();
-            
+
 //            System.out.println("********** handleFileUpload(): File name: " + event.getFile().getFileName());
 //            System.out.println("********** handleFileUpload(): newFilePath: " + newFilePath);
-
             File file = new File(newFilePath);
             FileOutputStream fileOutputStream = new FileOutputStream(file);
 
@@ -170,11 +169,11 @@ public class GymManagementManagedBean implements Serializable {
 
             fileOutputStream.close();
             inputStream.close();
-            
+
             newGymEntity.setProfilePictureURL(event.getFile().getFileName());
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "File uploaded successfully", ""));
-            
+
         } catch (IOException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "File upload error: " + ex.getMessage(), ""));
         }
@@ -186,7 +185,6 @@ public class GymManagementManagedBean implements Serializable {
 
 //            System.err.println("********** handleFileUpload(): File name: " + event.getFile().getFileName());
 //            System.err.println("********** handleFileUpload(): newFilePath: " + newFilePath);
-
             File file = new File(newFilePath);
             FileOutputStream fileOutputStream = new FileOutputStream(file);
 
@@ -209,16 +207,54 @@ public class GymManagementManagedBean implements Serializable {
 
             fileOutputStream.close();
             inputStream.close();
-            
+
             gymEntityToUpdate.setProfilePictureURL(event.getFile().getFileName());
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "File uploaded successfully", ""));
-            
+
         } catch (IOException ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "File upload error: " + ex.getMessage(), ""));
         }
     }
-    
+
+    public void handleFileUploadGymPicture(FileUploadEvent event) {
+        try {
+            String newFilePath = FacesContext.getCurrentInstance().getExternalContext().getInitParameter("alternatedocroot_1") + System.getProperty("file.separator") + "gym_pictures" + System.getProperty("file.separator") + event.getFile().getFileName();
+
+//            System.out.println("********** handleFileUpload(): File name: " + event.getFile().getFileName());
+//            System.out.println("********** handleFileUpload(): newFilePath: " + newFilePath);
+            File file = new File(newFilePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+            int a;
+            int BUFFER_SIZE = 8192;
+            byte[] buffer = new byte[BUFFER_SIZE];
+
+            InputStream inputStream = event.getFile().getInputStream();
+
+            while (true) {
+                a = inputStream.read(buffer);
+
+                if (a < 0) {
+                    break;
+                }
+
+                fileOutputStream.write(buffer, 0, a);
+                fileOutputStream.flush();
+            }
+
+            fileOutputStream.close();
+            inputStream.close();
+
+            newGymEntity.getGymPicturesURL().add(event.getFile().getFileName());
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "File uploaded successfully", ""));
+
+        } catch (IOException ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "File upload error: " + ex.getMessage(), ""));
+        }
+    }
+
     /**
      * @return the gymEntities
      */

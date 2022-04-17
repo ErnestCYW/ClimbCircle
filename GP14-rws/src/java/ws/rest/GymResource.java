@@ -57,7 +57,6 @@ public class GymResource {
 
             for (GymEntity gym : gyms) {
                 gym.getGymSlots().clear();
-                gym.getRouteReviews().clear();
                 gym.getRoutes().clear();
             }
 
@@ -78,7 +77,6 @@ public class GymResource {
             GymEntity gym = gymEntitySessionBean.retrieveGymByGymId(gymId);
 
             gym.getGymSlots().clear();
-            gym.getRouteReviews().clear();
             gym.getRoutes().clear();
 
             GenericEntity<GymEntity> genericEntity = new GenericEntity<GymEntity>(gym) {

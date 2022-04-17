@@ -37,8 +37,8 @@ public class RouteReviewSessionBean implements RouteReviewSessionBeanLocal {
         List<RouteReview> routeReviews = query.getResultList();
 
         for (RouteReview routeReview : routeReviews) {
-            routeReview.getGymEntity();
             routeReview.getRoute();
+            routeReview.getRoute().getGymEntity();
             routeReview.getCustomer();
         }
 
@@ -49,7 +49,7 @@ public class RouteReviewSessionBean implements RouteReviewSessionBeanLocal {
     @Override
     public List<RouteReview> retrieveAllRouteReviewsByGymId(Long gymId) {
 
-        Query query = em.createQuery("SELECT rr FROM RouteReview rr WHERE rr.gymEntity.gymId = :gymEntityId");
+        Query query = em.createQuery("SELECT rr FROM RouteReview rr JOIN rr.route r WHERE r.gymEntity.gymId = :gymEntityId");
         query.setParameter("gymEntityId", gymId);
         List<RouteReview> routeReviews = query.getResultList();
 
@@ -90,8 +90,7 @@ public class RouteReviewSessionBean implements RouteReviewSessionBeanLocal {
     public void deleteRouteReview(Long routeReviewId) throws RouteReviewNotFoundException {
 
         RouteReview routeReviewToRemove = retrieveRouteReviewByRouteReviewId(routeReviewId);
-
-        routeReviewToRemove.getGymEntity().getRouteReviews().remove(routeReviewToRemove);
+        
         routeReviewToRemove.getRoute().getRouteReviews().remove(routeReviewToRemove);
         routeReviewToRemove.getCustomer().getRouteReviews().remove(routeReviewToRemove);
 
@@ -112,6 +111,13 @@ public class RouteReviewSessionBean implements RouteReviewSessionBeanLocal {
             throw new RouteReviewNotFoundException("Route ID not provided for route to be updated");
         }
 
+    }
+    
+    @Override
+    public List<Object[]> retrieveRouteRatingResults(RouteEntity route) {
+        Query query = em.createQuery("SELECT rr.rating, COUNT(rr) FROM RouteReview rr WHERE rr.route = :route GROUP BY rr.rating ORDER BY rr.rating");
+        query.setParameter("route", route);
+        return query.getResultList();
     }
 
 }

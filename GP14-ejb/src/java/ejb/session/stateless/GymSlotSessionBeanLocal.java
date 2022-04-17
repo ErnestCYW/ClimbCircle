@@ -32,5 +32,7 @@ public interface GymSlotSessionBeanLocal {
     public void createBooking(Long gymSlotId, String username);
 
     public void deleteGymSlot(Long gymSlotId) throws DeleteGymSlotException;
+
+    public List<GymSlot> retrieveGymBookings(Long gymId);
     
 }

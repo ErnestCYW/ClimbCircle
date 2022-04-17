@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="../template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
+
+    <ui:define name="content">
+
+        <h:form id="formAllBookings">
+
+            <p:messages id="messages" redisplay="false" closable="true" />
+
+            <p:dataTable id="dataTableAllBookings" widgetVar="dataTableAllBookings" value="#{myBookingManagementManagedBean.bookings}" var="booking" rowKey="#{booking.gymSlotId}" rowIndexVar="row"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+                <p:column headerText="Booking ID" sortBy="#{booking.gymSlotId}" filterBy="#{booking.gymSlotId}" filterMatchMode="contains">
+                    <h:outputText value="#{booking.gymSlotId}" />
+                </p:column>
+
+                <p:column headerText="Date" sortBy="#{booking.date}" filterBy="#{booking.date}" filterMatchMode="contains">
+                    <h:outputText value="#{booking.date}" />
+                </p:column>
+
+                <p:column headerText="Start Time" sortBy="#{booking.startTime}" filterBy="#{booking.startTime}" filterMatchMode="contains">
+                    <h:outputText value="#{booking.startTime}" />
+                </p:column>
+
+                <p:column headerText="End Time" sortBy="#{booking.endTime}" filterBy="#{booking.endTime}" filterMatchMode="contains">
+                    <h:outputText value="#{booking.endTime}" />
+                </p:column>
+
+                <p:column headerText="Customers" sortBy="#{booking.customers}" filterBy="#{booking.customers}" filterMatchMode="contains">
+                    <h:outputText value="#{booking.customers}" />
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
