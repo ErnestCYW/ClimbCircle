@@ -136,6 +136,7 @@ public class CustomerSessionBean implements CustomerSessionBeanLocal {
         return cal.getTime();
     }
 
+
     @Override
     public Customer login(String username, String password) throws InvalidLoginCredentialException {
 
