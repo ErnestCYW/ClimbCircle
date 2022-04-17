@@ -29,9 +29,10 @@
 
                     <!--gym-->
                     <p:submenu label="Partner Gym" rendered="#{sessionScope.usertype.equals('Partner Gym')}">
-                        <!--<p:menuitem value="Edit Profile" outcome="/index" icon="pi pi-arrow-circle-right" />-->
                         <p:menuitem value="Gym Slot Management" outcome="/gymFunctionality/gymSlotManagement.xhtml" icon="pi pi-arrow-circle-right" />
-                        <p:menuitem value="Route Management" outcome="/gymFunctionality/routeManagement.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="Booking Management" outcome="/gymFunctionality/myBookingManagement.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="Route Management" outcome="/gymFunctionality/myRouteManagement.xhtml" icon="pi pi-arrow-circle-right" />
+                        <p:menuitem value="Route Reviews Management" outcome="/gymFunctionality/myRouteReviewsManagement.xhtml" icon="pi pi-arrow-circle-right" />
                     </p:submenu>
 
                 </p:menu>

@@ -28,7 +28,8 @@
             <h:form id="formAllRoutes">
                 <p:messages id="messages" redisplay="false" closable="true"/>
 
-                <p:dataTable id="dataTableAllRoutes" widgetVar="dataTableAllRoutes" value="#{routeManagementManagedBean.routeEntities}" var="routeEntity" rowKey="#{routeEntity.routeId}" rowIndexVar="row" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                <p:dataTable id="dataTableAllRoutes" widgetVar="dataTableAllRoutes" value="#{myRouteManagementManagedBean.routeEntities}" var="routeEntity" rowKey="#{routeEntity.routeId}" rowIndexVar="row" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+                    
                     <p:column headerText="Route ID" sortBy="#{routeEntity.routeId}" filterBy="#{routeEntity.routeId}" filterMatchMode="contains">
                         <h:outputText value="#{routeEntity.routeId}"/>
                     </p:column>
@@ -45,10 +46,6 @@
                         <h:outputText value="#{routeEntity.routeRating}"/>
                     </p:column>
 
-                    <p:column headerText="Route Image URL" sortBy="#{routeEntity.routeImageURL}" filterBy="#{routeEntity.routeImageURL}" filterMatchMode="contains">
-                        <h:outputText value="#{routeEntity.routeImageURL}"/>
-                    </p:column>
-
                     <p:column headerText="Location" sortBy="#{routeEntity.location}" filterBy="#{routeEntity.location}" filterMatchMode="contains">
                         <h:outputText value="#{routeEntity.location}"/>
                     </p:column>
@@ -59,12 +56,12 @@
 
                     <p:column headerText="Action">
                         <p:commandButton update="ccViewRoute:formViewRoute" oncomplete="PF('dialogViewRoute').show()" icon="ui-icon-document" title="View">
-                            <f:setPropertyActionListener value="#{routeEntity}" target="#{routeManagementManagedBean.routeEntityToView}" />
+                            <f:setPropertyActionListener value="#{routeEntity}" target="#{myRouteManagementManagedBean.routeEntityToView}" />
                         </p:commandButton>
-                        <p:commandButton actionListener="#{routeManagementManagedBean.doUpdateRoute}" update="formUpdateRoute" oncomplete="PF('dialogUpdateRoute').show()" icon="ui-icon-pencil" title="Update">
+                        <p:commandButton actionListener="#{myRouteManagementManagedBean.doUpdateRoute}" update="formUpdateRoute" oncomplete="PF('dialogUpdateRoute').show()" icon="ui-icon-pencil" title="Update">
                             <f:attribute name="routeEntityToUpdate" value="#{routeEntity}"/>
                         </p:commandButton>
-                        <p:commandButton icon="ui-icon-trash" actionListener="#{routeManagementManagedBean.deleteRoute}" update="formAllRoutes:dataTableAllRoutes formAllRoutes:messages">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{myRouteManagementManagedBean.deleteRoute}" update="formAllRoutes:dataTableAllRoutes formAllRoutes:messages">
                             <f:attribute name="routeEntityToDelete" value="#{routeEntity}"/>
                             <p:confirm header="Confirmation" message="Are you sure you want to delete #{routeEntity.routeName} (id: #{routeEntity.routeId})?" icon="ui-icon-alert"/>
                         </p:commandButton>
@@ -91,7 +88,7 @@
                                 <p:outputLabel for="routeName" value="Route Name" style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="routeName" value="#{routeManagementManagedBean.newRouteEntity.routeName}" placeholder="Route Name" required="true" requiredMessage="Route name is required" />
+                                <p:inputText id="routeName" value="#{myRouteManagementManagedBean.newRouteEntity.routeName}" placeholder="Route Name" required="true" requiredMessage="Route name is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="routeName" />
@@ -103,7 +100,7 @@
                                 <p:outputLabel for="description" value="Description" style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="description" value="#{routeManagementManagedBean.newRouteEntity.description}" placeholder="Description" required="true" requiredMessage="Description is required" />
+                                <p:inputText id="description" value="#{myRouteManagementManagedBean.newRouteEntity.description}" placeholder="Description" required="true" requiredMessage="Description is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="description" />
@@ -116,8 +113,8 @@
                             </p:column>
 
                             <p:column>
-                                <p:selectOneMenu id="routeRating" value="#{routeManagementManagedBean.newRouteEntity.routeRating}">
-                                    <f:selectItems value="#{routeManagementManagedBean.availableRouteRatings}" itemValue="#{routeRating}" itemLabel="#{routeRating}" />
+                                <p:selectOneMenu id="routeRating" value="#{myRouteManagementManagedBean.newRouteEntity.routeRating}">
+                                    <f:selectItems value="#{myRouteManagementManagedBean.availableRouteRatings}" itemValue="#{routeRating}" itemLabel="#{routeRating}" />
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column>
@@ -130,7 +127,7 @@
                                 <p:outputLabel for="routeImageURL" value="Route Image URL" style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="routeImageURL" value="#{routeManagementManagedBean.newRouteEntity.routeImageURL}" placeholder="Route Image URL" />
+                                <p:fileUpload id ="routeImageURL" listener="#{myRouteManagementManagedBean.handleFileUploadCreate}" mode="advanced" auto="true"/>
                             </p:column>
                             <p:column>
                                 <p:message for="routeImageURL" />
@@ -142,7 +139,7 @@
                                 <p:outputLabel for="color" value="Color" style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="color" value="#{routeManagementManagedBean.newRouteEntity.color}" placeholder="Color of Crimp/Rock" required="true" requiredMessage="Color is required" />
+                                <p:inputText id="color" value="#{myRouteManagementManagedBean.newRouteEntity.color}" placeholder="Color of Crimp/Rock" required="true" requiredMessage="Color is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="color" />
@@ -154,7 +151,7 @@
                                 <p:outputLabel for="location" value="Location" style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="location" value="#{routeManagementManagedBean.newRouteEntity.location}" placeholder="Location of Wall" required="true" requiredMessage="Location is required" />
+                                <p:inputText id="location" value="#{myRouteManagementManagedBean.newRouteEntity.location}" placeholder="Location of Wall" required="true" requiredMessage="Location is required" />
                             </p:column>
                             <p:column>
                                 <p:message for="location" />
@@ -164,7 +161,7 @@
                         <p:row>
                             <p:column colspan="3">
                                 <p:commandButton type="reset" value="Clear" />&nbsp;
-                                <p:commandButton  value="Create New Route" actionListener="#{routeManagementManagedBean.createNewRoute}" update="@form formAllRoutes:dataTableAllRoutes" oncomplete="PF('dialogCreateNewRoute').show();" />
+                                <p:commandButton  value="Create New Route" actionListener="#{myRouteManagementManagedBean.createNewRoute}" update="@form formAllRoutes:dataTableAllRoutes" oncomplete="PF('dialogCreateNewRoute').show();" />
                             </p:column>
                         </p:row>
 
@@ -190,7 +187,7 @@
                                 <h:outputLabel value="Route ID: " />
                             </p:column>
                             <p:column>
-                                <h:outputText value="#{routeManagementManagedBean.routeEntityToUpdate.routeId}" />
+                                <h:outputText value="#{myRouteManagementManagedBean.routeEntityToUpdate.routeId}" />
                             </p:column>
                             <p:column>
                                 &nbsp;
@@ -202,7 +199,7 @@
                                 <p:outputLabel for="routeName" value="Route Name: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="routeName" value="#{routeManagementManagedBean.routeEntityToUpdate.routeName}" placeholder="Route Name" required="true" requiredMessage="Route name is required" />
+                                <p:inputText id="routeName" value="#{myRouteManagementManagedBean.routeEntityToUpdate.routeName}" placeholder="Route Name" required="true" requiredMessage="Route name is required" />
                             </p:column>
                             <p:column>
                                 &nbsp;
@@ -214,7 +211,7 @@
                                 <p:outputLabel for="description" value="Description: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="description" value="#{routeManagementManagedBean.routeEntityToUpdate.description}" placeholder="Gym Name" required="true" requiredMessage="Gym name is required" />
+                                <p:inputText id="description" value="#{myRouteManagementManagedBean.routeEntityToUpdate.description}" placeholder="Gym Name" required="true" requiredMessage="Gym name is required" />
                             </p:column>
                             <p:column>
                                 &nbsp;
@@ -226,8 +223,8 @@
                                 <p:outputLabel for="routeRating" value="Route Rating: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:selectOneMenu id="routeRating" value="#{routeManagementManagedBean.routeEntityToUpdate.routeRating}">
-                                    <f:selectItems value="#{routeManagementManagedBean.availableRouteRatings}" itemValue="#{routeRating}" itemLabel="#{routeRating}" />
+                                <p:selectOneMenu id="routeRating" value="#{myRouteManagementManagedBean.routeEntityToUpdate.routeRating}">
+                                    <f:selectItems value="#{myRouteManagementManagedBean.availableRouteRatings}" itemValue="#{routeRating}" itemLabel="#{routeRating}" />
                                 </p:selectOneMenu>
                             </p:column>
                             <p:column>
@@ -240,7 +237,7 @@
                                 <p:outputLabel for="routeImageURL" value="routeImageURL: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="routeImageURL" value="#{routeManagementManagedBean.routeEntityToUpdate.routeImageURL}" placeholder="Route Image URL" />
+                                <p:fileUpload id ="routeImageURL" listener="#{myRouteManagementManagedBean.handleFileUploadUpdate}" mode="advanced" auto="true"/>
                             </p:column>
                             <p:column>
                                 &nbsp;
@@ -252,7 +249,7 @@
                                 <p:outputLabel for="location" value="Location: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="location" value="#{routeManagementManagedBean.routeEntityToUpdate.location}" placeholder="Location of Wall" required="true" requiredMessage="Location is required"/>
+                                <p:inputText id="location" value="#{myRouteManagementManagedBean.routeEntityToUpdate.location}" placeholder="Location of Wall" required="true" requiredMessage="Location is required"/>
                             </p:column>
                             <p:column>
                                 &nbsp;
@@ -264,7 +261,7 @@
                                 <p:outputLabel for="color" value="Color: " style="font-weight: bold;" />
                             </p:column>
                             <p:column>
-                                <p:inputText id="color" value="#{routeManagementManagedBean.routeEntityToUpdate.color}" placeholder="Color of Crimp/Rock" />
+                                <p:inputText id="color" value="#{myRouteManagementManagedBean.routeEntityToUpdate.color}" placeholder="Color of Crimp/Rock" />
                             </p:column>
                             <p:column>
                                 &nbsp;

@@ -70,7 +70,9 @@ public class DefaultFilter implements Filter {
             }
         } else if (usertype.equals("Partner Gym")) {
             if (path.equals("/gymFunctionality/gymSlotManagement.xhtml")
-                    || path.equals("/gymFunctionality/routeManagement.xhtml")) {
+                    || path.equals("/gymFunctionality/myBookingManagement.xhtml")
+                    || path.equals("/gymFunctionality/myRouteReviewsManagement.xhtml")
+                    || path.equals("/gymFunctionality/myRouteManagement.xhtml")) {
                 return true;
             } else {
                 return false;

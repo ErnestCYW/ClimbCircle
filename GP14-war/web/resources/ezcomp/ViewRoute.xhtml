@@ -21,10 +21,20 @@
 
                     <p:row>
                         <p:column>
+                            <h:outputLabel value="Picture: " />
+                        </p:column>
+                        <p:column>
+                            <p:graphicImage url="/uploadedFiles/route_pictures/#{myRouteManagementManagedBean.routeEntityToView.routeImageURL}" height="500" alt="Missing Image" rendered="#{myRouteManagementManagedBean.routeEntityToView.routeImageURL != null}" />
+                            <p:graphicImage library="images" name="route.png" height="500" rendered="#{myRouteManagementManagedBean.routeEntityToView.routeImageURL == null}"/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
                             <h:outputLabel value="Route ID: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{routeManagementManagedBean.routeEntityToView.routeId}" />
+                            <h:outputText value="#{myRouteManagementManagedBean.routeEntityToView.routeId}" />
                         </p:column>
                     </p:row>
 
@@ -33,7 +43,7 @@
                             <h:outputLabel value="Route Name: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{routeManagementManagedBean.routeEntityToView.routeName}" />
+                            <h:outputText value="#{myRouteManagementManagedBean.routeEntityToView.routeName}" />
                         </p:column>
                     </p:row>
 
@@ -42,7 +52,7 @@
                             <h:outputLabel value="Description: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{routeManagementManagedBean.routeEntityToView.description}" />
+                            <h:outputText value="#{myRouteManagementManagedBean.routeEntityToView.description}" />
                         </p:column>
                     </p:row>
 
@@ -51,25 +61,16 @@
                             <h:outputLabel value="Route Rating: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{routeManagementManagedBean.routeEntityToView.routeRating}" />
+                            <h:outputText value="#{myRouteManagementManagedBean.routeEntityToView.routeRating}" />
                         </p:column>
                     </p:row>
-
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Route Image URL: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{routeManagementManagedBean.routeEntityToView.routeImageURL}" />
-                        </p:column>
-                    </p:row>
-
+                    
                     <p:row>
                         <p:column>
                             <h:outputLabel value="Location: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{routeManagementManagedBean.routeEntityToView.location}" />
+                            <h:outputText value="#{myRouteManagementManagedBean.routeEntityToView.location}" />
                         </p:column>
                     </p:row>
 
@@ -78,7 +79,7 @@
                             <h:outputLabel value="Color: " />
                         </p:column>
                         <p:column>
-                            <h:outputText value="#{routeManagementManagedBean.routeEntityToView.color}" />
+                            <h:outputText value="#{myRouteManagementManagedBean.routeEntityToView.color}" />
                         </p:column>
                     </p:row>
 

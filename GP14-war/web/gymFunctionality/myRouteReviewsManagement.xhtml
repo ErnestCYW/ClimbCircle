@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                template="/template/defaultTemplate.xhtml"
+                xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+
+        <h3>My Route Reviews Management</h3>
+
+        <h:form id="formAllRouteReviews">
+
+            <p:messages id="messages" redisplay="false" closable="true" />
+
+            <p:dataTable id="dataTableAllRouteReviews" widgetVar="dataTableAllRouteReviews" value="#{myRouteReviewsManagementManagedBean.routeReviews}" var="routeReview" rowKey="#{routeReview.routeReviewId}" rowIndexVar="row"
+                         rows="10" paginator="true" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="10,20,50">
+
+                <p:column headerText="Route Review ID" sortBy="#{routeReview.routeReviewId}" filterBy="#{routeReview.routeReviewId}" filterMatchMode="contains">
+                    <h:outputText value="#{routeReview.routeReviewId}" />
+                </p:column>
+
+                <p:column headerText="Route Name" sortBy="#{routeReview.route.routeName}" filterBy="#{routeReview.route.routeName}" filterMatchMode="contains">
+                    <h:outputText value="#{routeReview.route.routeName}" />
+                </p:column>
+
+                <p:column headerText="Gym" sortBy="#{routeReview.route.gymEntity.gymName}" filterBy="#{routeReview.route.gymEntity.gymName}" filterMatchMode="contains">
+                    <h:outputText value="#{routeReview.route.gymEntity.gymName}" />
+                </p:column>
+
+                <p:column headerText="Customer" sortBy="#{routeReview.customer.username}" filterBy="#{routeReview.customer.username}" filterMatchMode="contains">
+                    <h:outputText value="#{routeReview.customer.username}" />
+                </p:column>
+
+                <p:column headerText="Content" sortBy="#{routeReview.content}" filterBy="#{routeReview.content}" filterMatchMode="contains">
+                    <h:outputText value="#{routeReview.content}" />
+                </p:column>
+
+                <p:column headerText="Rating" sortBy="#{routeReview.rating}" filterBy="#{routeReview.rating}" filterMatchMode="contains">
+                    <h:outputText value="#{routeReview.rating}" />
+                </p:column>
+
+                <p:column headerText="Date Posted" sortBy="#{routeReview.datePosted}" filterBy="#{routeReview.datePosted}" filterMatchMode="contains">
+                    <h:outputText value="#{routeReview.datePosted}" />
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
