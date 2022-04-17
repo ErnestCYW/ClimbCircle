@@ -11,28 +11,35 @@
     <ui:define name="content">
         <h:panelGroup rendered="#{sessionScope.isLogin == false}">
 
-            <h:form id="loginForm">
+            <h:form id="loginForm" class="d-flex justify-content-center align-items-center h-100 border-0 p-0 m-0 loginform">
 
-                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                    <p:outputLabel for="usertype" value="Sign in as:" />
-                    <p:selectOneRadio id="usertype" value="#{loginManagedBean.usertype}" unselectable="true" required="true" requiredMessage="User Type is required">
-                        <f:selectItem itemLabel="Admin" itemValue="Admin" />
-                        <f:selectItem itemLabel="Partner Gym" itemValue="Partner Gym" />
-                    </p:selectOneRadio>
-                </h:panelGrid>
+                <div class="d-flex flex-column bg-white h-50 p-5">
+                    <h6 class="display-6">User Type: </h6>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <p:selectOneRadio id="usertype" value="#{loginManagedBean.usertype}" unselectable="true" required="true" requiredMessage="User Type is required">
+                            <f:selectItem class="text-white" itemLabel="Admin" itemValue="Admin" />
+                            <f:selectItem class="text-white" itemLabel="Partner Gym" itemValue="Partner Gym" />
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                </div>
 
-                <p:outputLabel for="username" value="Username" />&nbsp;
-                <p:inputText id="username" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32">
-                    <f:validateLength minimum="4" />
-                </p:inputText>
-                &nbsp;
-                <p:outputLabel for="password" value="Password" />&nbsp;
-                <p:password id="password" value="#{loginManagedBean.password}" size="16" required="true" requiredMessage="Password is required" maxlength="32">
-                    <f:validateLength minimum="4" />
-                </p:password>
-                &nbsp;
-                <p:commandButton type="reset" value="Clear" icon="pi pi-undo"  />&nbsp;
-                <p:commandButton type="submit" value="Login" actionListener="#{loginManagedBean.login}" icon="pi pi-sign-in"  />
+                <div class="d-flex flex-column bg-dark h-50 p-5">
+                    <h6 class="text-white">Username:</h6>
+                    <p:inputText id="username" value="#{loginManagedBean.username}" size="16" required="true" requiredMessage="Username is required" maxlength="32">
+                        <f:validateLength minimum="4" />
+                    </p:inputText>
+                    &nbsp;
+                    <h6 class="text-white">Password:</h6>
+                    <p:password id="password" value="#{loginManagedBean.password}" size="16" required="true" requiredMessage="Password is required" maxlength="32">
+                        <f:validateLength minimum="4" />
+                    </p:password>
+                    &nbsp;
+                    <p:commandButton type="reset" value="Clear" icon="pi pi-undo"  />&nbsp;
+                    <p:commandButton type="submit" value="Login" actionListener="#{loginManagedBean.login}" icon="pi pi-sign-in"  />
+                </div>
 
                 <p:growl>
                     <p:autoUpdate />

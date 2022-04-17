@@ -12,42 +12,34 @@
         <h:outputStylesheet library="css" name="main.css"/>
         <h:outputStylesheet library="css" name="custom.css"/>
         <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/Favicon.ico']}"/>
-        <title>Climb Circle</title>
+        <title>ClimbCircle</title>
     </h:head>
 
-    <h:body>
-        
+    <h:body class="border-0 m-0 p-0">
+
         <p:layout fullPage="true" >
 
-            <p:layoutUnit position="north" size="120">                            
+<!--            <p:layoutUnit position="north" size="100" class="m-0 p-0">                            
 
                 <ui:insert name="top">
                     <ui:include src="/header.xhtml" />
                 </ui:insert>
 
-            </p:layoutUnit>
+            </p:layoutUnit>-->
 
-            <p:layoutUnit size="240" position="west">
+            <p:layoutUnit size="120" position="north" class="border-0 m-0 p-0">
 
-                <ui:insert name="left">
-                    <ui:include src="/mainmenu.xhtml"/>
+                <ui:insert name="top" >
+                    <ui:include src="/mainmenu.xhtml" />
                 </ui:insert>
 
             </p:layoutUnit>
 
-            <p:layoutUnit position="center" >
+            <p:layoutUnit position="center" class="border-0 m-0 p-0">
 
                 <ui:insert name="content">Content</ui:insert>
 
-            </p:layoutUnit>                        
-
-            <p:layoutUnit position="south" size="45" >
-
-                <ui:insert name="bottom">
-                    <ui:include src="/footer.xhtml" />
-                </ui:insert>
-
-            </p:layoutUnit>                
+            </p:layoutUnit>                                 
 
         </p:layout>
 

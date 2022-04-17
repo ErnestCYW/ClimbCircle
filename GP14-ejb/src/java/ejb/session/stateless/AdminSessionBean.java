@@ -35,7 +35,7 @@ public class AdminSessionBean implements AdminSessionBeanLocal {
     
     @Override
     public Admin retrieveAdminByUsername(String username) throws AdminNotFoundException {
-        Query query = em.createQuery("SELECT a from Admin a WHERE a.username = :username");
+        Query query = em.createQuery("SELECT a FROM Admin a WHERE a.username = :username");
         query.setParameter("username", username);
         
         try {

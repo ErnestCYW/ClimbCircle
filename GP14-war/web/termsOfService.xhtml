@@ -9,13 +9,20 @@
                 xmlns:ez="http://xmlns.jcp.org/jsf/composite/ezcomp">
 
     <ui:define name="content">
-        Terms Of Service Download
 
-        <h:form>   
-            <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down">
-                <p:fileDownload value="#{miscFunctionsManagedBean.termsOfService}" />
-            </p:commandButton>      
-        </h:form>
+        <div class="d-flex flex-column w-100">
+
+            <h1 class="display-6 align-self-center">Terms Of Service Download</h1>
+
+            <div class="d-flex align-content-center justify-content-center m-5">
+            <h:form>   
+                <p:commandButton value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down">
+                    <p:fileDownload value="#{miscFunctionsManagedBean.termsOfService}" />
+                </p:commandButton>      
+            </h:form>
+            </div>
+
+        </div>
 
     </ui:define>
 

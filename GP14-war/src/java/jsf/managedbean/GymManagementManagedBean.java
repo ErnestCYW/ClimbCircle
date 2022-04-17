@@ -59,6 +59,8 @@ public class GymManagementManagedBean implements Serializable {
         selectedFacilitiesCreate = new ArrayList<>();
 
         gymEntityToView = new GymEntity();
+        
+        gymEntityToUpdate = new GymEntity();
 
 //        gymEntityToUpdate = new GymEntity();
         selectedFacilitiesUpdate = new ArrayList<>();
@@ -246,7 +248,13 @@ public class GymManagementManagedBean implements Serializable {
             fileOutputStream.close();
             inputStream.close();
 
-            newGymEntity.getGymPicturesURL().add(event.getFile().getFileName());
+            GymEntity currentUser = (GymEntity) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("currentUser");
+            currentUser.getGymPicturesURL().add(event.getFile().getFileName());
+            try {
+                gymEntitySessionBeanLocal.updateGym(currentUser);
+            } catch (Exception e) {
+                System.out.println("Error while uploading new gym picture");
+            }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "File uploaded successfully", ""));
 

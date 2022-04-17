@@ -7,79 +7,95 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="content">
-        <h3>View Slots</h3>
 
-        <h:form id="viewSlots">
+        <div clas="d-flex">
 
-            <p:messages>
-                <p:autoUpdate/>
-            </p:messages>
+            <h3>My Gym Slots Management</h3>
 
-            <p:calendar id="event" value="#{gymSlotsManagementManagedBean.currDate}" mode="inline">
-                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.dateChanged}" update="existingSlotsTable"/>
-            </p:calendar>
+            <br></br>
 
-            <p:dataTable id="existingSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.existingGymSlots}" var="existingSlot" editable="true">
-                <p:ajax event="rowEdit" listener="#{gymSlotsManagementManagedBean.validateStartAndEndTime}" update="viewSlots:addButton viewSlots:saveButton"/>
-                <p:ajax event="rowEditCancel" listener="#{gymSlotsManagementManagedBean.validateStartAndEndTime}" update="viewSlots:addButton viewSlots:saveButton"/>
+            <div class="d-flex justify-content-center">
+                <h:form id="viewSlots">
 
-                <p:column headerText="Slot" style="width:5%">
-                    <h:outputText value="#{row+1}"/>
-                </p:column>
+                    <p:messages>
+                        <p:autoUpdate/>
+                    </p:messages>
 
-                <p:column headerText="Start Time">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{existingSlot.startTime}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:datePicker id="startTime" value="#{existingSlot.startTime}" timeOnly="true" pattern="HH:mm">
-<!--                                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.validateStartTime}" />-->
-                            </p:datePicker>
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
+                    <div class="align-self-center">
+                        <p:calendar id="event" value="#{gymSlotsManagementManagedBean.currDate}" mode="inline">
+                            <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.dateChanged}" update="existingSlotsTable"/>
+                        </p:calendar>
+                    </div>
 
-                <p:column headerText="End Time">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{existingSlot.endTime}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:datePicker id="endTime" value="#{existingSlot.endTime}" timeOnly="true" pattern="HH:mm">
-<!--                                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.validateEndTime}" />-->
-                            </p:datePicker>    
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
+                    <p:dataTable id="existingSlotsTable" rowIndexVar="row" value="#{gymSlotsManagementManagedBean.existingGymSlots}" var="existingSlot" editable="true">
+                        <p:ajax event="rowEdit" listener="#{gymSlotsManagementManagedBean.validateStartAndEndTime}" update="viewSlots:addButton viewSlots:saveButton"/>
+                        <p:ajax event="rowEditCancel" listener="#{gymSlotsManagementManagedBean.validateStartAndEndTime}" update="viewSlots:addButton viewSlots:saveButton"/>
 
-                <p:column headerText="Vacancies">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{existingSlot.vacancies}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText id="vacancies" value="#{existingSlot.vacancies}" />
-                        </f:facet>
-                    </p:cellEditor>
-                </p:column>
+                        <p:column headerText="Slot" style="width:5%">
+                            <h:outputText value="#{row+1}"/>
+                        </p:column>
 
-                <p:column headerText="Edit" style="width:5%">
-                    <p:rowEditor/>
-                </p:column>
-                
-                <p:column headerText="Delete" style="width:5%">
-                    <p:commandButton styleClass="button-icon-only" icon="ui-icon-trash" actionListener="#{gymSlotsManagementManagedBean.delete}" update="existingSlotsTable">
-                        <f:attribute name="gymSlotToDelete" value="#{existingSlot}" />
-                    </p:commandButton>
-                </p:column>
+                        <p:column headerText="Start Time">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{existingSlot.startTime}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:datePicker id="startTime" value="#{existingSlot.startTime}" timeOnly="true" pattern="HH:mm">
+        <!--                                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.validateStartTime}" />-->
+                                    </p:datePicker>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
 
-            </p:dataTable>
+                        <p:column headerText="End Time">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{existingSlot.endTime}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:datePicker id="endTime" value="#{existingSlot.endTime}" timeOnly="true" pattern="HH:mm">
+        <!--                                <p:ajax event="dateSelect" listener="#{gymSlotsManagementManagedBean.validateEndTime}" />-->
+                                    </p:datePicker>    
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
 
-            <p:commandButton id="addButton" value="Add Slots" disabled="#{!gymSlotsManagementManagedBean.validated}" actionListener="#{gymSlotsManagementManagedBean.add}" update="existingSlotsTable"/>
-            <br/>
-            <p:commandButton id="saveButton" value="Save Slots" disabled="#{!gymSlotsManagementManagedBean.validated}" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}" update="existingSlotsTable" />
-        </h:form>
+                        <p:column headerText="Vacancies">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{existingSlot.vacancies}" />
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputText id="vacancies" value="#{existingSlot.vacancies}" />
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="Edit" style="width:5%">
+                            <p:rowEditor/>
+                        </p:column>
+
+                        <p:column headerText="Delete" style="width:5%">
+                            <p:commandButton styleClass="button-icon-only" icon="ui-icon-trash" actionListener="#{gymSlotsManagementManagedBean.delete}" update="existingSlotsTable">
+                                <f:attribute name="gymSlotToDelete" value="#{existingSlot}" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+                    <br></br>
+                    <div class="m-1">
+                        <p:commandButton id="addButton" value="Add Slots" disabled="#{!gymSlotsManagementManagedBean.validated}" actionListener="#{gymSlotsManagementManagedBean.add}" update="existingSlotsTable"/>
+                    </div>
+                    <br></br>
+                    <div class="m-1">
+                        <p:commandButton id="saveButton" value="Save Slots" disabled="#{!gymSlotsManagementManagedBean.validated}" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}" update="existingSlotsTable" />
+                    </div>
+                </h:form>
+            </div>
+
+        </div>
 
 
         <!--        <h3>Add Slots</h3>
@@ -116,8 +132,6 @@
                     <p:commandButton value="Submit" update="@form viewSlots:existingSlotsTable" actionListener="#{gymSlotsManagementManagedBean.createNewGymSlot}"/>
                         
                 </h:form>-->
-
-
 
     </ui:define>
 

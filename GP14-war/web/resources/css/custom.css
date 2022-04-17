@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 body {
-    font-family: sans-serif;
+    font-family: serif;
 }
 
 .carousel {
@@ -37,7 +37,7 @@ body {
     display: flex;
     flex-shrink: 0;
     font-size: 100px;
-    height: 600px;
+    height: 730px;
     justify-content: center;
     margin: 0 1rem;
     position: relative;
@@ -108,4 +108,22 @@ body {
 
 .value {
     font-weight: bold;
+}
+
+.slides-text {
+    font-size: 25px;
+    bottom: 150px;
+    left: 150px;
+    width: 400px;
+}
+
+.mainmenu {
+    background-image: url("#{resource['images/ClimbCircleHeaderBanner.gif']}");
+    background-size: cover;
+    height: 120px;
+}
+
+.loginform {
+    background-image: url("#{resource['images/LoginBackground.jpg']}");
+    background-size: cover;
 }

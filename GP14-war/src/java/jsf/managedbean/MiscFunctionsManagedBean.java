@@ -6,13 +6,16 @@
 package jsf.managedbean;
 
 import ejb.session.stateless.AdminSessionBeanLocal;
+import java.io.Serializable;
 import java.util.Properties;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -28,8 +31,8 @@ import org.primefaces.model.StreamedContent;
  * @author ernestcyw
  */
 @Named(value = "miscFunctionsManagedBean")
-@RequestScoped
-public class MiscFunctionsManagedBean {
+@ViewScoped
+public class MiscFunctionsManagedBean implements Serializable {
 
     @EJB(name = "AdminSessionBeanLocal")
     private AdminSessionBeanLocal adminSessionBeanLocal;
@@ -58,37 +61,43 @@ public class MiscFunctionsManagedBean {
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
 
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+
         try {
             //Pulls admin address from EJB module
             to = adminSessionBeanLocal.retrieveAdminByUsername("admin").getEmail();
         } catch (Exception e) {
+            System.out.println(to);
             System.out.println("admin email address not valid or cannot be found");
         }
-        from = "xxx@gmail.com"; //ClimbCircle to create dummy gmail account to send mail
-        password = "password"; //Change this variable
-
-        Session session = Session.getInstance(properties, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(from, password);
-            }
-        });
+        from = "climbcircle@gmail.com"; //ClimbCircle to create dummy gmail account to send mail. MUST HAVE LESS SECURE APP ACCESS.
+        password = "IS3106Password"; //Change this variable
 
     }
 
     public void sendEmail(ActionEvent actionEvent) {
 
         try {
-            
-            Message message = new MimeMessage(session);
+
+            Session session1 = Session.getInstance(properties, new Authenticator() {
+                @Override
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(from, password);
+                }
+            });
+
+            Message message = new MimeMessage(session1);
             message.setFrom(new InternetAddress(from));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject("A New Customer Awaits");
             message.setText("ClimbCircle, \n Phone: " + getClientPhone());
-            
+
             Transport.send(message);
-            
-        } catch (Exception ex)  {
+
+        } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error has occurred while sending email: " + ex.getMessage(), null));
         }
 
@@ -121,7 +130,5 @@ public class MiscFunctionsManagedBean {
     public void setClientPhone(String clientPhone) {
         this.clientPhone = clientPhone;
     }
-    
-    
 
 }

@@ -13,21 +13,26 @@
         <h:panelGroup rendered="#{sessionScope.isLogin == false}">
             <section class="carousel" aria-label="carousel" Tabindex="0">
                 <a class="carousel__skip-link" href="#skip-link">Skip the Carousel</a>
-                <div class="slides">
-                    <div class="slides-item" id="slide-1" aria-label="slide 1 of 5" tabindex="0">
-                        <h:graphicImage library="images" name="CarouselPic1.jpg" width="100%" height="100%"/>
+                <div class="slides mh-100">
+                    <div class="slides-item position-relative" id="slide-1" aria-label="slide 1 of 5" tabindex="0">
+                        <h:graphicImage library="images" name="CarouselPic1.jpg" width="100%" height="100%" />
+                        <h6 class="display-2 position-absolute text-white bg-dark p-5"> Welcome To ClimbCircle </h6>
                     </div>
-                    <div class="slides-item slide-2" id="slide-2" aria-label="slide 2 of 5" tabindex="0">
+                    <div class="slides-item position-relative" id="slide-2" aria-label="slide 2 of 5" tabindex="0">
                         <h:graphicImage library="images" name="CarouselPic2.jpg" width="100%" height="100%"/>
+                        <div class="position-absolute text-white bg-dark slides-text p-3"> ClimbCircle is a platform that aggregates access to rock climbing and bouldering gyms across Singapore. </div>
                     </div>
-                    <div class="slides-item slide-3" id="slide-3" aria-label="slide 3 of 5" tabindex="0">
+                    <div class="slides-item position-relative" id="slide-3" aria-label="slide 3 of 5" tabindex="0">
                         <h:graphicImage library="images" name="CarouselPic3.jpg" width="100%" height="100%"/>
+                        <div class="position-absolute text-white bg-dark slides-text p-3"> Instead of purchasing multiple gym membership packages, subscribers can choose to pay a lower monthly fee to gain access to a wider range of rock climbing facilities and functionalities of our mobile application. </div>
                     </div>
-                    <div class="slides-item slide-4" id="slide-4" aria-label="slide 4 of 5" tabindex="0">
+                    <div class="slides-item position-relative" id="slide-4" aria-label="slide 4 of 5" tabindex="0">
                         <h:graphicImage library="images" name="CarouselPic4.jpg" width="100%" height="100%"/>
+                        <div class="position-absolute text-white bg-dark slides-text p-3"> We offer all functionalities needed to run your gym! </div>
                     </div>
-                    <div class="slides-item slide-5" id="slide-5" aria-label="slide 5 of 5" tabindex="0">
+                    <div class="slides-item position-relative" id="slide-5" aria-label="slide 5 of 5" tabindex="0">
                         <h:graphicImage library="images" name="CarouselPic5.jpg" width="100%" height="100%"/>
+                        <p:link class="position-absolute text-white bg-dark p-5" style="font-size: 50px;" outcome="/getStarted" value="Sign Your Gym Up Now!"></p:link>
                     </div>       
                 </div>
                 <div class="carousel__nav">
@@ -43,118 +48,138 @@
         </h:panelGroup>
 
         <h:panelGroup rendered="#{sessionScope.usertype.equals('Admin')}">
-            <h:outputText value="You are an administrator with username: #{sessionScope.currentUser.username}" class="display-3" />&nbsp;
+            <div class="d-flex align-content-center">
+                <h:outputText value="You are an administrator with username: #{sessionScope.currentUser.username}" class="display-6" />&nbsp;
+            </div>
         </h:panelGroup>
 
         <h:panelGroup rendered="#{sessionScope.usertype.equals('Partner Gym')}">
 
-            <h:form id="formViewDetails">
+            <div class="d-flex align-content-center justify-content-around">
 
-                <p:panelGrid>
+                <div class="p-5 m-5 align-self-center">
+                    <h:form id="formViewDetails">
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Profile Picture: " />
-                        </p:column>
-                        <p:column>
-                            <p:graphicImage url="/uploadedFiles/gym_profile_pictures/#{sessionScope.currentUser.profilePictureURL}" height="100" alt="Missing Image" rendered="#{sessionScope.currentUser.profilePictureURL != null}" />
-                            <p:graphicImage library="images" name="gym.png" height="100" rendered="#{sessionScope.currentUser.profilePictureURL == null}"/>
-                        </p:column>
-                    </p:row>
+                        <p:panelGrid>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Gym ID: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{sessionScope.currentUser.gymId}" />
-                        </p:column>
-                    </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Profile Picture: " />
+                                </p:column>
+                                <p:column>
+                                    <p:graphicImage url="/uploadedFiles/gym_profile_pictures/#{sessionScope.currentUser.profilePictureURL}" height="100" alt="Missing Image" rendered="#{sessionScope.currentUser.profilePictureURL != null}" />
+                                    <p:graphicImage library="images" name="gym.png" height="100" rendered="#{sessionScope.currentUser.profilePictureURL == null}"/>
+                                </p:column>
+                            </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Username: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{sessionScope.currentUser.username}" />
-                        </p:column>
-                    </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Gym ID: " />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{sessionScope.currentUser.gymId}" />
+                                </p:column>
+                            </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Gym Name: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{sessionScope.currentUser.gymName}" />
-                        </p:column>
-                    </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Username: " />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{sessionScope.currentUser.username}" />
+                                </p:column>
+                            </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Franchise: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{sessionScope.currentUser.franchise}" />
-                        </p:column>
-                    </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Gym Name: " />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{sessionScope.currentUser.gymName}" />
+                                </p:column>
+                            </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Address: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{sessionScope.currentUser.address}" />
-                        </p:column>
-                    </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Franchise: " />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{sessionScope.currentUser.franchise}" />
+                                </p:column>
+                            </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Operating Hours: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{sessionScope.currentUser.operatingHours}" />
-                        </p:column>
-                    </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Address: " />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{sessionScope.currentUser.address}" />
+                                </p:column>
+                            </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Contact Number: " />
-                        </p:column>
-                        <p:column>
-                            <h:outputText value="#{sessionScope.currentUser.contactNumber}" />
-                        </p:column>
-                    </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Operating Hours: " />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{sessionScope.currentUser.operatingHours}" />
+                                </p:column>
+                            </p:row>
 
-                    <p:row>
-                        <p:column>
-                            <h:outputLabel value="Facilities: " />
-                        </p:column>
-                        <p:column>
-                            <p:dataList value="#{sessionScope.currentUser.facilities}" var="facility" type="unordered">
-                                #{facility}
-                            </p:dataList>
-                        </p:column>
-                    </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Contact Number: " />
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{sessionScope.currentUser.contactNumber}" />
+                                </p:column>
+                            </p:row>
 
-                </p:panelGrid>
+                            <p:row>
+                                <p:column>
+                                    <h:outputLabel value="Facilities: " />
+                                </p:column>
+                                <p:column>
+                                    <p:dataList value="#{sessionScope.currentUser.facilities}" var="facility" type="unordered">
+                                        #{facility}
+                                    </p:dataList>
+                                </p:column>
+                            </p:row>
 
-                <p:outputLabel for="updateGym" value="Edit Details: " style="font-weight: bold;" />
-                <p:commandButton id="updateGym" actionListener="#{gymManagementManagedBean.doUpdateGym}" update="formUpdateGym" oncomplete="PF('dialogUpdateGym').show()" icon="ui-icon-pencil" title="Update">
-                    <f:attribute name="gymEntityToUpdate" value="#{gymEntity}" />
-                </p:commandButton>
-                <p:message for="updateGym" />
+                        </p:panelGrid>
 
-            </h:form>
+                        <br></br>
+                        <br></br>
+
+                        <p:outputLabel for="updateGym" value="Edit Details: " style="font-weight: bold;" />
+                        <p:commandButton id="updateGym" actionListener="#{gymManagementManagedBean.doUpdateGym}" update="formUpdateGym" oncomplete="PF('dialogUpdateGym').show()" icon="ui-icon-pencil" title="Update">
+                            <f:attribute name="gymEntityToUpdate" value="#{sessionScope.currentUser}" />
+                        </p:commandButton>
+                        <p:message for="updateGym" />
+
+                    </h:form>
+                </div>
+
+
+                <div class="p-5 m-5 align-self-center">
+                    <p:galleria value="#{sessionScope.currentUser.gymPicturesURL}" var="gymPicture" panelWidth="500" panelHeight="313" showCaption="false">
+                        <p:graphicImage url="/uploadedFiles/gym_pictures/#{gymPicture}" alt="#{gymPicture}"/>
+                    </p:galleria>
+
+                    <br></br>
+                    <br></br>
+
+                    <h:form id="formGymUploadPicture" enctype="multipart/form-data">
+                        <p:outputLabel for="gymPictureUpload" value="Upload Gym Picture: " style="font-weight: bold;" />
+                        <p:fileUpload id ="gymPictureUpload" listener="#{gymManagementManagedBean.handleFileUploadGymPicture}" mode="advanced" auto="true"/>
+                        <p:message for="gymPictureUpload" />
+                    </h:form>
+                </div>
+
+
+            </div>
 
         </h:panelGroup>
-
-        <p:galleria value="#{sessionScope.currentUser.gymPicturesURL}" var="gymPicture" panelWidth="500" panelHeight="313" showCaption="false">
-            <p:graphicImage url="/uploadedFiles/gym_pictures/#{gymPicture}" alt="#{gymPicture}"/>
-        </p:galleria>
-
-        <p:outputLabel for="gymPictureUpload" value="Upload Gym Picture: " style="font-weight: bold;" />
-        <p:fileUpload id ="gymPictureUpload" listener="#{gymManagementManagedBean.handleFileUploadGymPicture}" mode="advanced" auto="true"/>
-        <p:message for="gymPictureUpload" />
 
 
         <h:form id="formUpdateGym" enctype="multipart/form-data">
